@@ -10,7 +10,7 @@ declare(strict_types=1);
  * of the License, or any later version.
  */
 
-namespace Cpsit\DenaSitepackage\Renderer\Component\Page;
+namespace Cpsit\BravoHandelbarPage\Renderer\Component\Page;
 
 use Cpsit\Typo3HandlebarsComponents\Domain\Model\Page;
 use Cpsit\Typo3HandlebarsComponents\Renderer\Component\Page\PageContentRendererInterface;

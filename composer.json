@@ -9,8 +9,6 @@
 	"keywords": [
 		"TYPO3 CMS"
 	],
-
-
 	"require": {
 		"typo3/cms-core": "^12.4",
 		"cpsit/typo3-handlebars": "*",
