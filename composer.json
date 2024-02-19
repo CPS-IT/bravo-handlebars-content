@@ -1,0 +1,29 @@
+{
+	"name": "cpsit/bravo-handelbar-page",
+	"type": "typo3-cms-extension",
+	"description": "Page rendering component for TYPO3 Handelbar",
+	"homepage": "https://www.cps-it.de/",
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"keywords": [
+		"TYPO3 CMS"
+	],
+
+
+	"require": {
+		"typo3/cms-core": "^12.4",
+		"cpsit/typo3-handlebars": "*",
+		"cpsit/typo3-handlebars-components": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Cpsit\\BravoHandelbarPage\\": "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "bravo_handelbar_page"
+		}
+	}
+}
