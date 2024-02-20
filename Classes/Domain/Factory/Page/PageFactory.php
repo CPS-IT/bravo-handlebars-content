@@ -11,7 +11,17 @@ declare(strict_types=1);
  */
 namespace Cpsit\BravoHandelbarPage\Domain\Factory\Page;
 
-class PageFactory extends \Cpsit\Typo3HandlebarsComponents\Domain\Factory\Page\PageFactory
+use Cpsit\Typo3HandlebarsComponents\Domain\Factory\Page\PageFactory as BasePageFactory;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
+
+class PageFactory extends BasePageFactory
 {
+    public function __construct(
+        PageLayoutResolver $pageLayoutResolver,
+        private readonly ResourceFactory $resourceFactory,
+    ) {
+        parent::__construct($pageLayoutResolver);
+    }
 
 }
