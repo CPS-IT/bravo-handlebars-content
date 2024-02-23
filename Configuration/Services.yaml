@@ -19,3 +19,17 @@ services:
 
   Cpsit\Typo3HandlebarsComponents\Renderer\Component\Page\PageContentRendererInterface:
     alias: 'Cpsit\BravoHandelbarPage\Renderer\Component\Page\PageContentRenderer'
+
+  # Register all available content objects
+  Cpsit\BravoHandelbarPage\Frontend\ContentObject\HandlebarsContentObject:
+    arguments:
+      $renderer: '@handlebars.renderer'
+    tags:
+      - name: frontend.contentobject
+        identifier: 'HANDLEBARSCONTENT'
+  Cpsit\BravoHandelbarPage\DataProcessing\HeadlinesDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'headlines'
+
+
