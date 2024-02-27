@@ -4,7 +4,7 @@ services:
     autoconfigure: true
     public: false
 
-  Cpsit\BravoHandelbarPage\:
+  Cpsit\BravoHandlebarsContent\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
@@ -12,10 +12,24 @@ services:
   Cpsit\Typo3HandlebarsComponents\DataProcessing\PageProcessor:
     tags: ['handlebars.processor']
     calls:
-      - setPresenter: ['@Cpsit\BravoHandelbarPage\Presenter\PagePresenter']
+      - setPresenter: ['@Cpsit\BravoHandlebarsContent\Presenter\PagePresenter']
 
   Cpsit\Typo3HandlebarsComponents\Domain\Factory\Page\PageFactory:
-    alias: 'Cpsit\BravoHandelbarPage\Domain\Factory\Page\PageFactory'
+    alias: 'Cpsit\BravoHandlebarsContent\Domain\Factory\Page\PageFactory'
 
   Cpsit\Typo3HandlebarsComponents\Renderer\Component\Page\PageContentRendererInterface:
-    alias: 'Cpsit\BravoHandelbarPage\Renderer\Component\Page\PageContentRenderer'
+    alias: 'Cpsit\BravoHandlebarsContent\Renderer\Component\Page\PageContentRenderer'
+
+  # Register all available content objects
+  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsContentObject:
+    arguments:
+      $renderer: '@handlebars.renderer'
+    tags:
+      - name: frontend.contentobject
+        identifier: 'HANDLEBARSCONTENT'
+  Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'headlines'
+
+

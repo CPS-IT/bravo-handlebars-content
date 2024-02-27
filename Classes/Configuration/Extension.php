@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the bravo handelbar page package.
+ * This file is part of the bravo handlebars content package.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
 
-namespace Cpsit\BravoHandelbarPage\Configuration;
+namespace Cpsit\BravoHandlebarsContent\Configuration;
 
-use Cpsit\BravoHandelbarPage\Configuration\SettingsInterface as SI;
+use Cpsit\BravoHandlebarsContent\Configuration\SettingsInterface as SI;
 
 
 /**

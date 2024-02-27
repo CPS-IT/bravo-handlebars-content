@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the bravo handelbar page package.
+ * This file is part of the bravo handlebars content package.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
 
-namespace Cpsit\DenaSitepackage\Renderer\Component\Page;
+namespace Cpsit\BravoHandlebarsContent\Renderer\Component\Page;
 
 use Cpsit\Typo3HandlebarsComponents\Domain\Model\Page;
 use Cpsit\Typo3HandlebarsComponents\Renderer\Component\Page\PageContentRendererInterface;
