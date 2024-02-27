@@ -1,0 +1,6 @@
+2024-02-27         [RELEASE] Release of bravo-handelbar-page 0.1.0 (Dirk Wenzel)
+2024-02-27 74056ef [BREAKING] package renamed to cpsit/bravo-handlebars-content (Dirk Wenzel)
+2024-02-27 5ae0361 WIP Handelbars content (Vladimir Falcón Piva)
+2024-02-23 4c1e2fa [WIP] HandlebarsContentObject and HeadlinesDataProcessor added (Dirk Wenzel)
+2024-02-20 f6ab607 Refactor PageFactory (Vladimir Falcon)
+2024-02-19 a7f74ba Fixed page presenter namespace (Vladimir Falcon)
