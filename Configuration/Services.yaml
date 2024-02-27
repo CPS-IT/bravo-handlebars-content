@@ -21,12 +21,12 @@ services:
     alias: 'Cpsit\BravoHandlebarsContent\Renderer\Component\Page\PageContentRenderer'
 
   # Register all available content objects
-  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsContentObject:
+  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
     arguments:
       $renderer: '@handlebars.renderer'
     tags:
       - name: frontend.contentobject
-        identifier: 'HANDLEBARSCONTENT'
+        identifier: 'HANDLEBARSTEMPLATE'
   Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
     tags:
       - name: 'data.processor'
