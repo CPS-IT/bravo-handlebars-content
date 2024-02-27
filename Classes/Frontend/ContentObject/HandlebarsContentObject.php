@@ -1,6 +1,6 @@
 <?php
 
-namespace Cpsit\BravoHandelbarPage\Frontend\ContentObject;
+namespace Cpsit\BravoHandlebarsContent\Frontend\ContentObject;
 
 use Fr\Typo3Handlebars\Renderer\HandlebarsRenderer;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;

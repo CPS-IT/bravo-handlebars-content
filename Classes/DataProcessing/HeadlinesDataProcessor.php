@@ -1,6 +1,6 @@
 <?php
 
-namespace Cpsit\BravoHandelbarPage\DataProcessing;
+namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
