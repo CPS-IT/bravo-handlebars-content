@@ -34,32 +34,19 @@ class HeadlinesDataProcessor implements DataProcessorInterface
         array $processedData
     ): array
     {
-        $foo = 'bar';
-        $processedData['data']['@headlines'] = [
-            'title' => 'Foo Bar',
+        // Dummy data
+        $data = [
+            'spaceBefore' => 'test-spaceBefore',
+            'text' => $processedData['data']['bodytext'],
             'headlinesData' => [
-                'h2' => [
-                    'headline' => $processedData['data']['header'],
+                'h3' => [
+                    'headline' => 'renderedContent: headline h2'
                 ],
-                'tag' => 'h2', // todo: read from header_layout using mapping
-                'subheadline' => $processedData['data']['subheader'],
-            ],
-            'text' => "Text"
+            ]
         ];
 
-        return $processedData;
+        return $data;
     }
 }
 
-/**
- * {
- * "title": "Deutsche Energie-Agentur (dena)",
- * "publicPath": "/assets/dena-frontend/base/",
- * "headlinesData": {
- * "h2": {
- * "headline": "Text"
- * }
- * },
- * "spaceBefore": "u-space-top:default",
- * "text": "Es ist ein lang erwiesener Fakt, dass ein Leser vom Text abgelenkt wird, wenn er sich ein Layout ansieht. Der Punkt Lorem Ipsum zu nutzen ist, dass es mehr oder weniger die normale Anordnung von Buchstaben darstellt."
- * } */
+
