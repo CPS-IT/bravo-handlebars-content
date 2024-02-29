@@ -14,7 +14,8 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class HeadlinesDataProcessor implements DataProcessorInterface
+
+class TtContentDataProcessor implements DataProcessorInterface
 {
 
     /**
@@ -25,21 +26,17 @@ class HeadlinesDataProcessor implements DataProcessorInterface
         array $contentObjectConfiguration,
         array $processorConfiguration,
         array $processedData
-    ): array
-    {
-        // Dummy data
+    ): array {
+
         $data = [
-            'spaceBefore' => 'test-spaceBefore',
-            'text' => $processedData['data']['bodytext'],
-            'headlinesData' => [
-                'h3' => [
-                    'headline' => 'renderedContent: headline h2'
-                ],
-            ]
+            'textHtml' => $textHtml,
+            'id' => 'c' . $processedData['data']['uid'],
+            'spaceBefore' => 'u-space-top:default',
         ];
 
-        return $data;
+        return $processedData['data'];
     }
+
 }
 
 

@@ -27,9 +27,33 @@ services:
     tags:
       - name: frontend.contentobject
         identifier: 'HANDLEBARSTEMPLATE'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
     tags:
       - name: 'data.processor'
         identifier: 'headlines'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'ttContent'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceText'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\ContentObjectDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'contentObject'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\FooterDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'footer'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\HandelbarsDataMapperDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handelbarsDataMapper'

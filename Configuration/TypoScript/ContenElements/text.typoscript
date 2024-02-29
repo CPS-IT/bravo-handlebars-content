@@ -1,0 +1,10 @@
+tt_content.text = HANDLEBARSTEMPLATE
+tt_content.text {
+  templateName = @ce-text
+  dataProcessing {
+    20 = ceText
+    20 {
+
+    }
+  }
+}

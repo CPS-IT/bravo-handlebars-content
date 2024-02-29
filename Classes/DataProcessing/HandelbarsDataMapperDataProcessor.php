@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\Exception\MissingArrayPathException;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
@@ -14,7 +16,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class HeadlinesDataProcessor implements DataProcessorInterface
+class HandelbarsDataMapperDataProcessor implements DataProcessorInterface
 {
 
     /**
@@ -27,6 +29,17 @@ class HeadlinesDataProcessor implements DataProcessorInterface
         array $processedData
     ): array
     {
+        try {
+            ArrayUtility::getValueByPath();
+        }catch (MissingArrayPathException) {
+
+        }
+
+
+        ArrayUtility::setValueByPath(
+            $processedData
+        );
+
         // Dummy data
         $data = [
             'spaceBefore' => 'test-spaceBefore',
