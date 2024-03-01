@@ -24,6 +24,7 @@ services:
   Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
     arguments:
       $renderer: '@handlebars.renderer'
+      $assetCollector: '@TYPO3\CMS\Core\Page\AssetCollector'
     tags:
       - name: frontend.contentobject
         identifier: 'HANDLEBARSTEMPLATE'

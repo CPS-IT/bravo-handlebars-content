@@ -2,7 +2,10 @@
 
 namespace Cpsit\BravoHandlebarsContent\Frontend\ContentObject;
 
+use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use Fr\Typo3Handlebars\Renderer\HandlebarsRenderer;
+use TYPO3\CMS\Core\Page\AssetCollector;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
@@ -26,55 +29,40 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
  ***************************************************************/
 class HandlebarsTemplateContentObject extends AbstractContentObject
 {
+    /**
+     * @var array|mixed[]
+     */
+    private array $settings = [];
+
     public function __construct(
+        protected AssetCollector $assetCollector,
         protected ContentDataProcessor $contentDataProcessor,
-        protected HandlebarsRenderer $renderer
+        protected HandlebarsRenderer   $renderer,
     ) {
     }
 
     public function render($conf = [])
     {
 
-        $parentView = $this->view;
-        $this->initializeViewInstance();
         if (!is_array($conf)) {
             $conf = [];
         }
-        $this->setTemplate($conf);
+        $this->assertSettingsFromConfig($conf);
+        $this->addPageAssets($conf);
 
         $variables = $this->getContentObjectVariables($conf);
         $variables = $this->contentDataProcessor->process($this->cObj, $conf, $variables);
 
         $variables = array_merge_recursive(
             $variables,
-            $this->assignSettings($conf)
+            $this->settings
         );
 
-        $templateName = $this->resolveTemplateName($conf);
 
-        $content = $this->renderer->render(
-            $templateName,
+        return $this->renderer->render(
+            $this->resolveTemplateName($conf),
             $variables
         );
-        /**
-         * $this->setFormat($conf);
-         *
-         * $this->setLayoutRootPath($conf);
-         * $this->setPartialRootPath($conf);
-         * $this->setVariables($conf);
-         * $this->assignSettings($conf);
-         * $variables = $this->getContentObjectVariables($conf);
-         * $variables = $this->contentDataProcessor->process($this->cObj, $conf, $variables);
-         *
-         * $this->view->assignMultiple($variables);
-         *
-         * $this->renderFluidTemplateAssetsIntoPageRenderer($variables);
-         * $content = $this->renderTemplateView();
-         * $content = $this->applyStandardWrapToRenderedContent($content, $conf);
-         *
-         * $this->view = $parentView;
-         */
-        return $content;
     }
 
     protected function getContentObjectVariables(array $conf): array
@@ -126,48 +114,44 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         return $templateName;
     }
 
-    protected function assignSettings(array $conf): array
+    protected function assertSettingsFromConfig(array $conf): void
     {
         $settings = [];
         if (isset($conf['settings.'])) {
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
+            $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
         }
-        return $settings;
-    }
-
-    protected function initializeViewInstance(): void
-    {
-        //$this->renderer = GeneralUtility::makeInstance(HandlebarsRenderer::class);
-    }
-
-    protected function setFormat(array $conf): void
-    {
 
     }
 
-    protected function setTemplate(array $conf): void
+    protected function addPageAssets(array $conf): void
     {
-    }
+        $assetsConfig = [];
+        if(!empty($conf['assets.'])) {
+            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+            $assetsConfig = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['assets.']);
+        }
 
-    protected function setLayoutRootPath(array $conf): void
-    {
+        if(!empty($assetsConfig['javaScript'])) {
+            foreach ($assetsConfig['javaScript'] as $identifier=>$item)
+            {
+                $options = [];
+                if(empty($item['source']) || !is_string($item['source'])) {
+                    $message = sprintf('missing key "source" in configuration assets.javaScript.%s for %s.', $identifier, get_class($this));
+                    throw new InvalidConfigurationException(
+                        $message,
+                        1709302386
+                    );
+                }
+                $source = $item['source'];
 
-    }
-
-    protected function setPartialRootPath(array $conf): void
-    {
-
-    }
-
-    protected function setVariables(array $conf): void
-    {
-
-    }
-
-    protected function renderTemplateView(): void
-    {
-
+                if (!empty($item['options'])) {
+                    $options = $item['options'];
+                }
+                // todo: we might need to pass additional parameters here
+                $this->assetCollector->addJavaScript($identifier, $source, $options);
+            }
+        }
     }
 
 }
