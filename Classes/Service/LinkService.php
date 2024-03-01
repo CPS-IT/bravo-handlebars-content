@@ -26,7 +26,8 @@ final class LinkService
 {
     public function __construct(
         private readonly ContentObjectRenderer $contentObjectRenderer,
-    ) {}
+    ) {
+    }
 
     public function resolveTypoLink(string $typoLink): ?Link
     {

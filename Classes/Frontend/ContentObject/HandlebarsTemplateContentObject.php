@@ -26,8 +26,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
  ***************************************************************/
 class HandlebarsTemplateContentObject extends AbstractContentObject
 {
-    protected $view;
-
     public function __construct(
         protected ContentDataProcessor $contentDataProcessor,
         protected HandlebarsRenderer $renderer
@@ -47,15 +45,11 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         $variables = $this->getContentObjectVariables($conf);
         $variables = $this->contentDataProcessor->process($this->cObj, $conf, $variables);
 
+        $variables = array_merge_recursive(
+            $variables,
+            $this->assignSettings($conf)
+        );
 
-
-        /*
-                if (isset($conf['settings.'])) {
-                    $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-                    $settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
-                    $variables = array_merge_recursive($variables, $settings);
-                }
-        */
         $templateName = $this->resolveTemplateName($conf);
 
         $content = $this->renderer->render(
@@ -130,6 +124,16 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         }
 
         return $templateName;
+    }
+
+    protected function assignSettings(array $conf): array
+    {
+        $settings = [];
+        if (isset($conf['settings.'])) {
+            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+            $settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
+        }
+        return $settings;
     }
 
     protected function initializeViewInstance(): void
