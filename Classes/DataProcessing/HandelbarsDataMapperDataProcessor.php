@@ -29,16 +29,19 @@ class HandelbarsDataMapperDataProcessor implements DataProcessorInterface
         array $processedData
     ): array
     {
+
         try {
-            ArrayUtility::getValueByPath();
+            # ArrayUtility::getValueByPath();
         }catch (MissingArrayPathException) {
 
         }
 
+        try {
+            # ArrayUtility::setValueByPath($processedData);
+        }catch (MissingArrayPathException) {
 
-        ArrayUtility::setValueByPath(
-            $processedData
-        );
+        }
+
 
         // Dummy data
         $data = [

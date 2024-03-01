@@ -2,9 +2,33 @@ tt_content.text = HANDLEBARSTEMPLATE
 tt_content.text {
   templateName = @ce-text
   dataProcessing {
+    # TODO: ttContent field parser
+    10 = ttContent
+    10 {
+      fields = header, bodytext
+    }
+
+    #
     20 = ceText
     20 {
 
+    }
+
+    # .... images // app/vendor/typo3/cms-frontend/Classes/DataProcessing/Files
+
+    # TODO: Ide data mapper
+    100 = handelbarsDataMapper
+    100 {
+      fieldMap {
+        0 {
+          fromPath = data.@menu-meta
+          toPath = data.@footer
+        }
+        1 {
+          fromPath = data.@menu-meta
+          toPath = data.@footer
+        }
+      }
     }
   }
 }
