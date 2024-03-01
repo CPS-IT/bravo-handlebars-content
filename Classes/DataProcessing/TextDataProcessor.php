@@ -33,28 +33,27 @@ class TextDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-
         // resolve heder link
-
         $textHtml = $cObj->parseFunc(trim($processedData['data']['bodytext']), null, '< lib.parseFunc_RTE');
-
-
         $data = [
             'textHtml' => $textHtml,
             'id' => 'c' . $processedData['data']['uid'],
             'spaceBefore' => 'u-space-top:default',
         ];
 
+        $headerLayout = $this->findHeaderLayout((int)$processedData['data']['header_layout']);
+
+        $data['@headlines'] = [
+            $headerLayout => [
+                'headline' => $processedData['data']['header'],
+            ],
+        ];
+
         $headerLink = $this->linkService->resolveTypoLink($processedData['data']['header_link']);
 
         if ($headerLink) {
-            $data['@headlines'] = [
-                $this->findHeaderLayout((int)$processedData['data']['header_layout']) => [
-                    'headline' => $processedData['data']['header'],
-                    'url' => $headerLink->getUrl(),
-                    'target' => $headerLink->getTarget()
-                ],
-            ];
+            $data['@headlines'][$headerLayout]['url'] = $headerLink->getUrl();
+            $data['@headlines'][$headerLayout]['target'] = $headerLink->getTarget();
         }
 
         return $data;
