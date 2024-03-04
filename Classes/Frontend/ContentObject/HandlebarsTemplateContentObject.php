@@ -2,10 +2,10 @@
 
 namespace Cpsit\BravoHandlebarsContent\Frontend\ContentObject;
 
+use Cpsit\BravoHandlebarsContent\DataProcessing\ProcessorVariablesTrait;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use Fr\Typo3Handlebars\Renderer\HandlebarsRenderer;
 use TYPO3\CMS\Core\Page\AssetCollector;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
@@ -29,10 +29,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
  ***************************************************************/
 class HandlebarsTemplateContentObject extends AbstractContentObject
 {
-    /**
-     * @var array|mixed[]
-     */
-    private array $settings = [];
+    use ProcessorVariablesTrait;
 
     public function __construct(
         protected AssetCollector $assetCollector,
@@ -41,13 +38,16 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
     ) {
     }
 
-    public function render($conf = [])
+    /**
+     * @throws InvalidConfigurationException
+     */
+    public function render($conf = []): string
     {
 
         if (!is_array($conf)) {
             $conf = [];
         }
-        $this->assertSettingsFromConfig($conf);
+        $this->readSettingsFromConfig($conf);
         $this->addPageAssets($conf);
 
         $variables = $this->getContentObjectVariables($conf);
@@ -65,38 +65,12 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         );
     }
 
-    protected function getContentObjectVariables(array $conf): array
-    {
-        $variables = [];
-        $reservedVariables = ['data', 'current'];
-        // Accumulate the variables to be process and loop them through cObjGetSingle
-        $variablesToProcess = (array)($conf['variables.'] ?? []);
-        foreach ($variablesToProcess as $variableName => $cObjType) {
-            if (is_array($cObjType)) {
-                continue;
-            }
-            if (!in_array($variableName, $reservedVariables)) {
-                $cObjConf = $variablesToProcess[$variableName . '.'] ?? [];
-                $variables[$variableName] = $this->cObj->cObjGetSingle($cObjType, $cObjConf,
-                    'variables.' . $variableName);
-            } else {
-                throw new \InvalidArgumentException(
-                    'Cannot use reserved name "' . $variableName . '" as variable name in FLUIDTEMPLATE.',
-                    1288095720
-                );
-            }
-        }
-        $variables['data'] = $this->cObj->data;
-        $variables['current'] = $this->cObj->data[$this->cObj->currentValKey ?? null] ?? null;
-        return $variables;
-
-    }
-
     /**
      * Resolve template name
      *
      * @param array $conf With possibly set file resource
      * @throws \InvalidArgumentException
+     * @throws InvalidConfigurationException
      */
     protected function resolveTemplateName(array $conf): string
     {
@@ -105,23 +79,13 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         }
 
         if (empty($templateName)) {
-            throw new ContentRenderingException(
+            throw new InvalidConfigurationException(
                 'Could not find template name for ' . $conf['templateName'],
-                1437420865
+                1709328957
             );
         }
 
         return $templateName;
-    }
-
-    protected function assertSettingsFromConfig(array $conf): void
-    {
-        $settings = [];
-        if (isset($conf['settings.'])) {
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
-        }
-
     }
 
     protected function addPageAssets(array $conf): void

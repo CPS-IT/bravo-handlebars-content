@@ -54,7 +54,7 @@ services:
       - name: 'data.processor'
         identifier: 'footer'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\HandelbarsDataMapperDataProcessor:
+  Cpsit\BravoHandlebarsContent\DataProcessing\MapFieldsDataProcessor:
     tags:
       - name: 'data.processor'
-        identifier: 'handelbarsDataMapper'
+        identifier: 'handlebarsMapFields'

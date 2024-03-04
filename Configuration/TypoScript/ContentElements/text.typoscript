@@ -2,9 +2,28 @@ tt_content.text = HANDLEBARSTEMPLATE
 tt_content.text {
   templateName = @ce-text
   dataProcessing {
-    20 = ceText
-    20 {
+    10 = ttContent
+    10 {
+      settings {
+        fields = uid,space_before_class,bodytext,header,header_layout,@headlines,header_link
+      }
+    }
 
+    20 = handlebarsMapFields
+    20 {
+      settings {
+        map {
+          0 {
+            from = bodytext
+            to = textHtml
+          }
+          1 {
+            from = uid
+            to = id
+          }
+        }
+      }
     }
   }
 }
+

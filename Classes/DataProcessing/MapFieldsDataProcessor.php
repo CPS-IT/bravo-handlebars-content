@@ -16,8 +16,9 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class HandelbarsDataMapperDataProcessor implements DataProcessorInterface
+class MapFieldsDataProcessor implements DataProcessorInterface
 {
+    use ProcessorVariablesTrait;
 
     /**
      * @inheritDoc
@@ -29,27 +30,23 @@ class HandelbarsDataMapperDataProcessor implements DataProcessorInterface
         array $processedData
     ): array
     {
-        try {
-            ArrayUtility::getValueByPath();
-        }catch (MissingArrayPathException) {
+        $this->readSettingsFromConfig($processorConfiguration);
+        $data = $processedData;
+        if(empty($this->settings['map'])) {
+            return $data;
+        }
+        foreach ($this->settings['map'] as $fieldConfig) {
+            if(!ArrayUtility::isValidPath($processedData, $fieldConfig['from'])) {
+                continue;
+            }
+            try {
+              $value =  ArrayUtility::getValueByPath($processedData, $fieldConfig['from']);
+              $data = ArrayUtility::setValueByPath($data, $fieldConfig['to'], $value);
+            }catch (MissingArrayPathException) {
+
+            }
 
         }
-
-
-        ArrayUtility::setValueByPath(
-            $processedData
-        );
-
-        // Dummy data
-        $data = [
-            'spaceBefore' => 'test-spaceBefore',
-            'text' => $processedData['data']['bodytext'],
-            'headlinesData' => [
-                'h3' => [
-                    'headline' => 'renderedContent: headline h2'
-                ],
-            ]
-        ];
 
         return $data;
     }

@@ -18,42 +18,12 @@ namespace Cpsit\BravoHandlebarsContent\Domain\Model\Dto;
  * @author Martin Adler <m.adler@familie-redlich.de>
  * @license GPL-2.0-or-later
  */
-class Link
+readonly class Link
 {
-    /**
-     * @var string
-     */
-    protected $url;
-
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var string|null
-     */
-    protected $target;
-
-    public function __construct(string $url = '', string $label = '', string $target = null)
+    public function __construct(
+        public string $url = '',
+        public string $label = '',
+        public string $target = '')
     {
-        $this->url = $url;
-        $this->label = $label;
-        $this->target = $target;
-    }
-
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    public function getTarget(): ?string
-    {
-        return $this->target;
     }
 }
