@@ -24,6 +24,7 @@ services:
   Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
     arguments:
       $renderer: '@handlebars.renderer'
+      $assetCollector: '@TYPO3\CMS\Core\Page\AssetCollector'
     tags:
       - name: frontend.contentobject
         identifier: 'HANDLEBARSTEMPLATE'
@@ -53,7 +54,7 @@ services:
       - name: 'data.processor'
         identifier: 'footer'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\HandelbarsDataMapperDataProcessor:
+  Cpsit\BravoHandlebarsContent\DataProcessing\MapFieldsDataProcessor:
     tags:
       - name: 'data.processor'
-        identifier: 'handelbarsDataMapper'
+        identifier: 'handlebarsMapFields'

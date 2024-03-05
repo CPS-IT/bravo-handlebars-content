@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\Service;
 
-use Cpsit\Typo3HandlebarsComponents\Domain\Model\Dto\Link;
+use Cpsit\BravoHandlebarsContent\Domain\Model\Dto\Link;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
 
@@ -22,19 +22,19 @@ use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-2.0-or-later
  */
-final class LinkService
+final readonly class LinkService
 {
     public function __construct(
-        private readonly ContentObjectRenderer $contentObjectRenderer,
+        private ContentObjectRenderer $contentObjectRenderer,
     ) {
     }
 
-    public function resolveTypoLink(string $typoLink): ?Link
+    public function resolveTypoLink(string $typoLink): Link
     {
         $linkResult = $this->parseTypoLink($typoLink);
 
         if ($linkResult === null) {
-            return null;
+            return new Link();
         }
 
         return new Link(

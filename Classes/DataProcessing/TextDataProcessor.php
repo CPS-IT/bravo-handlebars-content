@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use Cpsit\BravoHandlebarsContent\Domain\Model\Dto\Link;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
@@ -21,7 +22,8 @@ class TextDataProcessor implements DataProcessorInterface
 
     public function __construct(
         private readonly LinkService $linkService,
-    ) {
+    )
+    {
     }
 
     /**
@@ -29,32 +31,32 @@ class TextDataProcessor implements DataProcessorInterface
      */
     public function process(
         ContentObjectRenderer $cObj,
-        array $contentObjectConfiguration,
-        array $processorConfiguration,
-        array $processedData
-    ): array {
-        // resolve heder link
+        array                 $contentObjectConfiguration,
+        array                 $processorConfiguration,
+        array                 $processedData
+    ): array
+    {
+
+        // resolve header link
+
         $textHtml = $cObj->parseFunc(trim($processedData['data']['bodytext']), null, '< lib.parseFunc_RTE');
+
+
         $data = [
             'textHtml' => $textHtml,
             'id' => 'c' . $processedData['data']['uid'],
             'spaceBefore' => 'u-space-top:default',
         ];
 
-        $headerLayout = $this->findHeaderLayout((int)$processedData['data']['header_layout']);
-
-        $data['@headlines'] = [
-            $headerLayout => [
-                'headline' => $processedData['data']['header'],
-            ],
-        ];
-
         $headerLink = $this->linkService->resolveTypoLink($processedData['data']['header_link']);
 
-        if ($headerLink) {
-            $data['@headlines'][$headerLayout]['url'] = $headerLink->getUrl();
-            $data['@headlines'][$headerLayout]['target'] = $headerLink->getTarget();
-        }
+        $data['@headlines'] = [
+            $this->findHeaderLayout((int)$processedData['data']['header_layout']) => [
+                'headline' => $processedData['data']['header'],
+                'url' => $headerLink->url,
+                'target' => $headerLink->target
+            ],
+        ];
 
         return $data;
     }

@@ -17,7 +17,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 class ContentObjectDataProcessor implements DataProcessorInterface
 {
-
+    use ProcessorVariablesTrait;
 
     protected ContentObjectRenderer $cObj;
 
@@ -26,10 +26,11 @@ class ContentObjectDataProcessor implements DataProcessorInterface
      */
     public function process(
         ContentObjectRenderer $cObj,
-        array $contentObjectConfiguration,
-        array $processorConfiguration,
-        array $processedData
-    ): array {
+        array                 $contentObjectConfiguration,
+        array                 $processorConfiguration,
+        array                 $processedData
+    ): array
+    {
 
         $this->cObj = $cObj;
 
@@ -43,35 +44,6 @@ class ContentObjectDataProcessor implements DataProcessorInterface
         $processedData[$targetVariableName] = $this->getContentObjectVariables($processorConfiguration);
 
         return $processedData;
-    }
-
-
-    protected function getContentObjectVariables(array $conf): array
-    {
-        $variables = [];
-        $reservedVariables = ['data', 'current'];
-        // Accumulate the variables to be process and loop them through cObjGetSingle
-        $variablesToProcess = (array)($conf['variables.'] ?? []);
-        foreach ($variablesToProcess as $variableName => $cObjType) {
-            if (is_array($cObjType)) {
-                continue;
-            }
-            if (!in_array($variableName, $reservedVariables)) {
-                $cObjConf = $variablesToProcess[$variableName . '.'] ?? [];
-                $variables[$variableName] = $this->cObj->cObjGetSingle($cObjType, $cObjConf,
-                    'variables.' . $variableName);
-            } else {
-                throw new \InvalidArgumentException(
-                    'Cannot use reserved name "' . $variableName . '" as variable name in FLUIDTEMPLATE.',
-                    1288095720
-                );
-            }
-        }
-
-        #$variables['data'] = $this->cObj->data;
-        #$variables['current'] = $this->cObj->data[$this->cObj->currentValKey ?? null] ?? null;
-        return $variables;
-
     }
 
 }
