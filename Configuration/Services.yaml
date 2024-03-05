@@ -9,18 +9,6 @@ services:
     exclude: '../Classes/Domain/Model/*'
 
   # TYPO3 handlebars begin
-  Cpsit\Typo3HandlebarsComponents\DataProcessing\PageProcessor:
-    tags: ['handlebars.processor']
-    calls:
-      - setPresenter: ['@Cpsit\BravoHandlebarsContent\Presenter\PagePresenter']
-
-  Cpsit\Typo3HandlebarsComponents\Domain\Factory\Page\PageFactory:
-    alias: 'Cpsit\BravoHandlebarsContent\Domain\Factory\Page\PageFactory'
-
-  Cpsit\Typo3HandlebarsComponents\Renderer\Component\Page\PageContentRendererInterface:
-    alias: 'Cpsit\BravoHandlebarsContent\Renderer\Component\Page\PageContentRenderer'
-
-  # Register all available content objects
   Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
     arguments:
       $renderer: '@handlebars.renderer'
