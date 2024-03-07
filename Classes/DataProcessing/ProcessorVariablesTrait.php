@@ -43,7 +43,7 @@ trait ProcessorVariablesTrait
                     'variables.' . $variableName);
             } else {
                 throw new \InvalidArgumentException(
-                    'Cannot use reserved name "' . $variableName . '" as variable name in FLUIDTEMPLATE.',
+                    'Cannot use reserved name "' . $variableName . '" as variable name.',
                     1288095720
                 );
             }
