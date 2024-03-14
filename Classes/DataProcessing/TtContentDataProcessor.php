@@ -40,6 +40,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
     public const FIELD_HIDDEN = 'hidden';
     public const FIELD_UID = 'uid';
     public const FIELD_SPACE_BEFORE = 'space_before_class';
+    public const FIELD_HEADLINES = '@headlines';
 
     public const DEFAULT_FIELDS = [
         self::FIELD_UID => UidProcessor::class,
@@ -48,10 +49,9 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_HEADER => PassThrough::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
         self::FIELD_HEADER_LINK => HeaderLinkProcessor::class,
-        '@headlines' => HeadlinesProcessor::class,
+        self::FIELD_HEADLINES => HeadlinesProcessor::class,
         self::FIELD_HIDDEN => PassThrough::class
     ];
-
 
 
     /**
@@ -72,7 +72,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
             $requiredKeys = GeneralUtility::trimExplode(',', $this->settings[self::KEY_FIELDS]);
         }
         // todo: process selection of fields only when 'fields' is set
-        return $this->processFields($requiredKeys, $cObj, $processedData['data']);
+        return array_merge($processedData, $this->processFields($requiredKeys, $cObj, $processedData['data']));
     }
 }
 
