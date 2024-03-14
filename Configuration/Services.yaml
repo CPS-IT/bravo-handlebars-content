@@ -17,10 +17,10 @@ services:
       - name: frontend.contentobject
         identifier: 'HANDLEBARSTEMPLATE'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
-    tags:
-      - name: 'data.processor'
-        identifier: 'headlines'
+  #Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
+  #  tags:
+  #    - name: 'data.processor'
+  #      identifier: 'headlines'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
     tags:
@@ -46,3 +46,10 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsMapFields'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\RelatedRecordsProcessor:
+    public: true

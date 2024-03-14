@@ -27,6 +27,7 @@ trait FieldAwareProcessorTrait
     public const MESSAGE_INVALID_FIELD_PROCESSOR = 'FieldProcessor %s configured in class %s must implement interface %s.';
     public const CODE_INVALID_FIELD_PROCESSOR = 1709319555;
 
+    protected array $fieldMap = [];
     public function instantiateFieldProcessor(
         string                $processorClass,
         ContentObjectRenderer $contentObjectRenderer
@@ -34,7 +35,7 @@ trait FieldAwareProcessorTrait
     {
         $this->assertValidFieldProcessorClass($processorClass);
         /** @var  $processor FieldProcessorInterface */
-        $processor = GeneralUtility::makeInstance($processorClass, $contentObjectRenderer);
+        $processor = GeneralUtility::makeInstance($processorClass);
         return $processor;
     }
 
@@ -57,8 +58,11 @@ trait FieldAwareProcessorTrait
     public function processFields(array $requiredKeys, ContentObjectRenderer $cObj, array $data): array
     {
         $variables = [];
+        if (empty($this->fieldMap) && defined('static::DEFAULT_FIELDS')) {
+            $this->fieldMap = static::DEFAULT_FIELDS;
+        }
 
-        foreach (static::DEFAULT_FIELDS as $fieldName => $processorClass) {
+        foreach ($this->fieldMap as $fieldName => $processorClass) {
             if (empty($processorClass) || !in_array($fieldName, $requiredKeys, true)) {
                 continue;
             }
