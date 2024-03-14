@@ -47,15 +47,17 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsMapFields'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
-    arguments:
-      $contentObjectRenderer: '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
-
+  #Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
+  #  arguments:
+  #    $contentObjectRenderer: '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+  #
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
-    arguments:
-      $contentObjectRenderer: '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
-
+    public: true
+  #  arguments:
+  #    $contentObjectRenderer: '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+  #
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\RelatedRecordsProcessor:
-    arguments:
-      $contentObjectRenderer: '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
-      $connectionPool: '@TYPO3\CMS\Core\Database\ConnectionPool'
+    public: true
+  #  arguments:
+  #    $contentObjectRenderer: '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+  #    $connectionPool: '@TYPO3\CMS\Core\Database\ConnectionPool'

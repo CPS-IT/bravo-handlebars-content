@@ -3,6 +3,7 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
+use Doctrine\DBAL\Driver\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -46,8 +47,28 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $connection = $this->connectionPool->getConnectionForTable($this->configuration[self::KEY_TABLE]);
+        $records = [];
+        if (empty($data['data']['records'])) {
+            return $records;
+        }
 
-        // todo find related records by table...
+        $table = $this->configuration[self::KEY_TABLE];
+        $connection = $this->connectionPool->getConnectionForTable($table);
+        try {
+            $records = $connection->select(
+                ['*'],
+                $table,
+                [
+                    'uid' => $data['data']['records']
+                ]
+            )
+                ->fetchAllAssociative();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Doctrine\DBAL\Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        return $records;
     }
 }
