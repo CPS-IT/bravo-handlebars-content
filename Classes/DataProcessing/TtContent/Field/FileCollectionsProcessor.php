@@ -5,6 +5,10 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Doctrine\DBAL\Driver\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
+use TYPO3\CMS\Core\Resource\FileCollectionRepository;
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /***************************************************************
@@ -23,22 +27,22 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class RelatedRecordsProcessor implements FieldProcessorInterface
+class FileCollectionsProcessor implements FieldProcessorInterface
 {
     public function __construct(
-        protected ContentObjectRenderer $contentObjectRenderer,
-        protected ConnectionPool $connectionPool,
+        protected FileRepository $fileRepository,
+        protected FileCollectionRepository $fileCollectionRepository
     ) {}
 
     public const KEY_TABLE = 'table';
     public const KEY_FIELD = 'field';
-    public const DEFAULT_TABLE = 'tt_content';
-    public const DEFAULT_FIELD = 'records';
+    public const TABLE_FILE_COLLECTION = 'sys_file_collection';
+    public const FIELD_FILE_COLLECTIONS = 'file_collections';
 
-    protected string $table = self::DEFAULT_TABLE;
-    protected string $field = self::DEFAULT_FIELD;
+    protected string $table = self::TABLE_FILE_COLLECTION;
+    protected string $field = self::FIELD_FILE_COLLECTIONS;
     protected array $configuration = [
-        self::KEY_TABLE => self::DEFAULT_TABLE,
+        self::KEY_TABLE => self::TABLE_FILE_COLLECTION,
 
     ];
 
@@ -62,26 +66,28 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
     public function process(string $fieldName, array $data, array $variables): array
     {
         $records = [];
-        if (empty($data['data'][$this->field])) {
+        if (empty($data[$this->field])) {
             return $records;
         }
-        ;
-        $connection = $this->connectionPool->getConnectionForTable($this->table);
-        try {
-            $records = $connection->select(
-                ['*'],
-                $this->table,
-                [
-                    'uid' => $data['data'][$this->field]
-                ]
-            )
-                ->fetchAllAssociative();
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-        } catch (\Doctrine\DBAL\Exception $e) {
-            $message = $e->getMessage();
-        }
 
-        return $records;
+        $fileCollections = [];
+        $fileCollectionIds = GeneralUtility::intExplode(
+            delimiter: ',',
+            string: $data[self::FIELD_FILE_COLLECTIONS]
+        );
+        foreach ($fileCollectionIds as $collectionId) {
+            try {
+                $collection = $this->fileCollectionRepository->findByUid($collectionId);
+                if(null === $collection) {
+                    continue;
+                }
+                $fileCollections[] = $collection;
+            } catch (ResourceDoesNotExistException $e) {
+                continue;
+            }
+        }
+        $variables[$fieldName] = $fileCollections;
+
+        return $variables;
     }
 }

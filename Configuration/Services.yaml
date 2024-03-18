@@ -28,9 +28,18 @@ services:
         identifier: 'ttContent'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor:
+    arguments:
+      $dataMap: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\CeTextDataMap'
     tags:
       - name: 'data.processor'
         identifier: 'ceText'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\UploadsDataProcessor:
+    arguments:
+      $dataMap: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\CeUploadsDataMap'
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceUploads'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\ContentObjectDataProcessor:
     tags:
@@ -52,4 +61,8 @@ services:
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\RelatedRecordsProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor:
     public: true
