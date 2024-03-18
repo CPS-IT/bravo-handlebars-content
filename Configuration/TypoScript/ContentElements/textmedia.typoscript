@@ -1,0 +1,30 @@
+tt_content.textmedia >
+tt_content.textmedia = HANDLEBARSTEMPLATE
+tt_content.textmedia {
+  templateName = @ce-text-media
+  dataProcessing {
+    10 = ttContent
+    10 {
+      settings {
+        fields = uid,space_before_class,bodytext,header,header_layout,@headlines,header_link
+      }
+    }
+
+    20 = handlebarsMapFields
+    20 {
+      settings {
+        map {
+          0 {
+            from = bodytext
+            to = textHtml
+          }
+          1 {
+            from = uid
+            to = id
+          }
+        }
+      }
+    }
+  }
+}
+
