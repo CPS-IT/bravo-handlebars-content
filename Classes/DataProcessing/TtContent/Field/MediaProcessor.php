@@ -3,11 +3,8 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use RuntimeException;
-use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -53,6 +50,7 @@ class MediaProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
+        //@todo: We could use @MediaProvider, MediaProviderResponse and MediaVariablesResolver instead of this
         $files = [];
         if (empty($data[$fieldName] || empty($data['uid']))) {
             return $files;
@@ -63,11 +61,13 @@ class MediaProcessor implements FieldProcessorInterface
             $fieldName,
             $data['uid']
         );
-        /** @var \TYPO3\CMS\Core\Resource\FileReference $fileReference */
+        /** @var FileReference $fileReference */
         foreach ($related as $fileReference) {
             if (!$fileReference instanceof FileReference) {
                 continue;
             }
+            // @todo: transform file to array
+            $record = $fileReference->getOriginalFile()->getProperties();
             $files[] = $fileReference->getOriginalFile();
         }
         $variables[$fieldName] = $files;

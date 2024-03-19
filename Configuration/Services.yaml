@@ -55,6 +55,10 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsMapFields'
+  Cpsit\BravoHandlebarsContent\DataProcessing\LinkListProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsLinkList'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
     public: true

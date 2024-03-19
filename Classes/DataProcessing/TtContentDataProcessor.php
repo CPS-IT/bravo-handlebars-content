@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
@@ -65,8 +64,6 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         if(!empty($this->settings[self::KEY_FIELDS])) {
             $requiredKeys = GeneralUtility::trimExplode(',', $this->settings[self::KEY_FIELDS]);
         }
-        // todo: add variable headlinesData
-        // todo: process selection of fields only when 'fields' is set
         $variables = $this->processFields($requiredKeys, $cObj, $processedData['data']);
 
         if($this instanceof FieldMappingInterface) {
