@@ -1,9 +1,8 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
+namespace Cpsit\BravoHandlebarsContent\Exception;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
-use SplObjectStorage;
+use Exception;
 
 /***************************************************************
  *  Copyright notice
@@ -21,15 +20,7 @@ use SplObjectStorage;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class CeUploadsDataMap implements DataMapInterface
+class InvalidValueException extends Exception
 {
-    use FieldMapTrait;
 
-    public const DEFAULT_FIELD_MAPS = [
-        TtContent::FIELD_FILE_COLLECTIONS => 'fileCollections',
-        TtContent::FIELD_MEDIA => 'files',
-        TtContent::FIELD_HEADLINES => 'headlinesData',
-        TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
-        TtContent::FIELD_UID => 'id',
-    ];
 }

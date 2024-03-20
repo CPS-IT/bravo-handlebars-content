@@ -2,7 +2,6 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
 use SplObjectStorage;
 
 /***************************************************************
@@ -21,15 +20,23 @@ use SplObjectStorage;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class CeUploadsDataMap implements DataMapInterface
+trait FieldMapTrait
 {
-    use FieldMapTrait;
+    protected SplObjectStorage $fieldMaps;
 
-    public const DEFAULT_FIELD_MAPS = [
-        TtContent::FIELD_FILE_COLLECTIONS => 'fileCollections',
-        TtContent::FIELD_MEDIA => 'files',
-        TtContent::FIELD_HEADLINES => 'headlinesData',
-        TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
-        TtContent::FIELD_UID => 'id',
-    ];
+    public function __construct()
+    {
+        $this->fieldMaps = new SplObjectStorage();
+        foreach (self::DEFAULT_FIELD_MAPS as $source => $target) {
+            $this->fieldMaps->attach(new FieldMap($source, $target));
+        }
+    }
+
+    /**
+     * @return SplObjectStorage<FieldMap>
+     */
+    public function getFieldMaps(): SplObjectStorage
+    {
+        return $this->fieldMaps;
+    }
 }

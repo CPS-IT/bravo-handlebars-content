@@ -3,7 +3,6 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
-use SplObjectStorage;
 
 /***************************************************************
  *  Copyright notice
@@ -21,15 +20,15 @@ use SplObjectStorage;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class CeUploadsDataMap implements DataMapInterface
+class CeTextMediaDataMap implements DataMapInterface
 {
     use FieldMapTrait;
-
     public const DEFAULT_FIELD_MAPS = [
-        TtContent::FIELD_FILE_COLLECTIONS => 'fileCollections',
-        TtContent::FIELD_MEDIA => 'files',
+        TtContent::FIELD_BODYTEXT => 'textHtml',
         TtContent::FIELD_HEADLINES => 'headlinesData',
         TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
         TtContent::FIELD_UID => 'id',
+        TtContent::FIELD_IMAGE_ORIENT => 'modifier'
     ];
+
 }
