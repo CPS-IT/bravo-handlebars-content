@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
@@ -14,7 +13,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /*
  * This file is part of the bravo handlebars content package.

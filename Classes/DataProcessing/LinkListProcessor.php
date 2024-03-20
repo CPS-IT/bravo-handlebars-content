@@ -26,7 +26,7 @@ class LinkListProcessor implements DataProcessorInterface
 {
     use ProcessorVariablesTrait;
 
-    public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData)
+    public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData): array
     {
         $this->readSettingsFromConfig($processorConfiguration);
         if (empty($this->settings['from'])) {
@@ -49,6 +49,7 @@ class LinkListProcessor implements DataProcessorInterface
             ];
         }
         if (!empty($items)){
+            // todo: generate headlinesData
             $variables[$as]['items'] = $items;
         }
 
