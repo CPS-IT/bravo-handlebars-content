@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\DownloadItemsProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
@@ -36,6 +37,7 @@ class UploadsDataProcessor extends TtContentDataProcessor implements FieldMappin
         self::FIELD_MEDIA => FileReferencesProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
+        'items' => DownloadItemsProcessor::class
     ];
 
     public function __construct(protected DataMapInterface $dataMap)

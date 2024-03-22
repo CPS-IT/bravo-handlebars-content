@@ -66,7 +66,7 @@ class FileReferencesProcessor implements FieldProcessorInterface
             if (!$fileReference instanceof FileReference) {
                 continue;
             }
-            $files[] = $fileReference->getOriginalFile()->getProperties();
+            $files[] = $fileReference;
         }
         $variables[$fieldName] = $files;
 
