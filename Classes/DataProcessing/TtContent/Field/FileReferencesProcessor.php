@@ -3,8 +3,6 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
-use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
 
@@ -24,13 +22,27 @@ use TYPO3\CMS\Core\Resource\FileRepository;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class MediaProcessor implements FieldProcessorInterface
+class FileReferencesProcessor implements FieldProcessorInterface
 {
+    public const DEFAULT_TABLE = 'tt_content';
+    protected string $table = self::DEFAULT_TABLE;
+
     public function __construct(
-        protected MediaProvider $mediaProvider,
-        protected MediaVariablesResolver $mediaVariablesResolver
+        protected FileRepository $fileRepository
     )
     {
+    }
+
+    /**
+     * Set a table to process. Default table is `tt_content` (and must not be set).
+     * @param string $tableName
+     * @return $this
+     */
+    public function forTable(string $tableName): self
+    {
+        $clone = clone $this;
+        $clone->table = $tableName;
+        return $clone;
     }
 
     /**
@@ -38,13 +50,25 @@ class MediaProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $response = $this->mediaProvider
-            ->withMediaFieldName($fieldName)
-            ->get($data);
+        //@todo: We could use @MediaProvider, MediaProviderResponse and MediaVariablesResolver instead of this
+        $files = [];
+        if (empty($data[$fieldName] || empty($data['uid']))) {
+            return $files;
+        }
 
-        // note: MediaVariablesResolver processes only the first media
-        // we assume that the content element will not be used with multiple image/media
-        $variables[$fieldName] = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
+        $related = $this->fileRepository->findByRelation(
+            $this->table,
+            $fieldName,
+            $data['uid']
+        );
+        /** @var FileReference $fileReference */
+        foreach ($related as $fileReference) {
+            if (!$fileReference instanceof FileReference) {
+                continue;
+            }
+            $files[] = $fileReference->getOriginalFile()->getProperties();
+        }
+        $variables[$fieldName] = $files;
 
         return $variables;
     }

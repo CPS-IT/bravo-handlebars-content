@@ -27,8 +27,19 @@ trait FieldMappingTrait
     public function map(array $variables): array {
         /** @var FieldMap $fieldMap */
         foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
-            if(ArrayUtility::isValidPath($variables, $fieldMap->sourcePath)) {
-                $variables[$fieldMap->targetPath] = $variables[$fieldMap->sourcePath];
+            if(ArrayUtility::isValidPath($variables, $fieldMap->sourcePath, $fieldMap->delimiter)) {
+                $value = ArrayUtility::getValueByPath(
+                    $variables,
+                    $fieldMap->sourcePath,
+                    $fieldMap->delimiter
+                );
+                $variables = ArrayUtility::setValueByPath(
+                    $variables,
+                    $fieldMap->targetPath,
+                    $value,
+                    $fieldMap->delimiter
+                );
+                //$variables[$fieldMap->targetPath] = $variables[$fieldMap->sourcePath];
             }
         }
 

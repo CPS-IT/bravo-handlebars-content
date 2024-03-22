@@ -28,6 +28,7 @@ trait FieldAwareProcessorTrait
     public const CODE_INVALID_FIELD_PROCESSOR = 1709319555;
 
     protected array $fieldMap = [];
+
     public function instantiateFieldProcessor(
         string                $processorClass,
         ContentObjectRenderer $contentObjectRenderer
@@ -57,6 +58,19 @@ trait FieldAwareProcessorTrait
 
     public function processFields(array $requiredKeys, ContentObjectRenderer $cObj, array $data): array
     {
+        $variables = $this->processDefaultFields($requiredKeys, $cObj, $data);
+        return $this->processCustomFields($cObj, $data, $variables);
+    }
+
+    /**
+     * @param array $requiredKeys
+     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
+     * @param array $data
+     * @return array|mixed
+     * @throws \Cpsit\BravoHandlebarsContent\Exception\InvalidClassException
+     */
+    protected function processDefaultFields(array $requiredKeys, ContentObjectRenderer $cObj, array $data): mixed
+    {
         $variables = [];
         if (empty($this->fieldMap) && defined('static::DEFAULT_FIELDS')) {
             $this->fieldMap = static::DEFAULT_FIELDS;
@@ -69,6 +83,18 @@ trait FieldAwareProcessorTrait
             $processor = $this->instantiateFieldProcessor($processorClass, $cObj);
             $variables = $processor->process($fieldName, $data, $variables);
         }
+        return $variables;
+    }
+
+    /**
+     * Override this method in order to process custom fields
+     */
+    protected function processCustomFields(
+        ContentObjectRenderer $contentObjectRenderer,
+        array                 $data,
+        array                 $variables
+    ): array
+    {
         return $variables;
     }
 }

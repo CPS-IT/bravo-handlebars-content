@@ -6,10 +6,15 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ContentMediaProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ContentTextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageBelowTextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageOrientProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
@@ -27,7 +32,9 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
     use FieldMappingTrait;
 
     public const DEFAULT_FIELDS = [
-        self::FIELD_ASSETS => PassThrough::class, //todo
+        // note: MediaProcessor uses MediaVariablesResolver. This class processes only the first media
+        // we assume that the content element will not be used with multiple image/media!
+        self::FIELD_ASSETS => MediaProcessor::class,
         self::FIELD_BODYTEXT => BodytextProcessor::class,
         self::FIELD_HEADER => PassThrough::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
@@ -42,11 +49,16 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         self::FIELD_IMAGE_ZOOM => PassThrough::class, //todo
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
+        'modifier' => ModifierProcessor::class,
+        'imageBelowText' => ImageBelowTextProcessor::class,
+        'contentText' => ContentTextProcessor::class,
+        'contentMedia' => ContentMediaProcessor::class,
     ];
 
     public function __construct(protected DataMapInterface $dataMap)
     {
     }
+
 }
 
 

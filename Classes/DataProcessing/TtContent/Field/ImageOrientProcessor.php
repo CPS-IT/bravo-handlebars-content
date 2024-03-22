@@ -54,7 +54,6 @@ class ImageOrientProcessor implements FieldProcessorInterface
 
     /**
      * @inheritDoc
-     * @noinspection PhpOptionalBeforeRequiredParametersInspection
      */
     public function process(string $fieldName, array $data, array $variables): array
     {

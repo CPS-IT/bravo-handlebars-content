@@ -23,12 +23,18 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterfa
 class CeTextMediaDataMap implements DataMapInterface
 {
     use FieldMapTrait;
+
     public const DEFAULT_FIELD_MAPS = [
         TtContent::FIELD_BODYTEXT => 'textHtml',
         TtContent::FIELD_HEADLINES => 'headlinesData',
         TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
         TtContent::FIELD_UID => 'id',
-        TtContent::FIELD_IMAGE_ORIENT => 'modifier'
+        TtContent::FIELD_IMAGE_ZOOM => 'lightbox',
+        TtContent::FIELD_ASSETS . '.@picture.sourceS' => 'pictureData.sourceTextMedia.sourceS',
+        TtContent::FIELD_ASSETS . '.@picture.sourceM' => 'pictureData.sourceTextMedia.sourceM',
+        TtContent::FIELD_ASSETS . '.@picture.sourceL' => 'pictureData.sourceTextMedia.sourceL',
+        TtContent::FIELD_ASSETS . '.@picture.sourceXl' => 'pictureData.sourceTextMedia.sourceXl',
+        TtContent::FIELD_ASSETS . '.@picture.imgData' => 'pictureData.imgData'
     ];
 
 }

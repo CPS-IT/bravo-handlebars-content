@@ -9,7 +9,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsP
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileReferencesProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
@@ -33,7 +33,7 @@ class UploadsDataProcessor extends TtContentDataProcessor implements FieldMappin
         self::FIELD_HEADER_LINK => HeaderLinkProcessor::class,
         self::FIELD_HEADLINES => HeadlinesProcessor::class,
         self::FIELD_HIDDEN => PassThrough::class,
-        self::FIELD_MEDIA => MediaProcessor::class,
+        self::FIELD_MEDIA => FileReferencesProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
     ];

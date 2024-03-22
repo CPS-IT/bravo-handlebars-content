@@ -3,10 +3,7 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
-use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
-use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Resource\FileRepository;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 
 /***************************************************************
  *  Copyright notice
@@ -24,28 +21,23 @@ use TYPO3\CMS\Core\Resource\FileRepository;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class MediaProcessor implements FieldProcessorInterface
+class ModifierProcessor implements FieldProcessorInterface
 {
-    public function __construct(
-        protected MediaProvider $mediaProvider,
-        protected MediaVariablesResolver $mediaVariablesResolver
-    )
-    {
-    }
 
-    /**
-     * @inheritDoc
-     */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $response = $this->mediaProvider
-            ->withMediaFieldName($fieldName)
-            ->get($data);
+        /** @noinspection PhpDuplicateMatchArmBodyInspection */
+        $modifier = match ($data[TtContentRecordInterface::FIELD_IMAGE_ORIENT]) {
+            0, 1, 2 => 'above', // variants above-left and above-right are ignored
+            8, 9, 10 => 'below', // variants below-left and below-right are ignored
+            17 => 'float-right',
+            18 => 'float-left',
+            25 => 'right',
+            26 => 'left',
+            default => 'above',
+        };
 
-        // note: MediaVariablesResolver processes only the first media
-        // we assume that the content element will not be used with multiple image/media
-        $variables[$fieldName] = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
-
+        $variables[$fieldName] = $modifier;
         return $variables;
     }
 }

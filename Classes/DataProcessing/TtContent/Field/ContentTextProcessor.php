@@ -1,12 +1,8 @@
 <?php
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
-
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
-use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
-use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Resource\FileRepository;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 
 /***************************************************************
  *  Copyright notice
@@ -24,28 +20,12 @@ use TYPO3\CMS\Core\Resource\FileRepository;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class MediaProcessor implements FieldProcessorInterface
+class ContentTextProcessor implements FieldProcessorInterface
 {
-    public function __construct(
-        protected MediaProvider $mediaProvider,
-        protected MediaVariablesResolver $mediaVariablesResolver
-    )
-    {
-    }
 
-    /**
-     * @inheritDoc
-     */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $response = $this->mediaProvider
-            ->withMediaFieldName($fieldName)
-            ->get($data);
-
-        // note: MediaVariablesResolver processes only the first media
-        // we assume that the content element will not be used with multiple image/media
-        $variables[$fieldName] = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
-
+        $variables[$fieldName] = !empty($data[TtContentRecordInterface::FIELD_BODYTEXT]);
         return $variables;
     }
 }
