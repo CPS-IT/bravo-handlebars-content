@@ -15,6 +15,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageBelowTextPr
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageOrientProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LightboxImageProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaDataProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
@@ -38,6 +39,8 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         // we assume that the content element will not be used with multiple image/media!
         self::FIELD_ASSETS => MediaProcessor::class,
         'linkedImage' => LinkedImageProcessor::class,
+        // todo: handle video files (field `media`)
+        //'mediaData' => MediaDataProcessor::class,
         self::FIELD_BODYTEXT => BodytextProcessor::class,
         self::FIELD_HEADER => PassThrough::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,

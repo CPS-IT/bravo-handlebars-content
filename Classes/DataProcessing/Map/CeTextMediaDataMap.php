@@ -38,7 +38,6 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.@figure.caption' => 'caption',
         TtContent::FIELD_ASSETS . '.@figure.copyrightData' => 'copyrightData',
         TtContent::FIELD_ASSETS . '.@figure.copyrightData.copyright' => 'lightboxCopyright',
-        'linkedImage'
     ];
 
 }
