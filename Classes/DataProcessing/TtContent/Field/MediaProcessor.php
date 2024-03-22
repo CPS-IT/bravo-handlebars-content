@@ -5,8 +5,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
 use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
-use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Resource\FileRepository;
 
 /***************************************************************
  *  Copyright notice
@@ -27,7 +25,7 @@ use TYPO3\CMS\Core\Resource\FileRepository;
 class MediaProcessor implements FieldProcessorInterface
 {
     public function __construct(
-        protected MediaProvider $mediaProvider,
+        protected MediaProvider          $mediaProvider,
         protected MediaVariablesResolver $mediaVariablesResolver
     )
     {
