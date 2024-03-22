@@ -34,7 +34,11 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.@picture.sourceM' => 'pictureData.sourceTextMedia.sourceM',
         TtContent::FIELD_ASSETS . '.@picture.sourceL' => 'pictureData.sourceTextMedia.sourceL',
         TtContent::FIELD_ASSETS . '.@picture.sourceXl' => 'pictureData.sourceTextMedia.sourceXl',
-        TtContent::FIELD_ASSETS . '.@picture.imgData' => 'pictureData.imgData'
+        TtContent::FIELD_ASSETS . '.@picture.imgData' => 'pictureData.imgData',
+        TtContent::FIELD_ASSETS . '.@figure.caption' => 'caption',
+        TtContent::FIELD_ASSETS . '.@figure.copyrightData' => 'copyrightData',
+        TtContent::FIELD_ASSETS . '.@figure.copyrightData.copyright' => 'lightboxCopyright',
+        'linkedImage'
     ];
 
 }

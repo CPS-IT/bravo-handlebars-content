@@ -3,8 +3,9 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
-use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
+use Cpsit\BravoHandlebarsContent\Service\LinkService;
+use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\MediaInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /***************************************************************
  *  Copyright notice
@@ -22,28 +23,34 @@ use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesRe
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class MediaProcessor implements FieldProcessorInterface
+class LinkedImageProcessor implements FieldProcessorInterface
 {
+    public const FIELD_NAME = 'bodytext';
+
     public function __construct(
-        protected MediaProvider          $mediaProvider,
-        protected MediaVariablesResolver $mediaVariablesResolver
+        protected LinkService $linkService
     )
     {
+
     }
 
-    /**
-     * @inheritDoc
-     */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $response = $this->mediaProvider
-            ->withMediaFieldName($fieldName)
-            ->get($data);
+        if (
+            empty($variables['originalFirstMedia'])
+            || !$variables['originalFirstMedia'] instanceof MediaInterface
+        ) {
+            return $variables;
+        }
 
-        // note: MediaVariablesResolver processes only the first media
-        // we assume that the content element will not be used with multiple image/media
-        $variables[$fieldName] = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
-        $variables['originalFirstMedia'] = $response->getFirstMedia();
+        $media = $variables['originalFirstMedia'];
+        $value = $media->getProperty('link');
+        $link = $this->linkService->resolveTypoLink($value);
+        $variables[$fieldName] = [
+            'url' => $link->url,
+            'target' => $link->target
+        ];
+
         return $variables;
     }
 }

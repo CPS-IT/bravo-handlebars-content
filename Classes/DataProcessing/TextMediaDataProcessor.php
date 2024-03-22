@@ -13,6 +13,8 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProces
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageBelowTextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageOrientProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LightboxImageProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
@@ -35,6 +37,7 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         // note: MediaProcessor uses MediaVariablesResolver. This class processes only the first media
         // we assume that the content element will not be used with multiple image/media!
         self::FIELD_ASSETS => MediaProcessor::class,
+        'linkedImage' => LinkedImageProcessor::class,
         self::FIELD_BODYTEXT => BodytextProcessor::class,
         self::FIELD_HEADER => PassThrough::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
@@ -53,6 +56,7 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         'imageBelowText' => ImageBelowTextProcessor::class,
         'contentText' => ContentTextProcessor::class,
         'contentMedia' => ContentMediaProcessor::class,
+        'lightboxImg' => LightboxImageProcessor::class,
     ];
 
     public function __construct(protected DataMapInterface $dataMap)

@@ -77,3 +77,5 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor:
     public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor:
+    public: true

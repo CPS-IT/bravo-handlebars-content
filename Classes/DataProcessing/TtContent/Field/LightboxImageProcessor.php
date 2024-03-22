@@ -3,8 +3,8 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
-use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /***************************************************************
  *  Copyright notice
@@ -22,28 +22,29 @@ use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesRe
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class MediaProcessor implements FieldProcessorInterface
+class LightboxImageProcessor implements FieldProcessorInterface
 {
-    public function __construct(
-        protected MediaProvider          $mediaProvider,
-        protected MediaVariablesResolver $mediaVariablesResolver
-    )
-    {
-    }
+    public const FIELD_NAME = 'bodytext';
 
-    /**
-     * @inheritDoc
-     */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $response = $this->mediaProvider
-            ->withMediaFieldName($fieldName)
-            ->get($data);
+        if(
+            empty($variables[TtContentRecordInterface::FIELD_IMAGE_ZOOM])
+            || !(bool)$variables[TtContentRecordInterface::FIELD_IMAGE_ZOOM]
+            || empty($variables[TtContentRecordInterface::FIELD_ASSETS]['@picture'])
+        ) {
+            // nothing to do
+            return $variables;
+        }
 
-        // note: MediaVariablesResolver processes only the first media
-        // we assume that the content element will not be used with multiple image/media
-        $variables[$fieldName] = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
-        $variables['originalFirstMedia'] = $response->getFirstMedia();
+        $sources = $variables[TtContentRecordInterface::FIELD_ASSETS]['@picture'];
+        if(!empty($sources['sourceL'])) {
+            $variables[$fieldName] = $sources['sourceL'];
+        }
+        if(!empty($sources['sourceXl'])) {
+            $variables[$fieldName] = $sources['sourceXl'];
+        }
+
         return $variables;
     }
 }
