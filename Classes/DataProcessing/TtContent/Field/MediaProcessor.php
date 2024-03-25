@@ -4,7 +4,9 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
+use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\Media;
 use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
+use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\OnlineMedia;
 
 /***************************************************************
  *  Copyright notice
@@ -40,10 +42,27 @@ class MediaProcessor implements FieldProcessorInterface
             ->withMediaFieldName($fieldName)
             ->get($data);
 
+        $media = $response->getFirstMedia();
+        // todo: We should move the following into the MediaVariablesResolver
         // note: MediaVariablesResolver processes only the first media
         // we assume that the content element will not be used with multiple image/media
-        $variables[$fieldName] = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
-        $variables['originalFirstMedia'] = $response->getFirstMedia();
+        $pictureData = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
+        if (!$media instanceof OnlineMedia) {
+            $variables[$fieldName]['pictureData'] = $pictureData;
+        }
+        if ($media instanceof OnlineMedia) {
+            $variables[$fieldName] = [
+                'onlineMedia' => [
+                    'pictureData' => $variables[$fieldName]['pictureData'] = $pictureData,
+                    'publicUrl' => $media->getPublicUrl(),
+                    'previewImage' => $media->getPreviewImage(),
+                    'onlineMediaId' => $media->getOnlineMediaId(),
+                    'title' => $media->getProperty('title'),
+                    'allow' => true
+                ]
+            ];
+        }
+        $variables['originalFirstMedia'] = $media;
         return $variables;
     }
 }

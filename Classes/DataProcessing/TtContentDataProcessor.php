@@ -70,12 +70,6 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         if($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);
         }
-        try {
-            // this variable is only necessary for debugging purposes
-            // usage e.g. in your template: <pre>{{jsonData}}</pre>
-            $variables['jsonData'] = json_encode($variables, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
-        }
         return array_merge($processedData, $variables);
     }
 }
