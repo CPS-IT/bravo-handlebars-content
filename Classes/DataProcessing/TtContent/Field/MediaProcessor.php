@@ -58,7 +58,11 @@ class MediaProcessor implements FieldProcessorInterface
                     'previewImage' => $media->getPreviewImage(),
                     'onlineMediaId' => $media->getOnlineMediaId(),
                     'title' => $media->getProperty('title'),
-                    'allow' => true
+                    'allow' => true,
+                    'accessibilityData' => [
+                        //@todo: localized text for play button
+                        'accessibility' => 'Video starten'
+                    ]
                 ]
             ];
         }

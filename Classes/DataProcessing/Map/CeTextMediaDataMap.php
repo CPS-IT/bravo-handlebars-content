@@ -45,6 +45,7 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.onlineMedia.onlineMediaId' => 'mediaData.iframeData.mediaId',
         TtContent::FIELD_ASSETS . '.onlineMedia.title' => 'mediaData.iframeData.title',
         TtContent::FIELD_ASSETS . '.onlineMedia.allow' => 'mediaData.iframeData.allow',
+        TtContent::FIELD_ASSETS . '.onlineMedia.accessibilityData' => 'mediaData.accessibilityData',
         TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceS' => 'mediaData.pictureData.sourceTextMedia.sourceS',
         TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceM' => 'mediaData.pictureData.sourceTextMedia.sourceM',
         TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceL' => 'mediaData.pictureData.sourceTextMedia.sourceL',

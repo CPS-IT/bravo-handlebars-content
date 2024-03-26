@@ -23,6 +23,8 @@ interface TtContentRecordInterface
     // field names of table tt_content
     public const FIELD_ASSETS = 'assets';
     public const FIELD_BODYTEXT = 'bodytext';
+    public const FIELD_CATEGORIES = 'categories';
+    public const FIELD_DATE = 'date';
     public const FIELD_FILE_COLLECTIONS = 'file_collections';
     public const FIELD_HEADER = 'header';
     public const FIELD_HEADER_LAYOUT = 'header_layout';
@@ -39,4 +41,5 @@ interface TtContentRecordInterface
     public const FIELD_SPACE_BEFORE = 'space_before_class';
     public const FIELD_SUBHEADER = 'subheader';
     public const FIELD_UID = 'uid';
+
 }
