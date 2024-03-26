@@ -5,6 +5,7 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Doctrine\DBAL\Driver\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /***************************************************************
@@ -42,14 +43,14 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
 
     ];
 
-    public function forTable(string $table): FieldProcessorInterface
+    public function forTable(string $table): self
     {
         $clone = clone $this;
         $clone->table = $table;
         return $clone;
     }
 
-    public function forField(string $field): FieldProcessorInterface
+    public function forField(string $field): self
     {
         $clone = clone $this;
         $clone->field = $field;
@@ -62,19 +63,19 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
     public function process(string $fieldName, array $data, array $variables): array
     {
         $records = [];
-        if (empty($data['data'][$this->field])) {
+        if (empty($data[$this->field])) {
             return $records;
         }
         ;
         $connection = $this->connectionPool->getConnectionForTable($this->table);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
+        $uids = GeneralUtility::intExplode(',', $data[$this->field]);
         try {
-            $records = $connection->select(
-                ['*'],
-                $this->table,
-                [
-                    'uid' => $data['data'][$this->field]
-                ]
-            )
+           $records = $queryBuilder->select('*')
+                ->from($this->table)
+                ->where(
+                    $queryBuilder->expr()->in('uid', $uids)
+                )->executeQuery()
                 ->fetchAllAssociative();
         } catch (Exception $e) {
             $message = $e->getMessage();

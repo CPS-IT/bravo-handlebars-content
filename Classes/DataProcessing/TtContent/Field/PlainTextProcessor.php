@@ -31,7 +31,7 @@ class PlainTextProcessor implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $value = $data[self::FIELD_NAME];
+        $value = $data[$fieldName];
         $variables[$fieldName] = $this->contentObjectRenderer->parseFunc(
             trim($value),
             null,

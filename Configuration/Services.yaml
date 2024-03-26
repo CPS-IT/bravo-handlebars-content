@@ -71,6 +71,8 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
     public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PlainTextProcessor:
+    public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\RelatedRecordsProcessor:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsProcessor:

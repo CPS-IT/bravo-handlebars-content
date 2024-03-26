@@ -35,7 +35,8 @@ readonly class HeaderLinkProcessor implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $variables[$fieldName]  = $this->linkService->resolveTypoLink($data['header_link']);
+        $typoLink = $data['header_link'] ?? '';
+        $variables[$fieldName]  = $this->linkService->resolveTypoLink($typoLink);
         return $variables;
     }
 }
