@@ -58,6 +58,10 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         array                 $processedData
     ): array
     {
+        if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
+            return $processedData;
+        }
+
         $this->readSettingsFromConfig($processorConfiguration);
 
         $variables = $this->processFields($cObj, $processedData);
