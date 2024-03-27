@@ -31,7 +31,9 @@ class PassThrough implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $variables[$fieldName] = $data[$fieldName];
+        if(isset($data[$fieldName])) {
+            $variables[$fieldName] = $data[$fieldName];
+        }
         return $variables;
     }
 }

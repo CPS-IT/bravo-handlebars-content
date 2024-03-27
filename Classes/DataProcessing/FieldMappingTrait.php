@@ -39,7 +39,6 @@ trait FieldMappingTrait
                     $value,
                     $fieldMap->delimiter
                 );
-                //$variables[$fieldMap->targetPath] = $variables[$fieldMap->sourcePath];
             }
         }
 

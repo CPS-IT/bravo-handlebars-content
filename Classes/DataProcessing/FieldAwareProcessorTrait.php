@@ -56,20 +56,24 @@ trait FieldAwareProcessorTrait
         }
     }
 
-    public function processFields(array $requiredKeys, ContentObjectRenderer $cObj, array $data): array
+    public function processFields(ContentObjectRenderer $cObj, array $processedData): array
     {
-        $variables = $this->processDefaultFields($requiredKeys, $cObj, $data);
-        return $this->processCustomFields($cObj, $data, $variables);
+        $data = $processedData['data'];
+
+        $processedData = $this->processDefaultFields($cObj, $data, $processedData);
+        return array_merge(
+            $processedData,
+            $this->processCustomFields($cObj, $data, $processedData)
+        );
     }
 
     /**
-     * @param array $requiredKeys
-     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
-     * @param array $data
+     * @param ContentObjectRenderer $cObj
+     * @param array $processedData
      * @return array|mixed
-     * @throws \Cpsit\BravoHandlebarsContent\Exception\InvalidClassException
+     * @throws InvalidClassException
      */
-    protected function processDefaultFields(array $requiredKeys, ContentObjectRenderer $cObj, array $data): mixed
+    protected function processDefaultFields(ContentObjectRenderer $cObj, $data, array $processedData): mixed
     {
         $variables = [];
         if (empty($this->fieldMap) && defined('static::DEFAULT_FIELDS')) {
@@ -77,13 +81,14 @@ trait FieldAwareProcessorTrait
         }
 
         foreach ($this->fieldMap as $fieldName => $processorClass) {
-            if (empty($processorClass) || !in_array($fieldName, $requiredKeys, true)) {
+            if (empty($processorClass) || !in_array($fieldName, $this->requiredKeys, true)) {
                 continue;
             }
             $processor = $this->instantiateFieldProcessor($processorClass, $cObj);
-            $variables = $processor->process($fieldName, $data, $variables);
+            $variables = $processor->process($fieldName, $data, $processedData);
+            $processedData = array_merge($processedData, $variables);
         }
-        return $variables;
+        return $processedData;
     }
 
     /**
@@ -92,9 +97,9 @@ trait FieldAwareProcessorTrait
     protected function processCustomFields(
         ContentObjectRenderer $contentObjectRenderer,
         array                 $data,
-        array                 $variables
+        array                 $processedData,
     ): array
     {
-        return $variables;
+        return $processedData;
     }
 }

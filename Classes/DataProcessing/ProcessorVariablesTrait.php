@@ -26,6 +26,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 trait ProcessorVariablesTrait
 {
     protected array $settings = [];
+    // keys for configuration
+    public const KEY_FIELDS = 'fields';
 
     protected function getContentObjectVariables(array $conf): array
     {
@@ -60,6 +62,14 @@ trait ProcessorVariablesTrait
         if (isset($conf['settings.'])) {
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
             $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
+        }
+
+        if (property_exists($this, 'requiredKeys') && defined('static::DEFAULT_FIELDS')) {
+            $this->requiredKeys = array_keys(static::DEFAULT_FIELDS);
+        }
+
+        if(!empty($this->settings[self::KEY_FIELDS])) {
+            $this->requiredKeys = GeneralUtility::trimExplode(',', $this->settings[self::KEY_FIELDS]);
         }
     }
 

@@ -31,9 +31,6 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
     use FieldAwareProcessorTrait,
         ProcessorVariablesTrait;
 
-    // keys for configuration
-    public const KEY_FIELDS = 'fields';
-
 
     public const DEFAULT_FIELDS = [
         self::FIELD_BODYTEXT => BodytextProcessor::class,
@@ -46,6 +43,8 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
     ];
+
+    protected $requiredKeys = [];
 
 
     /**
@@ -61,11 +60,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
     {
         $this->readSettingsFromConfig($processorConfiguration);
 
-        $requiredKeys = array_keys(static::DEFAULT_FIELDS);
-        if(!empty($this->settings[self::KEY_FIELDS])) {
-            $requiredKeys = GeneralUtility::trimExplode(',', $this->settings[self::KEY_FIELDS]);
-        }
-        $variables = $this->processFields($requiredKeys, $cObj, $processedData['data']);
+        $variables = $this->processFields($cObj, $processedData);
 
         if($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);
