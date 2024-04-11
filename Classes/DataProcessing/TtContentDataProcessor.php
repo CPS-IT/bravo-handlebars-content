@@ -44,7 +44,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_UID => UidProcessor::class,
     ];
 
-    protected $requiredKeys = [];
+    protected array $requiredKeys = [];
 
 
     /**

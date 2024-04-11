@@ -3,10 +3,12 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
+use Cpsit\BravoHandlebarsContent\Service\ImageHelper;
 use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
 use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\Media;
 use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
 use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\OnlineMedia;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -38,11 +40,23 @@ class MediaProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
+        
         $response = $this->mediaProvider
             ->withMediaFieldName($fieldName)
             ->get($data);
 
         $media = $response->getFirstMedia();
+
+        $file = $media->getOriginalFile();
+        /** @var ImageHelper $imageHelper */
+        $imageHelper = GeneralUtility::makeInstance(ImageHelper::class);
+        $imageData = $imageHelper->process(
+            '', $file, true, false, []
+        );
+        
+        //$processedImage = $imageHelper->process(
+        //    null,
+       // );
         // todo: We should move the following into the MediaVariablesResolver
         // note: MediaVariablesResolver processes only the first media
         // we assume that the content element will not be used with multiple image/media

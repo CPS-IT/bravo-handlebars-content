@@ -83,3 +83,5 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor:
     public: true
+  Cpsit\BravoHandlebarsContent\Service\ImageHelper:
+    public: true
