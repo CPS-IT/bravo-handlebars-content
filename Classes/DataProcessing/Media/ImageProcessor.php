@@ -141,7 +141,7 @@ class ImageProcessor implements MediaProcessorInterface
             $caption = $file->getProperty(self::KEY_CAPTION);
         }
 
-        return $caption;
+        return (string) $caption;
     }
 
     protected function getCopyRightData(FileInterface $file): array
