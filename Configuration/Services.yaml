@@ -87,5 +87,3 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration:
     public: true
-  Cpsit\BravoHandlebarsContent\Service\ImageHelper:
-    public: true
