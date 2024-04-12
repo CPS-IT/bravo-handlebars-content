@@ -25,6 +25,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 readonly class HeaderLinkProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     private LinkService $linkService;
     public function __construct(ContentObjectRenderer $contentObjectRenderer) {
         $this->linkService = GeneralUtility::makeInstance(

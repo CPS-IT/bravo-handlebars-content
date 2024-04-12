@@ -22,6 +22,8 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
  ***************************************************************/
 class SpaceBeforeProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public const DEFAULT_CLASS = 'u-space-top:default';
 
     /**

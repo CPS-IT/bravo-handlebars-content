@@ -23,6 +23,8 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterfa
 class ContentMediaProcessor implements FieldProcessorInterface
 {
 
+    use FieldProcessorConfigTrait;
+
     public function process(string $fieldName, array $data, array $variables): array
     {
         // todo: enable if media (video) present

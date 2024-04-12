@@ -24,6 +24,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 class LightboxImageProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public const FIELD_NAME = 'bodytext';
 
     public function process(string $fieldName, array $data, array $variables): array

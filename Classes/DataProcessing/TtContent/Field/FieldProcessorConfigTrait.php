@@ -20,16 +20,16 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class UidProcessor implements FieldProcessorInterface
+trait FieldProcessorConfigTrait
 {
-    use FieldProcessorConfigTrait;
+    protected array $config = [];
 
-    /**
-     * @inheritDoc
-     */
-    public function process(string $fieldName, array $data, array $variables): array
+    public function withConfig(array $config): FieldProcessorInterface
     {
-        $variables[$fieldName] = 'c' . $data[$fieldName];
-        return $variables;
+        $this->config = $config;
+
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this;
     }
+
 }

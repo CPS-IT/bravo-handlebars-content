@@ -37,8 +37,8 @@ trait FieldAwareProcessorTrait
     {
         $this->assertValidFieldProcessorClass($processorClass);
         /** @var  $processor FieldProcessorInterface */
-        $processor = GeneralUtility::makeInstance($processorClass, $config);
-        return $processor;
+        $processor = GeneralUtility::makeInstance($processorClass);
+        return $processor->withConfig($config);
     }
 
     /**

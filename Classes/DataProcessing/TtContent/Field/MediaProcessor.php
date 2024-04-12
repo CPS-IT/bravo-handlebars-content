@@ -29,6 +29,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  ***************************************************************/
 class MediaProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public function __construct(
         protected MediaDataService $mediaDataService,
         protected FileReferencesProcessor $fileReferencesProcessor,
@@ -45,7 +47,7 @@ class MediaProcessor implements FieldProcessorInterface
     {
 
         $variables = $this->fileReferencesProcessor->process($fieldName, $data, $variables);
-        if(!empty($variables[$fieldName])) {
+        if(empty($variables[$fieldName])) {
             return $variables;
         }
 

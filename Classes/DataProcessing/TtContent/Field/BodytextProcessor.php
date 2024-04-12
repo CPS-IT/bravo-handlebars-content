@@ -23,6 +23,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 class BodytextProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
     public const FIELD_NAME = 'bodytext';
 
     public function __construct(protected ContentObjectRenderer $contentObjectRenderer)

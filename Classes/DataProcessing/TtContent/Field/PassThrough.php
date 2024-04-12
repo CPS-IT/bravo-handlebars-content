@@ -28,6 +28,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
  */
 class PassThrough implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     public function process(string $fieldName, array $data, array $variables): array
     {

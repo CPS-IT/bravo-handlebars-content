@@ -24,6 +24,7 @@ use Cpsit\BravoHandlebarsContent\Domain\Model\Dto\Link;
  ***************************************************************/
 class HeadlinesProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     /**
      * @inheritDoc

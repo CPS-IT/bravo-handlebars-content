@@ -27,4 +27,6 @@ interface FieldProcessorInterface
      * @return array
      */
     public function process(string $fieldName, array $data, array $variables): array;
+
+    public function withConfig(array $config): FieldProcessorInterface;
 }

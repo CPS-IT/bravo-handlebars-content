@@ -1,6 +1,7 @@
 <?php
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
+
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 
@@ -22,6 +23,8 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterfa
  ***************************************************************/
 class ContentTextProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
 
     public function process(string $fieldName, array $data, array $variables): array
     {

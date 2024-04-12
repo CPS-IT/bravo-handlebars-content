@@ -26,6 +26,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 class RelatedRecordsProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public function __construct(
         protected ContentObjectRenderer $contentObjectRenderer,
         protected ConnectionPool $connectionPool,

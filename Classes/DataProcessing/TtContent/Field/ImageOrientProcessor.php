@@ -23,6 +23,8 @@ use Cpsit\BravoHandlebarsContent\Exception\InvalidValueException;
  ***************************************************************/
 class ImageOrientProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public const ABOVE_CENTER = 'above-center';
     public const ABOVE_RIGHT = 'above-right';
     public const ABOVE_LEFT = 'above-left';

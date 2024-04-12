@@ -25,6 +25,7 @@ use TYPO3\CMS\Core\Resource\FileReference;
  ***************************************************************/
 class DownloadItemsProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     /**
      * @inheritDoc

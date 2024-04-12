@@ -23,6 +23,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 class PlainTextProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     public function __construct(protected ContentObjectRenderer $contentObjectRenderer)
     {

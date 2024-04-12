@@ -22,6 +22,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
  ***************************************************************/
 class HeaderLayoutProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     public const FIELD_NAME = 'header_layout';
 

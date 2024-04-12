@@ -24,6 +24,7 @@ use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\OnlineMedia;
  ***************************************************************/
 class MediaDataProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     public function process(string $fieldName, array $data, array $variables): array
     {

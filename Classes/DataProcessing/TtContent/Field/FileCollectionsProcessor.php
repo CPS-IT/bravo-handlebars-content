@@ -29,6 +29,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  ***************************************************************/
 class FileCollectionsProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public function __construct(
         protected FileRepository $fileRepository,
         protected FileCollectionRepository $fileCollectionRepository

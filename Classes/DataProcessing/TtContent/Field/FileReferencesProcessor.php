@@ -24,6 +24,8 @@ use TYPO3\CMS\Core\Resource\FileRepository;
  ***************************************************************/
 class FileReferencesProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
+
     public const DEFAULT_TABLE = 'tt_content';
     protected string $table = self::DEFAULT_TABLE;
 

@@ -23,6 +23,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterfa
  ***************************************************************/
 class ModifierProcessor implements FieldProcessorInterface
 {
+    use FieldProcessorConfigTrait;
 
     public function process(string $fieldName, array $data, array $variables): array
     {
