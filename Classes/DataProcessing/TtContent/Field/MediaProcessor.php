@@ -50,13 +50,23 @@ class MediaProcessor implements FieldProcessorInterface
         $file = $media->getOriginalFile();
         /** @var ImageHelper $imageHelper */
         $imageHelper = GeneralUtility::makeInstance(ImageHelper::class);
+        $imageConfig = [
+            'cropVariants' => [
+                'desktop' => [
+                    'maxWidth' => 1280
+                ],
+                'tablet' => [
+                    'maxWidth' => 640
+                ],
+                'mobile' => [
+                    'maxWidth' => 320
+                ],
+            ],
+        ];
         $imageData = $imageHelper->process(
-            '', $file, true, false, []
+            '', $file, true, false, $imageConfig
         );
         
-        //$processedImage = $imageHelper->process(
-        //    null,
-       // );
         // todo: We should move the following into the MediaVariablesResolver
         // note: MediaVariablesResolver processes only the first media
         // we assume that the content element will not be used with multiple image/media
