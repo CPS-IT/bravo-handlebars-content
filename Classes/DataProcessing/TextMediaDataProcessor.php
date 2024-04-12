@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
 use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ContentMediaProcessor;
@@ -15,7 +16,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageBelowTextPr
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageOrientProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LightboxImageProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaDataProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
@@ -62,9 +62,6 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         'lightboxImg' => LightboxImageProcessor::class,
     ];
 
-    public function __construct(protected DataMapInterface $dataMap)
-    {
-    }
 
 }
 

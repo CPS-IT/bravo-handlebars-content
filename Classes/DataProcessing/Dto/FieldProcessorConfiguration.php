@@ -1,6 +1,6 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing;
+namespace Cpsit\BravoHandlebarsContent\DataProcessing\Dto;
 
 /***************************************************************
  *  Copyright notice
@@ -18,14 +18,22 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-interface FieldProcessorInterface
+class FieldProcessorConfiguration
 {
+    public function __construct(protected array $configuration = [])
+    {
+    }
+
     /**
-     * @param string $fieldName Field to processes
-     * @param array $data  Raw data (record)
-     * @param array $variables Already processed variables. Will be returned by parent data processor.
+     * @param string $name field name
      * @return array
      */
-    public function process(string $fieldName, array $data, array $variables): array;
+    public function get(string $name): array {
+        return $this->configuration[$name] ?? [];
+    }
 
+    public function set(array $configuration): void
+    {
+        $this->configuration = $configuration;
+    }
 }

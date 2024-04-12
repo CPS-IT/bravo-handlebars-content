@@ -4,6 +4,32 @@ tt_content.textmedia {
   templateName = @ce-text-media
   dataProcessing {
     10 = ceTextMedia
+
+    10 {
+      settings {
+        fieldConfig {
+          assets {
+            image {
+              cropVariants {
+                desktop {
+                  maxWidth = 1280
+                }
+                tablet {
+                  maxWidth = 640
+                }
+                mobile {
+                  maxWidth = 320
+                }
+              }
+            }
+            youtube {
+
+            }
+          }
+        }
+      }
+
+    }
   }
 }
 

@@ -36,9 +36,6 @@ class TextDataProcessor extends TtContentDataProcessor implements FieldMappingIn
         self::FIELD_UID => UidProcessor::class,
     ];
 
-    public function __construct(protected DataMapInterface $dataMap)
-    {
-    }
 }
 
 

@@ -83,5 +83,9 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor:
     public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\Media\ImageProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration:
+    public: true
   Cpsit\BravoHandlebarsContent\Service\ImageHelper:
     public: true

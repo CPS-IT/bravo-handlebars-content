@@ -40,9 +40,6 @@ class UploadsDataProcessor extends TtContentDataProcessor implements FieldMappin
         'items' => DownloadItemsProcessor::class
     ];
 
-    public function __construct(protected DataMapInterface $dataMap)
-    {
-    }
 }
 
 

@@ -24,6 +24,11 @@ trait FieldProcessorConfigTrait
 {
     protected array $config = [];
 
+    // @todo: remove this trait from all consuming classes
+    /**
+     * @param array $config
+     * @return \Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface
+     */
     public function withConfig(array $config): FieldProcessorInterface
     {
         $this->config = $config;

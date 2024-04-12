@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
+use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
@@ -44,6 +46,11 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_UID => UidProcessor::class,
     ];
 
+    public function __construct(protected FieldProcessorConfiguration $fieldProcessorConfiguration, protected DataMapInterface $dataMap)
+    {
+    }
+
+
     protected array $requiredKeys = [];
 
 
@@ -64,7 +71,11 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
         $this->readSettingsFromConfig($processorConfiguration);
 
-        $variables = $this->processFields($cObj, $processedData, $processorConfiguration);
+        if (!empty($this->settings['fieldConfig'])) {
+            $this->fieldProcessorConfiguration->set($this->settings['fieldConfig']);
+        }
+
+        $variables = $this->processFields($cObj, $processedData, $this->settings);
 
         if($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);

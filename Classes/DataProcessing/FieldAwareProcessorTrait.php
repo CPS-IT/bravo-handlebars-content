@@ -32,13 +32,12 @@ trait FieldAwareProcessorTrait
     public function instantiateFieldProcessor(
         string                $processorClass,
         ContentObjectRenderer $contentObjectRenderer,
-        array $config = []
+        array $settings = []
     ): FieldProcessorInterface
     {
         $this->assertValidFieldProcessorClass($processorClass);
         /** @var  $processor FieldProcessorInterface */
-        $processor = GeneralUtility::makeInstance($processorClass);
-        return $processor->withConfig($config);
+        return GeneralUtility::makeInstance($processorClass);
     }
 
     /**
@@ -57,11 +56,11 @@ trait FieldAwareProcessorTrait
         }
     }
 
-    public function processFields(ContentObjectRenderer $cObj, array $processedData, array $processorConfig = []): array
+    public function processFields(ContentObjectRenderer $cObj, array $processedData, array $settings = []): array
     {
         $data = $processedData['data'];
 
-        $processedData = $this->processDefaultFields($cObj, $data, $processedData, $processorConfig);
+        $processedData = $this->processDefaultFields($cObj, $data, $processedData, $settings);
         return array_merge(
             $processedData,
             $this->processCustomFields($cObj, $data, $processedData)
@@ -74,7 +73,7 @@ trait FieldAwareProcessorTrait
      * @return array|mixed
      * @throws InvalidClassException
      */
-    protected function processDefaultFields(ContentObjectRenderer $cObj, $data, array $processedData, array $processorConfig): mixed
+    protected function processDefaultFields(ContentObjectRenderer $cObj, $data, array $processedData, array $settings): mixed
     {
         $variables = [];
         if (empty($this->fieldMap) && defined('static::DEFAULT_FIELDS')) {
@@ -85,7 +84,8 @@ trait FieldAwareProcessorTrait
             if (empty($processorClass) || !in_array($fieldName, $this->requiredKeys, true)) {
                 continue;
             }
-            $processor = $this->instantiateFieldProcessor($processorClass, $cObj, $processorConfig);
+
+            $processor = $this->instantiateFieldProcessor($processorClass, $cObj, $settings);
             $variables = $processor->process($fieldName, $data, $processedData);
             $processedData = array_merge($processedData, $variables);
         }

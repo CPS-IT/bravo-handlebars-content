@@ -2,14 +2,10 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
+use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\BravoHandlebarsContent\Service\ImageHelper;
 use Cpsit\BravoHandlebarsContent\Service\MediaDataService;
-use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
-use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\Media;
-use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
-use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\OnlineMedia;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Resource\FileInterface;
 
 /***************************************************************
  *  Copyright notice
@@ -34,8 +30,7 @@ class MediaProcessor implements FieldProcessorInterface
     public function __construct(
         protected MediaDataService $mediaDataService,
         protected FileReferencesProcessor $fileReferencesProcessor,
-        protected MediaProvider          $mediaProvider,
-        protected MediaVariablesResolver $mediaVariablesResolver
+        protected FieldProcessorConfiguration $fieldProcessorConfiguration
     )
     {
     }
@@ -50,62 +45,18 @@ class MediaProcessor implements FieldProcessorInterface
         if(empty($variables[$fieldName])) {
             return $variables;
         }
+        $config = $this->fieldProcessorConfiguration->get($fieldName);
 
         $mediaData = [];
         foreach ($variables[$fieldName] as $file) {
-            $mediaData[] = $this->mediaDataService->process($file);
+            if(!$file instanceof FileInterface) {
+                continue;
+            }
+            $mediaData[] = $this->mediaDataService->process($file, $config);
         }
 
-        $response = $this->mediaProvider
-            ->withMediaFieldName($fieldName)
-            ->get($data);
+        $variables[$fieldName]['media'] = $mediaData;
 
-        $media = $response->getFirstMedia();
-
-        $file = $media->getOriginalFile();
-        /** @var ImageHelper $imageHelper */
-        $imageHelper = GeneralUtility::makeInstance(ImageHelper::class);
-        $imageConfig = [
-            'cropVariants' => [
-                'desktop' => [
-                    'maxWidth' => 1280
-                ],
-                'tablet' => [
-                    'maxWidth' => 640
-                ],
-                'mobile' => [
-                    'maxWidth' => 320
-                ],
-            ],
-        ];
-        $imageData = $imageHelper->process(
-            '', $file, true, false, $imageConfig
-        );
-
-        // todo: We should move the following into the MediaVariablesResolver
-        // note: MediaVariablesResolver processes only the first media
-        // we assume that the content element will not be used with multiple image/media
-        $pictureData = $this->mediaVariablesResolver->withMediaResponse($response)->resolve();
-        if (!$media instanceof OnlineMedia) {
-            $variables[$fieldName]['pictureData'] = $pictureData;
-        }
-        if ($media instanceof OnlineMedia) {
-            $variables[$fieldName] = [
-                'onlineMedia' => [
-                    'pictureData' => $variables[$fieldName]['pictureData'] = $pictureData,
-                    'publicUrl' => $media->getPublicUrl(),
-                    'previewImage' => $media->getPreviewImage(),
-                    'onlineMediaId' => $media->getOnlineMediaId(),
-                    'title' => $media->getProperty('title'),
-                    'allow' => true,
-                    'accessibilityData' => [
-                        //@todo: localized text for play button
-                        'accessibility' => 'Video starten'
-                    ]
-                ]
-            ];
-        }
-        $variables['originalFirstMedia'] = $media;
         return $variables;
     }
 }
