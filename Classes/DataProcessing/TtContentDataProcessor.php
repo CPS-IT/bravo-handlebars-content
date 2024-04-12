@@ -15,8 +15,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProce
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
-use JsonException;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
