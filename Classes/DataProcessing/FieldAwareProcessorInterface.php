@@ -35,5 +35,5 @@ interface FieldAwareProcessorInterface
      * @param array<string> $requiredKeys An array of key required for processing
      * @throws InvalidClassException
      */
-    public function processFields(ContentObjectRenderer $cObj, array $processProcessedData): array;
+    public function processFields(ContentObjectRenderer $cObj, array $processProcessedData, array $config = []): array;
 }

@@ -4,6 +4,7 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\ImageHelper;
+use Cpsit\BravoHandlebarsContent\Service\MediaDataService;
 use Cpsit\Typo3HandlebarsComponents\Data\MediaProvider;
 use Cpsit\Typo3HandlebarsComponents\Domain\Model\Media\Media;
 use Cpsit\Typo3HandlebarsComponents\Presenter\VariablesResolver\MediaVariablesResolver;
@@ -29,6 +30,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class MediaProcessor implements FieldProcessorInterface
 {
     public function __construct(
+        protected MediaDataService $mediaDataService,
+        protected FileReferencesProcessor $fileReferencesProcessor,
         protected MediaProvider          $mediaProvider,
         protected MediaVariablesResolver $mediaVariablesResolver
     )
@@ -40,7 +43,17 @@ class MediaProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        
+
+        $variables = $this->fileReferencesProcessor->process($fieldName, $data, $variables);
+        if(!empty($variables[$fieldName])) {
+            return $variables;
+        }
+
+        $mediaData = [];
+        foreach ($variables[$fieldName] as $file) {
+            $mediaData[] = $this->mediaDataService->process($file);
+        }
+
         $response = $this->mediaProvider
             ->withMediaFieldName($fieldName)
             ->get($data);
@@ -66,7 +79,7 @@ class MediaProcessor implements FieldProcessorInterface
         $imageData = $imageHelper->process(
             '', $file, true, false, $imageConfig
         );
-        
+
         // todo: We should move the following into the MediaVariablesResolver
         // note: MediaVariablesResolver processes only the first media
         // we assume that the content element will not be used with multiple image/media

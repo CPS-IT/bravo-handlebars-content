@@ -23,6 +23,6 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 interface MediaProcessorInterface
 {
     public function canProcess(FileInterface $file): bool;
-    
-    public function process(FileInterface $file, array $config): array;
+
+    public function process(FileInterface $file, array $config = []): array;
 }

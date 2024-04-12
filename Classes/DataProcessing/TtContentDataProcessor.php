@@ -64,7 +64,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
         $this->readSettingsFromConfig($processorConfiguration);
 
-        $variables = $this->processFields($cObj, $processedData);
+        $variables = $this->processFields($cObj, $processedData, $processorConfiguration);
 
         if($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);

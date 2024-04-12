@@ -37,9 +37,9 @@ class MediaDataService
         VimeoProcessor::class,
         // note: NullProcessor must be the last one
         NullProcessor::class
-    ] ;
+    ];
 
-    /** @var array<MediaProcessorInterface>  */
+    /** @var array<MediaProcessorInterface> */
     protected array $processorInstances = [];
 
     public function __construct()
@@ -48,14 +48,27 @@ class MediaDataService
             $this->processorInstances[] = GeneralUtility::makeInstance($className);
         }
     }
-    public function getProcessor(FileInterface $file): MediaProcessorInterface
+
+    /**
+     * Processes a file according to its type.
+     *
+     * @param FileInterface $file
+     * @param array $config Optional configuration like width, height or additional attributes
+     * @return array Data for template
+     */
+    public function process(FileInterface $file, array $config = []): array
     {
-        
+        return $this->getProcessor($file)->process($file, $config);
+    }
+
+    protected function getProcessor(FileInterface $file): MediaProcessorInterface
+    {
+
         foreach ($this->processorInstances as $processorInstance) {
             if (!$processorInstance->canProcess($file)) {
-                  continue;
+                continue;
             }
-            
+
             return $processorInstance;
         }
 
