@@ -29,7 +29,7 @@ class ImageProcessor implements MediaProcessorInterface
         // TODO: Implement canProcess() method.
     }
 
-    public function process(FileInterface $file, array $config): array
+    public function process(FileInterface $file, array $config = []): array
     {
         // TODO: Implement process() method.
     }

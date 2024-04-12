@@ -57,7 +57,7 @@ trait FieldAwareProcessorTrait
         }
     }
 
-    public function processFields(ContentObjectRenderer $cObj, array $processedData, array $processorConfig): array
+    public function processFields(ContentObjectRenderer $cObj, array $processedData, array $processorConfig = []): array
     {
         $data = $processedData['data'];
 

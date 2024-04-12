@@ -29,7 +29,7 @@ class NullProcessor implements MediaProcessorInterface
         return true;
     }
 
-    public function process(FileInterface $file, array $config): array
+    public function process(FileInterface $file, array $config = []): array
     {
         return [];
     }
