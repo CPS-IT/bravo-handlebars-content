@@ -23,7 +23,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-readonly class HeaderLinkProcessor implements FieldProcessorInterface
+class HeaderLinkProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
 
