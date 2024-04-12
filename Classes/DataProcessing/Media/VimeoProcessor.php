@@ -26,10 +26,12 @@ class VimeoProcessor implements MediaProcessorInterface
     public function canProcess(FileInterface $file): bool
     {
         // TODO: Implement canProcess() method.
+        return false;
     }
 
     public function process(FileInterface $file, array $config = []): array
     {
         // TODO: Implement process() method.
+        return [];
     }
 }
