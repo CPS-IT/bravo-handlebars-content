@@ -8,7 +8,9 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
-  # TYPO3 handlebars begin
+  ####
+  # handlebars template content objects
+  ####
   Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
     arguments:
       $renderer: '@handlebars.renderer'
@@ -16,6 +18,10 @@ services:
     tags:
       - name: frontend.contentobject
         identifier: 'HANDLEBARSTEMPLATE'
+
+  ####
+  # data processors
+  ####
 
   #Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
   #  tags:
@@ -67,6 +73,16 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsLinkList'
 
+  ####
+  # data maps
+  ####
+  # default implementation for interface
+  Cpsit\BravoHandlebarsContent\DataProcessing\Map\DefaultDataMap: ~
+  Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\DefaultDataMap'
+
+  ####
+  # field processors
+  ####
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
@@ -83,7 +99,12 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor:
     public: true
-  Cpsit\BravoHandlebarsContent\DataProcessing\Media\ImageProcessor:
-    public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration:
+    public: true
+
+
+  ####
+  # special processors
+  ####
+  Cpsit\BravoHandlebarsContent\DataProcessing\Media\ImageProcessor:
     public: true
