@@ -39,10 +39,10 @@ class AudioProcessor implements MediaProcessorInterface
     public function process(FileInterface $file, array $config = []): array
     {
         return [
-            'type' => self::MEDIA_TYPE,
-            'attributes' => $this->getAttributesValue($file, $config),
-            'src' => $file->getPublicUrl(),
-            'mimeType' => $file->getMimeType()
+            self::KEY_TYPE => self::MEDIA_TYPE,
+            self::KEY_ATTRIBUTES => $this->getAttributesValue($file, $config),
+            self::KEY_SRC => $file->getPublicUrl(),
+            self::KEY_MIME_TYPE => $file->getMimeType()
         ];
     }
 
@@ -55,8 +55,8 @@ class AudioProcessor implements MediaProcessorInterface
     {
         $attributes = [
             'autoplay' => empty($file->getProperty('autoplay')) || (bool)$file->getProperty('autoplay'),
-            'controls' => empty($config['audio']['controls']) || (bool)$config['audio']['controls'],
-            'loop' => !empty($config['audio']['loop']) && (bool)$config['audio']['bool']
+            'controls' => empty($config[self::MEDIA_TYPE]['controls']) || (bool)$config[self::MEDIA_TYPE]['controls'],
+            'loop' => !empty($config[self::MEDIA_TYPE]['loop']) && (bool)$config[self::MEDIA_TYPE]['bool']
         ];
 
 
