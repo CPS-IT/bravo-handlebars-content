@@ -43,6 +43,7 @@ class YouTubeProcessor implements MediaProcessorInterface
         'relatedVideos' => 0,
         'enablejsapi' => 0,
         'allowfullscreen' => true,
+        'labels' => [],
         'previewImage' => [
             'variants' => [
                 'original' => [
@@ -73,7 +74,9 @@ class YouTubeProcessor implements MediaProcessorInterface
 
     public function process(FileInterface $file, array $config = []): array
     {
-        $onlineMedia = [];
+        $onlineMedia = [
+            'type' => self::MEDIA_TYPE
+        ];
         $config = $this->getConfigOverrides($config);
         $config = $this->collectOptions($config, $file);
         $onlineMedia['publicUrl'] = $this->createYouTubeUrl($config, $file);
@@ -82,8 +85,23 @@ class YouTubeProcessor implements MediaProcessorInterface
             $onlineMedia['previewImage'] = $this->processPreviewImageVariants($previewImage, $config['previewImage']);
         }
         ArrayUtility::mergeRecursiveWithOverrule($onlineMedia, $this->getMetaDataFromFile($file));
+        $config['labels'] = $this->collectLabels($config);
         $onlineMedia['options'] = $config;
         return $onlineMedia;
+    }
+
+    protected function collectLabels(array $config = []): array
+    {
+        $labels = [];
+        if (empty($config['labels'])) {
+            return $labels;
+        }
+
+        foreach ($config['labels'] as $label => $ll) {
+            $labels[$label] = trim($this->cObj->getData($ll));
+        }
+
+        return $labels;
     }
 
     protected function processPreviewImageVariants(string $file, array $config = []): array

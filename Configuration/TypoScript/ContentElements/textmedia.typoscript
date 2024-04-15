@@ -2,16 +2,6 @@ tt_content.textmedia >
 tt_content.textmedia = HANDLEBARSTEMPLATE
 tt_content.textmedia {
   templateName = @ce-text-media
-  variables {
-    accessibilityVideoPlay = TEXT
-    accessibilityVideoPlay {
-      data = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
-    }
-    videoCookieDisclaimer = TEXT
-    videoCookieDisclaimer {
-      data = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:media_cookie_disclaimer
-    }
-  }
   dataProcessing {
     10 = ceTextMedia
     10 {
@@ -46,6 +36,12 @@ tt_content.textmedia {
               button {
                   name = play
               }
+
+              labels {
+                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
+                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:media_cookie_disclaimer
+              }
+
               previewImage {
                 width = 320
                 height = 180

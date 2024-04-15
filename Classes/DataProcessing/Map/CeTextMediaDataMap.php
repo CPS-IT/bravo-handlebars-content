@@ -31,39 +31,39 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_UID => 'id',
         TtContent::FIELD_IMAGE_ZOOM => 'lightbox',
         // note: 'assets.pictureData' must only be set for images and **not** for videos
-        TtContent::FIELD_ASSETS . '.media.0.variants.mobile.src' => 'pictureData.sourceTextMedia.sourceS',
-        TtContent::FIELD_ASSETS . '.media.0.variants.tablet.src' => 'pictureData.sourceTextMedia.sourceM',
-        TtContent::FIELD_ASSETS . '.media.0.variants.desktop.src' => 'pictureData.sourceTextMedia.sourceL',
-        TtContent::FIELD_ASSETS . '.media.0.variants.mobile.width' => 'pictureData.imgData.width',
-        TtContent::FIELD_ASSETS . '.media.0.variants.mobile.height' => 'pictureData.imgData.height',
-        TtContent::FIELD_ASSETS . '.media.0.alternative' => 'pictureData.imgData.alt',
-        TtContent::FIELD_ASSETS . '.media.0.caption' => 'caption',
-        TtContent::FIELD_ASSETS . '.media.0.copyrightData' => 'copyrightData',
-        TtContent::FIELD_ASSETS . '.media.0.copyrightData.copyright' => 'lightboxCopyright',
+        TtContent::FIELD_ASSETS . '.image.0.variants.mobile.src' => 'pictureData.sourceTextMedia.sourceS',
+        TtContent::FIELD_ASSETS . '.image.0.variants.tablet.src' => 'pictureData.sourceTextMedia.sourceM',
+        TtContent::FIELD_ASSETS . '.image.0.variants.desktop.src' => 'pictureData.sourceTextMedia.sourceL',
+        TtContent::FIELD_ASSETS . '.image.0.variants.mobile.width' => 'pictureData.imgData.width',
+        TtContent::FIELD_ASSETS . '.image.0.variants.mobile.height' => 'pictureData.imgData.height',
+        TtContent::FIELD_ASSETS . '.image.0.alternative' => 'pictureData.imgData.alt',
+        TtContent::FIELD_ASSETS . '.image.0.caption' => 'caption',
+        TtContent::FIELD_ASSETS . '.image.0.copyrightData' => 'copyrightData',
+        TtContent::FIELD_ASSETS . '.image.0.copyrightData.copyright' => 'lightboxCopyright',
         // reuse previously set value for duplicate entry
         'pictureData.sourceTextMedia.sourceS' => 'pictureData.imgData.src',
         // note: 'assets.onlineMedia' must only be set for videos and **not** for images
 
         // Youtube Video mapping - start
-        'accessibilityVideoPlay' => 'mediaData.accessibilityData.accessibility',
-        'videoCookieDisclaimer' => 'mediaData.textHTML',
-        TtContent::FIELD_ASSETS . '.media.0.description' => 'mediaData.mediaCaption',
-        TtContent::FIELD_ASSETS . '.media.0.copyrightData' => 'mediaData.copyrightData',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.labels.accessibility' => 'mediaData.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.labels.textHTML' => 'mediaData.textHTML',
+        TtContent::FIELD_ASSETS . '.youtube.0.description' => 'mediaData.mediaCaption',
+        TtContent::FIELD_ASSETS . '.youtube.0.copyrightData' => 'mediaData.copyrightData',
 
-        TtContent::FIELD_ASSETS . '.media.0.previewImage.mobile' => 'mediaData.pictureData.sourceTextMedia.sourceS',
-        TtContent::FIELD_ASSETS . '.media.0.previewImage.tablet' => 'mediaData.pictureData.sourceTextMedia.sourceM',
-        TtContent::FIELD_ASSETS . '.media.0.previewImage.desktop' => 'mediaData.pictureData.sourceTextMedia.sourceL',
+        TtContent::FIELD_ASSETS . '.youtube.0.previewImage.mobile' => 'mediaData.pictureData.sourceTextMedia.sourceS',
+        TtContent::FIELD_ASSETS . '.youtube.0.previewImage.tablet' => 'mediaData.pictureData.sourceTextMedia.sourceM',
+        TtContent::FIELD_ASSETS . '.youtube.0.previewImage.desktop' => 'mediaData.pictureData.sourceTextMedia.sourceL',
 
-        TtContent::FIELD_ASSETS . '.media.0.previewImage.original' => 'mediaData.pictureData.imgData.src',
-        TtContent::FIELD_ASSETS . '.media.0.options.previewImage.loading' => 'mediaData.pictureData.imgData.loading',
-        TtContent::FIELD_ASSETS . '.media.0.options.previewImage.height' => 'mediaData.pictureData.imgData.height',
-        TtContent::FIELD_ASSETS . '.media.0.options.previewImage.width' => 'mediaData.pictureData.imgData.width',
+        TtContent::FIELD_ASSETS . '.youtube.0.previewImage.original' => 'mediaData.pictureData.imgData.src',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.loading' => 'mediaData.pictureData.imgData.loading',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.height' => 'mediaData.pictureData.imgData.height',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.width' => 'mediaData.pictureData.imgData.width',
 
-        TtContent::FIELD_ASSETS . '.media.0.publicUrl' => 'mediaData.iframeData.dataSrc',
-        TtContent::FIELD_ASSETS . '.media.0.options.allow' => 'mediaData.iframeData.allow',
-        TtContent::FIELD_ASSETS . '.media.0.title' => 'mediaData.iframeData.title',
+        TtContent::FIELD_ASSETS . '.youtube.0.publicUrl' => 'mediaData.iframeData.dataSrc',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.allow' => 'mediaData.iframeData.allow',
+        TtContent::FIELD_ASSETS . '.youtube.0.title' => 'mediaData.iframeData.title',
 
-        TtContent::FIELD_ASSETS . '.media.0.options.button' => 'mediaData.@icon-font--play'
+        TtContent::FIELD_ASSETS . '.youtube.0.options.button' => 'mediaData.@icon-font--play'
 
         // Youtube Video mapping - end
     ];

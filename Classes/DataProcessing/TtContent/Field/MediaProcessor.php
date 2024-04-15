@@ -55,8 +55,12 @@ class MediaProcessor implements FieldProcessorInterface
             $mediaData[] = $this->mediaDataService->process($file, $config);
         }
 
-        $variables[$fieldName]['media'] = $mediaData;
-
+        foreach ($mediaData as $media) {
+            if (empty($media['type'])) {
+               continue;
+            }
+            $variables[$fieldName][$media['type']][] = $media;
+        }
         return $variables;
     }
 }
