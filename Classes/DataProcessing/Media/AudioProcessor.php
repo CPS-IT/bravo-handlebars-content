@@ -37,15 +37,35 @@ class AudioProcessor implements MediaProcessorInterface
 
     public function process(FileInterface $file, array $config = []): array
     {
-        // TODO: Implement process() method.
         return [
-            'attributes' => [
-                'autoplay' => empty($file->getProperty('autoplay')) || (bool) $file->getProperty('autoplay'),
-                'controls' => empty($config['controls']) || (bool)$config['controls'],
-                'loop' => !empty($config['loop']) && (bool)$config['bool']
-            ],
+            'attributes' => $this->getAttributesValue($file, $config),
             'src' => $file->getPublicUrl(),
             'type' => $file->getMimeType()
         ];
+    }
+
+    /**
+     * @param \TYPO3\CMS\Core\Resource\FileInterface $file
+     * @param array $config
+     * @return string
+     */
+    protected function getAttributesValue(FileInterface $file, array $config): string
+    {
+        $attributes = [
+            'autoplay' => empty($file->getProperty('autoplay')) || (bool)$file->getProperty('autoplay'),
+            'controls' => empty($config['audio']['controls']) || (bool)$config['audio']['controls'],
+            'loop' => !empty($config['audio']['loop']) && (bool)$config['audio']['bool']
+        ];
+
+
+        $keys = [];
+        foreach ($attributes as $key => $value) {
+            if (!$value) {
+                continue;
+            }
+            $keys[] = $key;
+        }
+
+        return implode(' ', $keys);
     }
 }
