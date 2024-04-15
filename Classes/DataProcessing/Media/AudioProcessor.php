@@ -2,7 +2,8 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
+use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Resource\AbstractFile;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 /***************************************************************
@@ -23,16 +24,28 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  ***************************************************************/
 class AudioProcessor implements MediaProcessorInterface
 {
+    public const ALLOWED_MIME_TYPES = [
+        'audio/mpeg', 'audio/wav', 'audio/x-wav', 'audio/ogg'
+    ];
 
     public function canProcess(FileInterface $file): bool
     {
-        // TODO: Implement canProcess() method.
-        return false;
+        return (
+            in_array($file->getMimeType(), self::ALLOWED_MIME_TYPES, true)
+        );
     }
 
     public function process(FileInterface $file, array $config = []): array
     {
         // TODO: Implement process() method.
-        return [];
+        return [
+            'attributes' => [
+                'autoplay' => empty($file->getProperty('autoplay')) || (bool) $file->getProperty('autoplay'),
+                'controls' => empty($config['controls']) || (bool)$config['controls'],
+                'loop' => !empty($config['loop']) && (bool)$config['bool']
+            ],
+            'src' => $file->getPublicUrl(),
+            'type' => $file->getMimeType()
+        ];
     }
 }
