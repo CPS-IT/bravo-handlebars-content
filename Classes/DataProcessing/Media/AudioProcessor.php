@@ -24,6 +24,7 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  ***************************************************************/
 class AudioProcessor implements MediaProcessorInterface
 {
+    public const MEDIA_TYPE = 'audio';
     public const ALLOWED_MIME_TYPES = [
         'audio/mpeg', 'audio/wav', 'audio/x-wav', 'audio/ogg'
     ];
@@ -38,9 +39,10 @@ class AudioProcessor implements MediaProcessorInterface
     public function process(FileInterface $file, array $config = []): array
     {
         return [
+            'type' => self::MEDIA_TYPE,
             'attributes' => $this->getAttributesValue($file, $config),
             'src' => $file->getPublicUrl(),
-            'type' => $file->getMimeType()
+            'mimeType' => $file->getMimeType()
         ];
     }
 
