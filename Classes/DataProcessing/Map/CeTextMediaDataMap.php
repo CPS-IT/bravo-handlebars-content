@@ -43,20 +43,29 @@ class CeTextMediaDataMap implements DataMapInterface
         // reuse previously set value for duplicate entry
         'pictureData.sourceTextMedia.sourceS' => 'pictureData.imgData.src',
         // note: 'assets.onlineMedia' must only be set for videos and **not** for images
-        TtContent::FIELD_ASSETS . '.onlineMedia.publicUrl' => 'mediaData.iframeData.dataSrc',
-        TtContent::FIELD_ASSETS . '.onlineMedia.previewImage' => 'mediaData.iframeData.previewImage',
-        TtContent::FIELD_ASSETS . '.onlineMedia.onlineMediaId' => 'mediaData.iframeData.mediaId',
-        TtContent::FIELD_ASSETS . '.onlineMedia.title' => 'mediaData.iframeData.title',
-        TtContent::FIELD_ASSETS . '.onlineMedia.allow' => 'mediaData.iframeData.allow',
-        TtContent::FIELD_ASSETS . '.onlineMedia.accessibilityData' => 'mediaData.accessibilityData',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceS' => 'mediaData.pictureData.sourceTextMedia.sourceS',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceM' => 'mediaData.pictureData.sourceTextMedia.sourceM',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceL' => 'mediaData.pictureData.sourceTextMedia.sourceL',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.sourceXl' => 'mediaData.pictureData.sourceTextMedia.sourceXl',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@picture.imgData' => 'mediaData.pictureData.imgData',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@figure.caption' => 'mediaData.caption',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@figure.copyrightData' => 'mediaData.copyrightData',
-        TtContent::FIELD_ASSETS . '.onlineMedia.pictureData.@figure.copyrightData.copyright' => 'mediaData.lightboxCopyright',
+
+        // Youtube Video mapping - start
+        'accessibilityVideoPlay' => 'mediaData.accessibilityData.accessibility',
+        'videoCookieDisclaimer' => 'mediaData.textHTML',
+        TtContent::FIELD_ASSETS . '.media.0.description' => 'mediaData.mediaCaption',
+        TtContent::FIELD_ASSETS . '.media.0.copyrightData' => 'mediaData.copyrightData',
+
+        TtContent::FIELD_ASSETS . '.media.0.previewImage.mobile' => 'mediaData.pictureData.sourceTextMedia.sourceS',
+        TtContent::FIELD_ASSETS . '.media.0.previewImage.tablet' => 'mediaData.pictureData.sourceTextMedia.sourceM',
+        TtContent::FIELD_ASSETS . '.media.0.previewImage.desktop' => 'mediaData.pictureData.sourceTextMedia.sourceL',
+
+        TtContent::FIELD_ASSETS . '.media.0.previewImage.original' => 'mediaData.pictureData.imgData.src',
+        TtContent::FIELD_ASSETS . '.media.0.options.previewImage.loading' => 'mediaData.pictureData.imgData.loading',
+        TtContent::FIELD_ASSETS . '.media.0.options.previewImage.height' => 'mediaData.pictureData.imgData.height',
+        TtContent::FIELD_ASSETS . '.media.0.options.previewImage.width' => 'mediaData.pictureData.imgData.width',
+
+        TtContent::FIELD_ASSETS . '.media.0.publicUrl' => 'mediaData.iframeData.dataSrc',
+        TtContent::FIELD_ASSETS . '.media.0.options.allow' => 'mediaData.iframeData.allow',
+        TtContent::FIELD_ASSETS . '.media.0.title' => 'mediaData.iframeData.title',
+
+        TtContent::FIELD_ASSETS . '.media.0.options.button' => 'mediaData.@icon-font--play'
+
+        // Youtube Video mapping - end
     ];
 
 }

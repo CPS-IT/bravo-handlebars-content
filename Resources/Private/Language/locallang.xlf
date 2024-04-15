@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext"
+		  original="EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf">
+		<body>
+			<trans-unit id="accessibility_video_play">
+				<source>Play video</source>
+			</trans-unit>
+			<trans-unit id="media_cookie_disclaimer">
+				<source>
+					<![CDATA[
+					<p>Diese Inhalte können nicht angezeigt werden, da die Marketing-Cookies abgelehnt wurden. Klicken Sie <a href=\"/cookiebot\">hier</a>, um die Cookies zu akzeptieren und den Inhalt anzuzeigen!</p>
+					]]>
+				</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

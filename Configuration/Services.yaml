@@ -22,12 +22,6 @@ services:
   ####
   # data processors
   ####
-
-  #Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
-  #  tags:
-  #    - name: 'data.processor'
-  #      identifier: 'headlines'
-
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
     tags:
       - name: 'data.processor'
@@ -68,6 +62,7 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsMapFields'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\LinkListProcessor:
     tags:
       - name: 'data.processor'
@@ -107,4 +102,7 @@ services:
   # special processors
   ####
   Cpsit\BravoHandlebarsContent\DataProcessing\Media\ImageProcessor:
+    public: true
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\Media\YouTubeProcessor:
     public: true

@@ -2,9 +2,18 @@ tt_content.textmedia >
 tt_content.textmedia = HANDLEBARSTEMPLATE
 tt_content.textmedia {
   templateName = @ce-text-media
+  variables {
+    accessibilityVideoPlay = TEXT
+    accessibilityVideoPlay {
+      data = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
+    }
+    videoCookieDisclaimer = TEXT
+    videoCookieDisclaimer {
+      data = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:media_cookie_disclaimer
+    }
+  }
   dataProcessing {
     10 = ceTextMedia
-
     10 {
       settings {
         fieldConfig {
@@ -23,7 +32,37 @@ tt_content.textmedia {
               }
             }
             youtube {
-
+              width = 0
+              height = 0
+              autoplay = 1
+              controls = 1
+              allow = autoplay; fullscreen
+              no-cookie = 1
+              modestbranding = 1
+              loop = 1
+              relatedVideos = 0
+              enablejsapi = 0
+              allowfullscreen = 1
+              button {
+                  name = play
+              }
+              previewImage {
+                width = 320
+                height = 180
+                loading = lazy
+                // imgResource config
+                variants {
+                  desktop {
+                    file.maxW = 1280
+                  }
+                  tablet {
+                    file.maxW = 640
+                  }
+                  mobile {
+                    file.maxW = 320
+                  }
+                }
+              }
             }
           }
         }
