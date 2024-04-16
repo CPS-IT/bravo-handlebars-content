@@ -29,15 +29,11 @@ class ImageProcessor implements MediaProcessorInterface
 {
     public const KEY_ALT = 'alt';
     public const KEY_ALTERNATIVE = 'alternative';
-    public const KEY_CAPTION = 'caption';
-    public const KEY_COPYRIGHT = 'copyright';
     public const KEY_COPYRIGHT_DATA = 'copyrightData';
     public const KEY_CROP_VARIANTS = 'cropVariants';
     public const KEY_DESCRIPTION = 'description';
     public const KEY_HEIGHT = 'height';
-    public const KEY_SRC = 'src';
     public const KEY_TITLE = 'title';
-    public const KEY_TYPE = 'type';
     public const KEY_VARIANTS = 'variants';
     public const KEY_WIDTH = 'width';
 

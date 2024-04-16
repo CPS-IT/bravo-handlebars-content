@@ -79,6 +79,11 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.vimeo.0.title' => 'mediaData.iframeData.title',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.button' => 'mediaData.@icon-font--play',
         // Vimeo Video mapping - end
+
+        // audio mapping
+        TtContent::FIELD_ASSETS . '.audio.0.src' => 'audioData.src',
+        TtContent::FIELD_ASSETS . '.audio.0.attributes' => 'audioData.attributes',
+        TtContent::FIELD_ASSETS . '.audio.0.mimeType' => 'audioData.type',
     ];
 
 }

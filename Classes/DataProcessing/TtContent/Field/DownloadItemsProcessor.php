@@ -63,8 +63,9 @@ class DownloadItemsProcessor implements FieldProcessorInterface
         $downloadItems = [];
         foreach ($fileReferences as $fileReference) {
             $downloadItems[] = [
-                'downloadName' => $fileReference->getName(),
-                'downloadInfos' => $this->getDownloadInfos($fileReference),
+                'iconDownload' => true,
+                'iconPosition' => 'left',
+                'label' => $fileReference->getNameWithoutExtension() . $this->getDownloadInfos($fileReference),
                 'url' => $fileReference->getPublicUrl()
             ];
         }
@@ -82,7 +83,7 @@ class DownloadItemsProcessor implements FieldProcessorInterface
         // note: we gather some example information
         // todo: add localization for keys, readable file size, check sys_language...
         $info = [
-            'language' => $fileReference->getProperty('language'),
+            'language:' => $fileReference->getProperty('language'),
             'extension' => $fileReference->getExtension(),
             'fileSize' => $fileReference->getSize(),
         ];

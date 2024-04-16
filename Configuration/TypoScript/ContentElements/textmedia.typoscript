@@ -98,6 +98,10 @@ tt_content.textmedia {
                 }
               }
             }
+            audio {
+              loop = false
+              controls = false
+            }
           }
         }
       }
