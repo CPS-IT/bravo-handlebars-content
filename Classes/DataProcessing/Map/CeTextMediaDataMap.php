@@ -49,23 +49,36 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.youtube.0.options.labels.textHTML' => 'mediaData.textHTML',
         TtContent::FIELD_ASSETS . '.youtube.0.description' => 'mediaData.mediaCaption',
         TtContent::FIELD_ASSETS . '.youtube.0.copyrightData' => 'mediaData.copyrightData',
-
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.mobile' => 'mediaData.pictureData.sourceTextMedia.sourceS',
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.tablet' => 'mediaData.pictureData.sourceTextMedia.sourceM',
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.desktop' => 'mediaData.pictureData.sourceTextMedia.sourceL',
-
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.original' => 'mediaData.pictureData.imgData.src',
         TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.loading' => 'mediaData.pictureData.imgData.loading',
         TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.height' => 'mediaData.pictureData.imgData.height',
         TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.width' => 'mediaData.pictureData.imgData.width',
-
         TtContent::FIELD_ASSETS . '.youtube.0.publicUrl' => 'mediaData.iframeData.dataSrc',
         TtContent::FIELD_ASSETS . '.youtube.0.options.allow' => 'mediaData.iframeData.allow',
         TtContent::FIELD_ASSETS . '.youtube.0.title' => 'mediaData.iframeData.title',
-
-        TtContent::FIELD_ASSETS . '.youtube.0.options.button' => 'mediaData.@icon-font--play'
-
+        TtContent::FIELD_ASSETS . '.youtube.0.options.button' => 'mediaData.@icon-font--play',
         // Youtube Video mapping - end
+
+        // Vimeo Video mapping - start
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.accessibility' => 'mediaData.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.textHTML' => 'mediaData.textHTML',
+        TtContent::FIELD_ASSETS . '.vimeo.0.description' => 'mediaData.mediaCaption',
+        TtContent::FIELD_ASSETS . '.vimeo.0.copyrightData' => 'mediaData.copyrightData',
+        TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.mobile' => 'mediaData.pictureData.sourceTextMedia.sourceS',
+        TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.tablet' => 'mediaData.pictureData.sourceTextMedia.sourceM',
+        TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.desktop' => 'mediaData.pictureData.sourceTextMedia.sourceL',
+        TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.original' => 'mediaData.pictureData.imgData.src',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.previewImage.loading' => 'mediaData.pictureData.imgData.loading',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.previewImage.height' => 'mediaData.pictureData.imgData.height',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.previewImage.width' => 'mediaData.pictureData.imgData.width',
+        TtContent::FIELD_ASSETS . '.vimeo.0.publicUrl' => 'mediaData.iframeData.dataSrc',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.allow' => 'mediaData.iframeData.allow',
+        TtContent::FIELD_ASSETS . '.vimeo.0.title' => 'mediaData.iframeData.title',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.button' => 'mediaData.@icon-font--play',
+        // Vimeo Video mapping - end
     ];
 
 }

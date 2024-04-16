@@ -32,7 +32,45 @@ tt_content.textmedia {
               loop = 1
               relatedVideos = 0
               enablejsapi = 0
-              allowfullscreen = 1
+              button {
+                  name = play
+              }
+
+              labels {
+                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
+                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:media_cookie_disclaimer
+              }
+
+              previewImage {
+                width = 320
+                height = 180
+                loading = lazy
+                // imgResource config
+                variants {
+                  desktop {
+                    file.maxW = 1280
+                  }
+                  tablet {
+                    file.maxW = 640
+                  }
+                  mobile {
+                    file.maxW = 320
+                  }
+                }
+              }
+            }
+            vimeo {
+              width = 0
+              height = 0
+              autoplay = 1
+              allow = autoplay; fullscreen
+
+              controls = 1
+              no-cookie = 1
+              modestbranding = 1
+              loop = 1
+              relatedVideos = 0
+              enablejsapi = 0
               button {
                   name = play
               }

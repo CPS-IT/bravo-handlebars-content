@@ -22,6 +22,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class YouTubeProcessor implements MediaProcessorInterface
 {
+    use MediaProcessorTrait;
+
     public const MEDIA_TYPE = 'youtube';
     public const META_DATA_FIELDS = [
         'alternative' => 'alt',
@@ -42,7 +44,6 @@ class YouTubeProcessor implements MediaProcessorInterface
         'loop' => 1,
         'relatedVideos' => 0,
         'enablejsapi' => 0,
-        'allowfullscreen' => true,
         'labels' => [],
         'previewImage' => [
             'variants' => [
@@ -84,10 +85,19 @@ class YouTubeProcessor implements MediaProcessorInterface
         if (!empty($previewImage)) {
             $onlineMedia['previewImage'] = $this->processPreviewImageVariants($previewImage, $config['previewImage']);
         }
-        ArrayUtility::mergeRecursiveWithOverrule($onlineMedia, $this->getMetaDataFromFile($file));
+        ArrayUtility::mergeRecursiveWithOverrule($onlineMedia, $this->collectMetaDataFromFile($file));
         $config['labels'] = $this->collectLabels($config);
         $onlineMedia['options'] = $config;
         return $onlineMedia;
+    }
+
+    protected function getConfigOverrides(array $config): array
+    {
+        $configOverrides = self::DEFAULT_CONFIG;
+        if (!empty($config[self::MEDIA_TYPE])) {
+            ArrayUtility::mergeRecursiveWithOverrule($configOverrides, $config[self::MEDIA_TYPE]);
+        }
+        return $configOverrides;
     }
 
     protected function collectLabels(array $config = []): array
@@ -115,42 +125,15 @@ class YouTubeProcessor implements MediaProcessorInterface
         return $files;
     }
 
-    protected function getConfigOverrides(array $config): array
-    {
-        $configOverrides = self::DEFAULT_CONFIG;
-        if (!empty($config[self::MEDIA_TYPE])) {
-            ArrayUtility::mergeRecursiveWithOverrule($configOverrides, $config[self::MEDIA_TYPE]);
-        }
-        return $configOverrides;
-    }
 
-    protected function getOriginalFile(FileInterface $file): File|FileInterface
-    {
-        if ($file instanceof FileReference) {
-            return $file->getOriginalFile();
-        }
-        return $file;
-    }
 
-    protected function getMetaDataFromFile(FileInterface $file): array
+    protected function collectMetaDataFromFile(FileInterface $file): array
     {
         $metaData = [];
         foreach (self::META_DATA_FIELDS as $property => $key) {
             $metaData[$key] = $file->hasProperty($property) ? $file->getProperty($property) : '';
         }
         return $metaData;
-    }
-
-    protected function getPreviewImageFromFile(FileInterface $file): string
-    {
-        $orgFile = $this->getOriginalFile($file);
-        return $this->getOnlineMediaHelper($file)->getPreviewImage($orgFile);
-    }
-
-    protected function getVideoIdFromFile(FileInterface $file): string
-    {
-        $orgFile = $this->getOriginalFile($file);
-        return $this->getOnlineMediaHelper($file)->getOnlineMediaId($orgFile);
     }
 
     protected function createYouTubeUrl(array $options, FileInterface $file): string
@@ -205,21 +188,5 @@ class YouTubeProcessor implements MediaProcessorInterface
             }
         }
         return $options;
-    }
-
-    protected function getOnlineMediaHelper(FileInterface $file): bool|OnlineMediaHelperInterface
-    {
-        if ($this->onlineMediaHelper === null) {
-            $orgFile = $file;
-            if ($orgFile instanceof FileReference) {
-                $orgFile = $orgFile->getOriginalFile();
-            }
-            if ($orgFile instanceof File) {
-                $this->onlineMediaHelper = GeneralUtility::makeInstance(OnlineMediaHelperRegistry::class)->getOnlineMediaHelper($orgFile);
-            } else {
-                $this->onlineMediaHelper = false;
-            }
-        }
-        return $this->onlineMediaHelper;
     }
 }
