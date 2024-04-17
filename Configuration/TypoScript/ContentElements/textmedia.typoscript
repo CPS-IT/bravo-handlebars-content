@@ -32,9 +32,7 @@ tt_content.textmedia {
             youtube {
               width = 0
               height = 0
-              autoplay = 1
               controls = 1
-              allow = autoplay; fullscreen
               no-cookie = 1
               modestbranding = 1
               loop = 1
@@ -70,9 +68,6 @@ tt_content.textmedia {
             vimeo {
               width = 0
               height = 0
-              autoplay = 1
-              allow = autoplay; fullscreen
-
               controls = 1
               no-cookie = 1
               modestbranding = 1

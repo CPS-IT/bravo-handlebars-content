@@ -29,7 +29,6 @@ class YouTubeProcessor implements MediaProcessorInterface
     public const DEFAULT_CONFIG = [
         'width' => 0,
         'height' => 0,
-        'autoplay' => 1,
         'controls' => 1,
         'no-cookie' => 1,
         'modestbranding' => 1,

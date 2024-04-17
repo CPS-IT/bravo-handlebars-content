@@ -54,11 +54,10 @@ class AudioProcessor implements MediaProcessorInterface
     protected function getAttributesValue(FileInterface $file, array $config): string
     {
         $attributes = [
-            'autoplay' => empty($file->getProperty('autoplay')) || (bool)$file->getProperty('autoplay'),
+            'autoplay' => $file->hasProperty('autoplay') ? (bool)$file->getProperty('autoplay') : false,
             'controls' => empty($config[self::MEDIA_TYPE]['controls']) || (bool)$config[self::MEDIA_TYPE]['controls'],
             'loop' => !empty($config[self::MEDIA_TYPE]['loop']) && (bool)$config[self::MEDIA_TYPE]['bool']
         ];
-
 
         $keys = [];
         foreach ($attributes as $key => $value) {

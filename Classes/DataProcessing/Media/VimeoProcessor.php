@@ -25,7 +25,6 @@ class VimeoProcessor implements MediaProcessorInterface
     public const DEFAULT_CONFIG = [
         'width' => 0,
         'height' => 0,
-        'autoplay' => 1,
         'loop' => 1,
         'api' => 0,
         'no-cookie' => 1,
