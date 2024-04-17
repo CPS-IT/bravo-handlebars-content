@@ -9,6 +9,14 @@ tt_content.textmedia {
         fieldConfig {
           assets {
             image {
+              button {
+                name = loupe
+              }
+              labels {
+                accessibilityLightbox = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_lightbox
+                accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_blank
+                accessibilityLinkSelf = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_self
+              }
               cropVariants {
                 desktop {
                   maxWidth = 1280

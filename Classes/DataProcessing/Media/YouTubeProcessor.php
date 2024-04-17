@@ -22,17 +22,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class YouTubeProcessor implements MediaProcessorInterface
 {
-    use MediaProcessorTrait;
+    use OnlineMediaProcessorTrait, MetaDataCollectorTrait;
 
     public const MEDIA_TYPE = 'youtube';
-    public const META_DATA_FIELDS = [
-        'alternative' => 'alt',
-        'title' => 'title',
-        'description' => 'description',
-        'caption' => 'caption',
-        'copyright' => 'copyright',
-        'language' => 'language',
-    ];
 
     public const DEFAULT_CONFIG = [
         'width' => 0,
@@ -123,17 +115,6 @@ class YouTubeProcessor implements MediaProcessorInterface
             $files[$variant] = $this->cObj->cObjGetSingle('IMG_RESOURCE', $fileConfig);
         }
         return $files;
-    }
-
-
-
-    protected function collectMetaDataFromFile(FileInterface $file): array
-    {
-        $metaData = [];
-        foreach (self::META_DATA_FIELDS as $property => $key) {
-            $metaData[$key] = $file->hasProperty($property) ? $file->getProperty($property) : '';
-        }
-        return $metaData;
     }
 
     protected function createYouTubeUrl(array $options, FileInterface $file): string

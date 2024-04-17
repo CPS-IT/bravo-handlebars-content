@@ -3,6 +3,15 @@
 	<file source-language="en" datatype="plaintext"
 		  original="EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf">
 		<body>
+			<trans-unit id="accessibility_linked_image_self">
+				<source>opens the link in same window</source>
+			</trans-unit>
+			<trans-unit id="accessibility_linked_image_blank">
+				<source>opens the link in a new window</source>
+			</trans-unit>
+			<trans-unit id="accessibility_lightbox">
+				<source>opens image in an enlarged view</source>
+			</trans-unit>
 			<trans-unit id="accessibility_video_play">
 				<source>Play video</source>
 			</trans-unit>

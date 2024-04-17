@@ -36,13 +36,18 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.image.0.variants.desktop.src' => 'pictureData.sourceTextMedia.sourceL',
         TtContent::FIELD_ASSETS . '.image.0.variants.mobile.width' => 'pictureData.imgData.width',
         TtContent::FIELD_ASSETS . '.image.0.variants.mobile.height' => 'pictureData.imgData.height',
+        TtContent::FIELD_ASSETS . '.image.0.labels.accessibilityLinkedImage' => 'linkedImage.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.image.0.linkedImage.target' => 'linkedImage.target',
+        TtContent::FIELD_ASSETS . '.image.0.linkedImage.href' => 'linkedImage.url',
+        TtContent::FIELD_ASSETS . '.image.0.linkedImage.accessibility' => 'linkedImage.accessibilityData.accessibility',
         TtContent::FIELD_ASSETS . '.image.0.alternative' => 'pictureData.imgData.alt',
-        TtContent::FIELD_ASSETS . '.image.0.caption' => 'caption',
-        TtContent::FIELD_ASSETS . '.image.0.copyrightData' => 'copyrightData',
-        TtContent::FIELD_ASSETS . '.image.0.copyrightData.copyright' => 'lightboxCopyright',
-        // reuse previously set value for duplicate entry
-        'pictureData.sourceTextMedia.sourceS' => 'pictureData.imgData.src',
-        // note: 'assets.onlineMedia' must only be set for videos and **not** for images
+        TtContent::FIELD_ASSETS . '.image.0.description' => 'caption',
+        TtContent::FIELD_ASSETS . '.image.0.copyright' => 'copyrightData.copyright',
+        TtContent::FIELD_ASSETS . '.image.0.lightbox' => 'lightbox',
+        TtContent::FIELD_ASSETS . '.image.0.lightboxCopyright' => 'lightboxCopyright',
+        TtContent::FIELD_ASSETS . '.image.0.lightboxImg' => 'lightboxImg',
+        TtContent::FIELD_ASSETS . '.image.0.options.button' => '@icon-font--loupe',
+
 
         // Youtube Video mapping - start
         TtContent::FIELD_ASSETS . '.youtube.0.options.labels.accessibility' => 'mediaData.accessibilityData.accessibility',

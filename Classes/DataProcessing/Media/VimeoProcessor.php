@@ -19,18 +19,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class VimeoProcessor implements MediaProcessorInterface
 {
-    use MediaProcessorTrait;
+    use OnlineMediaProcessorTrait, MetaDataCollectorTrait;
 
     public const MEDIA_TYPE = 'vimeo';
-    public const META_DATA_FIELDS = [
-        'alternative' => 'alt',
-        'title' => 'title',
-        'description' => 'description',
-        'caption' => 'caption',
-        'copyright' => 'copyright',
-        'language' => 'language',
-    ];
-
     public const DEFAULT_CONFIG = [
         'width' => 0,
         'height' => 0,
@@ -76,7 +67,7 @@ class VimeoProcessor implements MediaProcessorInterface
         if (!empty($previewImage)) {
             $onlineMedia['previewImage'] = $this->processPreviewImageVariants($previewImage, $config['previewImage']);
         }
-
+        ArrayUtility::mergeRecursiveWithOverrule($onlineMedia, $this->collectMetaDataFromFile($file));
         $config['labels'] = $this->collectLabels($config);
         $onlineMedia['options'] = $config;
         return $onlineMedia;

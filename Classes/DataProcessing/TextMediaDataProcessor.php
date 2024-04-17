@@ -14,8 +14,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProces
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageBelowTextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageOrientProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LightboxImageProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageZoomProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
@@ -35,12 +34,7 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
     use FieldMappingTrait;
 
     public const DEFAULT_FIELDS = [
-        // note: MediaProcessor uses MediaVariablesResolver. This class processes only the first media
-        // we assume that the content element will not be used with multiple image/media!
         self::FIELD_ASSETS => MediaProcessor::class,
-        'linkedImage' => LinkedImageProcessor::class,
-        // todo: handle video files (field `media`)
-        //'mediaData' => MediaDataProcessor::class,
         self::FIELD_BODYTEXT => BodytextProcessor::class,
         self::FIELD_HEADER => PassThrough::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
@@ -52,14 +46,13 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         self::FIELD_IMAGE_HEIGHT => PassThrough::class, //todo
         self::FIELD_IMAGE_ORIENT => ImageOrientProcessor::class,
         self::FIELD_IMAGE_WIDTH => PassThrough::class, //todo
-        self::FIELD_IMAGE_ZOOM => PassThrough::class, //todo
+        self::FIELD_IMAGE_ZOOM => ImageZoomProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
         'modifier' => ModifierProcessor::class,
         'imageBelowText' => ImageBelowTextProcessor::class,
         'contentText' => ContentTextProcessor::class,
         'contentMedia' => ContentMediaProcessor::class,
-        'lightboxImg' => LightboxImageProcessor::class,
     ];
 
 

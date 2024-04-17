@@ -3,11 +3,16 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
+use Cpsit\BravoHandlebarsContent\Service\LinkService;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\AbstractFile;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
 
 /***************************************************************
  *  Copyright notice
@@ -27,15 +32,15 @@ use TYPO3\CMS\Extbase\Service\ImageService;
  ***************************************************************/
 class ImageProcessor implements MediaProcessorInterface
 {
-    public const KEY_ALT = 'alt';
-    public const KEY_ALTERNATIVE = 'alternative';
-    public const KEY_COPYRIGHT_DATA = 'copyrightData';
+    use MetaDataCollectorTrait;
+
     public const KEY_CROP_VARIANTS = 'cropVariants';
-    public const KEY_DESCRIPTION = 'description';
     public const KEY_HEIGHT = 'height';
-    public const KEY_TITLE = 'title';
-    public const KEY_VARIANTS = 'variants';
     public const KEY_WIDTH = 'width';
+    public const KEY_VARIANTS = 'variants';
+    public const KEY_LINKED_IMAGE = 'linkedImage';
+    public const KEY_ORIGINAL = 'original';
+    public const KEY_OPTIONS = 'options';
 
     public const MEDIA_TYPE = 'image';
 
@@ -45,11 +50,11 @@ class ImageProcessor implements MediaProcessorInterface
         ]
     ];
 
-    public function __construct(protected ImageService $imageService)
-    {
-
+    public function __construct(
+        protected ContentObjectRenderer $cObj,
+        protected ImageService $imageService
+    ) {
     }
-
 
     public function canProcess(FileInterface $file): bool
     {
@@ -71,19 +76,80 @@ class ImageProcessor implements MediaProcessorInterface
             $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
         }
 
+        $labels = $this->collectLabels($config[self::MEDIA_TYPE]);
+        $linkedImage = $this->collectFileReferenceLink($file, $labels);
+
         $imageData = [
             self::KEY_TYPE => self::MEDIA_TYPE,
-            self::KEY_ALTERNATIVE => $this->getAlternative($file),
-            self::KEY_CAPTION => $this->getCaption($file),
-            self::KEY_COPYRIGHT_DATA => $this->getCopyRightData($file),
+            self::KEY_ORIGINAL => $file->getPublicUrl(),
+            self::KEY_OPTIONS => $config[self::MEDIA_TYPE],
             self::KEY_VARIANTS => []
         ];
+
+        if(!empty($linkedImage)) {
+            $imageData[self::KEY_LINKED_IMAGE] = $linkedImage;
+        }
+
+        // collect file meta data
+        ArrayUtility::mergeRecursiveWithOverrule($imageData, $this->collectMetaDataFromFile($file));
+
+        $this->collectFileReferenceLink($file);
 
         foreach ($cropVariants as $variant => $variantConfig) {
             $imageData[self::KEY_VARIANTS][$variant] = $this->processCropVariant($variant, $variantConfig, $file);
         }
-
         return $imageData;
+    }
+
+
+    protected function collectFileReferenceLink(FileInterface $file, array $labels = []): array
+    {
+        $link = $this->createLink($file);
+        if (!empty($link)) {
+            $accessibility = $labels['accessibilityLinkSelf'];
+
+            if(!empty($link['target']) && $link['target'] == '_blank') {
+                $accessibility = $labels['accessibilityLinkBlank'];
+            }
+
+            if(!empty($link['title'])) {
+                $accessibility = $link['title'];
+            }
+
+            $link['accessibility'] = $accessibility;
+        }
+        return $link;
+    }
+
+    protected function createLink(FileInterface $file): array
+    {
+        try {
+            $link = $file->hasProperty('link') ? $file->getProperty('link') : '';
+
+            $link = $this->cObj->createLink('', [
+                'parameter' => $link
+            ]);
+
+            $link = $link->toArray();
+        } catch (\Exception) {
+            $link = [];
+        }
+
+        return $link;
+    }
+
+    protected function collectLabels(array $config = []): array
+    {
+        $labels = [];
+        if (empty($config['labels'])) {
+            return $labels;
+        }
+
+        foreach ($config['labels'] as $label => $ll) {
+            $labels[$label] = trim($this->cObj->getData($ll));
+        }
+
+        return $labels;
     }
 
     /**
@@ -97,67 +163,12 @@ class ImageProcessor implements MediaProcessorInterface
         $cropString = $file instanceof FileReference ? $file->getProperty('crop') : '';
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
         $cropArea = $cropVariantCollection->getCropArea($cropVariant);
-
-
         $config['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file);
-
         $image = $this->imageService->applyProcessingInstructions($file, $config);
-
         return [
             self::KEY_SRC => $this->imageService->getImageUri($image),
             self::KEY_WIDTH => $image->getProperty(self::KEY_WIDTH),
             self::KEY_HEIGHT => $image->getProperty(self::KEY_HEIGHT)
         ];
-    }
-
-    protected function getAlternative(FileInterface $file): string
-    {
-        $alternative = '';
-        if ($file->hasProperty(self::KEY_ALTERNATIVE)) {
-            $alternative = $file->getProperty(self::KEY_ALTERNATIVE);
-        }
-        if (empty($alternative) && $file->hasProperty(self::KEY_TITLE)) {
-            $alternative = $file->getProperty(self::KEY_TITLE);
-        }
-        if (empty($alternative)) {
-            $alternative = $file->getNameWithoutExtension();
-        }
-
-        return $alternative;
-    }
-
-    protected function getCaption(FileInterface $file): string
-    {
-        $caption = '';
-        if ($file->hasProperty(self::KEY_DESCRIPTION)) {
-            $caption = $file->getProperty(self::KEY_DESCRIPTION);
-        }
-
-        if (empty($caption) && $file->hasProperty(self::KEY_CAPTION)) {
-            $caption = $file->getProperty(self::KEY_CAPTION);
-        }
-
-        return (string) $caption;
-    }
-
-    protected function getCopyRightData(FileInterface $file): array
-    {
-        $data = [];
-        $copyright = trim((string)$file->getProperty('copyright'));
-
-        if ($copyright !== '') {
-            $data = [
-                self::KEY_COPYRIGHT => $copyright,
-                'copyrightLabel' => '@todo: translatable copyright label',
-                'buttonIconOnlyData' => [
-                    'ariaLabel' => '@todo: translatable aria label',
-                    'xtraClass' => 'js-copyright--toggle-off',
-                    'type' => 'button',
-                    'icon' => 'icon_close',
-                ],
-            ];
-        }
-
-        return $data;
     }
 }

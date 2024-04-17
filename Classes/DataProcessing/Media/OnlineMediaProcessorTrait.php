@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-trait MediaProcessorTrait
+trait OnlineMediaProcessorTrait
 {
     /**
      * @var OnlineMediaHelperInterface|false
