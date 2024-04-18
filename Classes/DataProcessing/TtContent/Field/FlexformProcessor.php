@@ -1,9 +1,10 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing;
+namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
+use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
 
 /***************************************************************
  *  Copyright notice
@@ -21,19 +22,24 @@ use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
  * GNU General Public License for more details.
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-interface FieldAwareProcessorInterface
+class FlexformProcessor implements FieldProcessorInterface
 {
-    /**
-     * @throws InvalidClassException
-     */
-    public function instantiateFieldProcessor(
-        string                $processorClass,
-        ContentObjectRenderer $contentObjectRenderer,
-    ): FieldProcessorInterface;
+    use FieldProcessorConfigTrait;
+    public const FIELD_NAME = 'pi_flexform';
 
-    /**
-     * @param array<string> $requiredKeys An array of key required for processing
-     * @throws InvalidClassException
-     */
-    public function processFields(ContentObjectRenderer $cObj, array $processProcessedData, array $config = []): array;
+    public function __construct(
+        protected FlexFormService $flexFormService,
+    )
+    {
+
+    }
+
+    public function process(string $fieldName, array $data, array $variables): array
+    {
+        $value = $data[self::FIELD_NAME];
+        $variables[$fieldName] = $this->flexFormService
+            ->convertFlexFormContentToArray($value);
+
+        return $variables;
+    }
 }

@@ -94,6 +94,8 @@ services:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkedImageProcessor:
     public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FlexformProcessor:
+    public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration:
     public: true
 
