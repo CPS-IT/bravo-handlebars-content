@@ -71,12 +71,11 @@ class ImageProcessor implements MediaProcessorInterface
     {
         // default crop variant
         $cropVariants = self::DEFAULT_CONFIG[self::KEY_CROP_VARIANTS];
-
         if (!empty($config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS])) {
             $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
         }
 
-        $labels = $this->collectLabels($config[self::MEDIA_TYPE]);
+        $labels = $this->collectLabels($config[self::MEDIA_TYPE] ??= []);
         $linkedImage = $this->collectFileReferenceLink($file, $labels);
 
         $imageData = [
