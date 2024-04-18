@@ -39,8 +39,10 @@ class LinkProcessor implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $typoLink = $data[$fieldName] ?? '';
-        $link = $this->linkService->resolveTypoLink($typoLink);
+        if (empty($data[$fieldName])) {
+            return  $variables;
+        }
+        $link = $this->linkService->resolveTypoLink($data[$fieldName]);
         $variables[$fieldName] = [
             'url' => $link->url,
             'label' => $link->label,
