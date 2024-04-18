@@ -68,8 +68,8 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
         if (empty($data[$this->field])) {
             return $records;
         }
-        ;
-        $connection = $this->connectionPool->getConnectionForTable($this->table);
+
+        $this->connectionPool->getConnectionForTable($this->table);
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
         $uids = GeneralUtility::intExplode(',', $data[$this->field]);
         try {
