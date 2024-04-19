@@ -20,14 +20,6 @@ services:
         identifier: 'HANDLEBARSTEMPLATE'
 
   ####
-  # handlebars content object
-  ####
-  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsContentObject:
-    tags:
-      - name: frontend.contentobject
-        identifier: 'HANDLEBARSCONTENT'
-
-  ####
   # data processors
   ####
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
