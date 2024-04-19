@@ -32,10 +32,11 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
     use ProcessorVariablesTrait;
 
     public function __construct(
-        protected AssetCollector $assetCollector,
+        protected AssetCollector       $assetCollector,
         protected ContentDataProcessor $contentDataProcessor,
         protected HandlebarsRenderer   $renderer,
-    ) {
+    )
+    {
     }
 
     /**
@@ -43,6 +44,7 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
      */
     public function render($conf = []): string
     {
+
 
         if (!is_array($conf)) {
             $conf = [];
@@ -91,16 +93,15 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
     protected function addPageAssets(array $conf): void
     {
         $assetsConfig = [];
-        if(!empty($conf['assets.'])) {
+        if (!empty($conf['assets.'])) {
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
             $assetsConfig = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['assets.']);
         }
 
-        if(!empty($assetsConfig['javaScript'])) {
-            foreach ($assetsConfig['javaScript'] as $identifier=>$item)
-            {
+        if (!empty($assetsConfig['javaScript'])) {
+            foreach ($assetsConfig['javaScript'] as $identifier => $item) {
                 $options = [];
-                if(empty($item['source']) || !is_string($item['source'])) {
+                if (empty($item['source']) || !is_string($item['source'])) {
                     $message = sprintf('missing key "source" in configuration assets.javaScript.%s for %s.', $identifier, get_class($this));
                     throw new InvalidConfigurationException(
                         $message,
