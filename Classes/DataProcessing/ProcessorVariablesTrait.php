@@ -2,7 +2,6 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
 use Cpsit\CpsUtility\Utility\TypoScriptUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
