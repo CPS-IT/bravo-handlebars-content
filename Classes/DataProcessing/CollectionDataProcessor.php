@@ -2,6 +2,7 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -65,9 +66,14 @@ class CollectionDataProcessor implements DataProcessorInterface
 
         $targetVariableName = $this->contentObjectRenderer->stdWrapValue(
             'as',
-            $processorConfiguration,
-            'collection'
+            $processorConfiguration
         );
+        if (empty($targetVariableName)) {
+            throw new InvalidConfigurationException(
+                sprintf('Missing configuration "as" in %s', get_class($this)),
+                1713766921
+            );
+        }
         $variables = [];
         $variablesToProcess = (array)($processorConfiguration['variables.'] ?? []);
         foreach ($variablesToProcess as $variableName => $objectType) {
@@ -83,12 +89,15 @@ class CollectionDataProcessor implements DataProcessorInterface
                 );
             }
             if ($this->isDataProcessor($objectType)) {
-                $variables[$as] = $this->getDataProcessor($objectType)
+                // note: we must NOT pass $processedData here, otherwise we would
+                // get infinitely nested results
+                $localProcessed = $this->getDataProcessor($objectType)
                     ->process($this->contentObjectRenderer,
                         $processorConfiguration,
                         $configuration,
-                        $processedData
+                        []
                     );
+                $variables[$as] = $localProcessed[$as];
             }
         }
 
