@@ -9,9 +9,6 @@ tt_content.textmedia {
         fieldConfig {
           assets {
             image {
-              button {
-                name = loupe
-              }
               labels {
                 accessibilityLightbox = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_lightbox
                 accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_blank
@@ -38,9 +35,6 @@ tt_content.textmedia {
               loop = 1
               relatedVideos = 0
               enablejsapi = 0
-              button {
-                  name = play
-              }
 
               labels {
                 accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
@@ -74,9 +68,6 @@ tt_content.textmedia {
               loop = 1
               relatedVideos = 0
               enablejsapi = 0
-              button {
-                  name = play
-              }
 
               labels {
                 accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play

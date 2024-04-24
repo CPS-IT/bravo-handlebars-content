@@ -36,21 +36,19 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.image.0.variants.desktop.src' => 'pictureData.sourceTextMedia.sourceL',
         TtContent::FIELD_ASSETS . '.image.0.variants.mobile.width' => 'pictureData.imgData.width',
         TtContent::FIELD_ASSETS . '.image.0.variants.mobile.height' => 'pictureData.imgData.height',
-        TtContent::FIELD_ASSETS . '.image.0.labels.accessibilityLinkedImage' => 'linkedImage.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.image.0.labels.accessibilityLightbox' => '@accessibility.text',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.target' => 'linkedImage.target',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.href' => 'linkedImage.url',
-        TtContent::FIELD_ASSETS . '.image.0.linkedImage.accessibility' => 'linkedImage.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.image.0.linkedImage.accessibility' => '@accessibility.text',
         TtContent::FIELD_ASSETS . '.image.0.alternative' => 'pictureData.imgData.alt',
         TtContent::FIELD_ASSETS . '.image.0.description' => 'caption',
         TtContent::FIELD_ASSETS . '.image.0.copyright' => 'copyrightData.copyright',
         TtContent::FIELD_ASSETS . '.image.0.lightbox' => 'lightbox',
         TtContent::FIELD_ASSETS . '.image.0.lightboxCopyright' => 'lightboxCopyright',
         TtContent::FIELD_ASSETS . '.image.0.lightboxImg' => 'lightboxImg',
-        TtContent::FIELD_ASSETS . '.image.0.options.button' => '@icon-font--loupe',
-
 
         // Youtube Video mapping - start
-        TtContent::FIELD_ASSETS . '.youtube.0.options.labels.accessibility' => 'mediaData.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.labels.accessibility' => 'mediaData.@accessibility.text',
         TtContent::FIELD_ASSETS . '.youtube.0.options.labels.textHTML' => 'mediaData.textHTML',
         TtContent::FIELD_ASSETS . '.youtube.0.description' => 'mediaData.mediaCaption',
         TtContent::FIELD_ASSETS . '.youtube.0.copyrightData' => 'mediaData.copyrightData',
@@ -64,11 +62,10 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.youtube.0.publicUrl' => 'mediaData.iframeData.dataSrc',
         TtContent::FIELD_ASSETS . '.youtube.0.options.allow' => 'mediaData.iframeData.allow',
         TtContent::FIELD_ASSETS . '.youtube.0.title' => 'mediaData.iframeData.title',
-        TtContent::FIELD_ASSETS . '.youtube.0.options.button' => 'mediaData.@icon-font--play',
         // Youtube Video mapping - end
 
         // Vimeo Video mapping - start
-        TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.accessibility' => 'mediaData.accessibilityData.accessibility',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.accessibility' => 'mediaData.@accessibility.text',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.textHTML' => 'mediaData.textHTML',
         TtContent::FIELD_ASSETS . '.vimeo.0.description' => 'mediaData.mediaCaption',
         TtContent::FIELD_ASSETS . '.vimeo.0.copyrightData' => 'mediaData.copyrightData',
@@ -82,7 +79,6 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.vimeo.0.publicUrl' => 'mediaData.iframeData.dataSrc',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.allow' => 'mediaData.iframeData.allow',
         TtContent::FIELD_ASSETS . '.vimeo.0.title' => 'mediaData.iframeData.title',
-        TtContent::FIELD_ASSETS . '.vimeo.0.options.button' => 'mediaData.@icon-font--play',
         // Vimeo Video mapping - end
 
         // audio mapping

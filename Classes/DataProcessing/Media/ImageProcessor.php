@@ -41,6 +41,7 @@ class ImageProcessor implements MediaProcessorInterface
     public const KEY_LINKED_IMAGE = 'linkedImage';
     public const KEY_ORIGINAL = 'original';
     public const KEY_OPTIONS = 'options';
+    public const KEY_LABELS = 'labels';
 
     public const MEDIA_TYPE = 'image';
 
@@ -82,6 +83,7 @@ class ImageProcessor implements MediaProcessorInterface
             self::KEY_TYPE => self::MEDIA_TYPE,
             self::KEY_ORIGINAL => $file->getPublicUrl(),
             self::KEY_OPTIONS => $config[self::MEDIA_TYPE],
+            self::KEY_LABELS => $labels,
             self::KEY_VARIANTS => []
         ];
 
