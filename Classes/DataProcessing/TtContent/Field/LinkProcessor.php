@@ -4,8 +4,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 
@@ -30,7 +28,7 @@ class LinkProcessor implements FieldProcessorInterface, ContentRendererAwareInte
         if (empty($data[$fieldName])) {
             return $variables;
         }
-        $this->linkService->setContentObjectRenderer($this->cObj);
+        $this->linkService->setContentObjectRenderer($this->contentObjectRenderer);
         $link = $this->linkService->resolveTypoLink($data[$fieldName]);
         $variables[$fieldName] = $this->linkService->linkResultToArray($link);
         return $variables;

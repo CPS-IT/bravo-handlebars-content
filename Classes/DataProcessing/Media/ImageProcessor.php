@@ -2,17 +2,16 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\AbstractFile;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -21,9 +20,11 @@ use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class ImageProcessor implements MediaProcessorInterface
+
+#[AsTaggedItem(priority: 4)]
+class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInterface
 {
-    use MetaDataCollectorTrait;
+    use MetaDataCollectorTrait, ContentRendererTrait;
 
     public const KEY_CROP_VARIANTS = 'cropVariants';
     public const KEY_HEIGHT = 'height';
@@ -43,8 +44,8 @@ class ImageProcessor implements MediaProcessorInterface
     ];
 
     public function __construct(
-        protected ContentObjectRenderer $contentObjectRenderer,
-        protected ImageService $imageService
+        protected ImageService $imageService,
+        protected LinkService $linkService
     ) {
     }
 
@@ -78,7 +79,7 @@ class ImageProcessor implements MediaProcessorInterface
             self::KEY_VARIANTS => []
         ];
 
-        if(!empty($linkedImage)) {
+        if (!empty($linkedImage)) {
             $imageData[self::KEY_LINKED_IMAGE] = $linkedImage;
         }
 
@@ -100,11 +101,11 @@ class ImageProcessor implements MediaProcessorInterface
         if (!empty($link)) {
             $accessibility = $labels['accessibilityLinkSelf'];
 
-            if(!empty($link['target']) && $link['target'] == '_blank') {
+            if (!empty($link['target']) && $link['target'] == '_blank') {
                 $accessibility = $labels['accessibilityLinkBlank'];
             }
 
-            if(!empty($link['title'])) {
+            if (!empty($link['title'])) {
                 $accessibility = $link['title'];
             }
 
@@ -115,19 +116,10 @@ class ImageProcessor implements MediaProcessorInterface
 
     protected function createLink(FileInterface $file): array
     {
-        try {
-            $link = $file->hasProperty('link') ? $file->getProperty('link') : '';
-
-            $link = $this->contentObjectRenderer->createLink('', [
-                'parameter' => $link
-            ]);
-
-            $link = $link->toArray();
-        } catch (\Exception) {
-            $link = [];
-        }
-
-        return $link;
+        $link = $file->hasProperty('link') ? $file->getProperty('link') : '';
+        $this->linkService->setContentObjectRenderer($this->contentObjectRenderer);
+        $link = $this->linkService->resolveTypoLink($link);
+        return $this->linkService->linkResultToArray($link);
     }
 
     protected function collectLabels(array $config = []): array

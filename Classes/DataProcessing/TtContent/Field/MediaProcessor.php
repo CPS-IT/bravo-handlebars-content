@@ -5,6 +5,8 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\MediaDataService;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 /*
@@ -14,9 +16,9 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class MediaProcessor implements FieldProcessorInterface
+class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInterface
 {
-    use FieldProcessorConfigTrait;
+    use FieldProcessorConfigTrait, ContentRendererTrait;
 
     public function __construct(
         protected MediaDataService $mediaDataService,
@@ -31,7 +33,6 @@ class MediaProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-
         $variables = $this->fileReferencesProcessor->process($fieldName, $data, $variables);
         if(empty($variables[$fieldName])) {
             return $variables;
@@ -43,6 +44,11 @@ class MediaProcessor implements FieldProcessorInterface
             if(!$file instanceof FileInterface) {
                 continue;
             }
+
+            if($this->mediaDataService instanceof ContentRendererAwareInterface) {
+                $this->mediaDataService->setContentObjectRenderer($this->contentObjectRenderer);
+            }
+
             $mediaData[] = $this->mediaDataService->process($file, $config);
         }
 

@@ -2,8 +2,7 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
-use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Resource\AbstractFile;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 /*
@@ -13,6 +12,7 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+#[AsTaggedItem(priority: 1)]
 class AudioProcessor implements MediaProcessorInterface
 {
     public const MEDIA_TYPE = 'audio';

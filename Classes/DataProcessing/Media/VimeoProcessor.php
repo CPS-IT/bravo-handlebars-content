@@ -10,6 +10,7 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
  * of the License, or any later version.
  */
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
@@ -17,6 +18,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+#[AsTaggedItem(priority: 2)]
 class VimeoProcessor implements MediaProcessorInterface
 {
     use OnlineMediaProcessorTrait, MetaDataCollectorTrait;

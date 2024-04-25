@@ -2,15 +2,10 @@
 
 namespace Cpsit\BravoHandlebarsContent\Service;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\AudioProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\ImageProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\NullProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\VimeoProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\YouTubeProcessor;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -19,25 +14,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class MediaDataService
+
+class MediaDataService implements ContentRendererAwareInterface
 {
-    protected array $classNames = [
-        ImageProcessor::class,
-        AudioProcessor::class,
-        YouTubeProcessor::class,
-        VimeoProcessor::class,
-        // note: NullProcessor must be the last one
-        NullProcessor::class
-    ];
+    use ContentRendererTrait;
 
     /** @var array<MediaProcessorInterface> */
     protected array $processorInstances = [];
 
-    public function __construct()
+    public function __construct(iterable $processorInstances)
     {
-        foreach ($this->classNames as $className) {
-            $this->processorInstances[] = GeneralUtility::makeInstance($className);
-        }
+        $this->processorInstances = iterator_to_array($processorInstances);
     }
 
     /**
@@ -57,6 +44,9 @@ class MediaDataService
         foreach ($this->processorInstances as $processorInstance) {
             if (!$processorInstance->canProcess($file)) {
                 continue;
+            }
+            if($processorInstance instanceof ContentRendererAwareInterface) {
+                $processorInstance->setContentObjectRenderer($this->contentObjectRenderer);
             }
             return $processorInstance;
         }

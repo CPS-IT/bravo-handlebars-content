@@ -10,16 +10,15 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
  * of the License, or any later version.
  */
 
-use TYPO3\CMS\Core\Resource\File;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperInterface;
-use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+#[AsTaggedItem(priority: 3)]
 class YouTubeProcessor implements MediaProcessorInterface
 {
     use OnlineMediaProcessorTrait, MetaDataCollectorTrait;

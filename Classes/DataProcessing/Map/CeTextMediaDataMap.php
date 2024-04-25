@@ -29,7 +29,7 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.image.0.variants.mobile.height' => 'pictureData.imgData.height',
         TtContent::FIELD_ASSETS . '.image.0.labels.accessibilityLightbox' => '@accessibility.text',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.target' => 'linkedImage.target',
-        TtContent::FIELD_ASSETS . '.image.0.linkedImage.href' => 'linkedImage.url',
+        TtContent::FIELD_ASSETS . '.image.0.linkedImage.url' => 'linkedImage.url',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.accessibility' => '@accessibility.text',
         TtContent::FIELD_ASSETS . '.image.0.alternative' => 'pictureData.imgData.alt',
         TtContent::FIELD_ASSETS . '.image.0.description' => 'caption',

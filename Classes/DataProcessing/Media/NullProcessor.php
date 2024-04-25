@@ -3,6 +3,7 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 /*
@@ -12,6 +13,7 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+#[AsTaggedItem(priority: -99)]
 class NullProcessor implements MediaProcessorInterface
 {
 

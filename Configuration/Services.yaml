@@ -8,6 +8,13 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
+  _instanceof:
+    ####
+    # handlebars media processors
+    ####
+    Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface:
+      tags: [ 'Handlerbars.MediaProcessor' ]
+
   ####
   # handlebars template content objects
   ####
@@ -103,15 +110,7 @@ services:
   Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration:
     public: true
 
+  Cpsit\BravoHandlebarsContent\Service\MediaDataService:
+    arguments:
+      - !tagged_iterator { tag: Handlerbars.MediaProcessor }
 
-  ####
-  # special processors
-  ####
-  Cpsit\BravoHandlebarsContent\DataProcessing\Media\ImageProcessor:
-    public: true
-
-  Cpsit\BravoHandlebarsContent\DataProcessing\Media\YouTubeProcessor:
-    public: true
-
-  Cpsit\BravoHandlebarsContent\DataProcessing\Media\VimeoProcessor:
-    public: true

@@ -13,10 +13,10 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 trait ContentRendererTrait
 {
-    protected ContentObjectRenderer $cObj;
+    protected ContentObjectRenderer $contentObjectRenderer;
 
-    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    public function setContentObjectRenderer(contentObjectRenderer $contentObjectRenderer): void
     {
-        $this->cObj = $cObj;
+        $this->contentObjectRenderer = $contentObjectRenderer;
     }
 }

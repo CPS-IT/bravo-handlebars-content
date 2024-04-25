@@ -4,8 +4,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 
@@ -28,7 +26,7 @@ class HeaderLinkProcessor implements FieldProcessorInterface, ContentRendererAwa
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $this->linkService->setContentObjectRenderer($this->cObj);
+        $this->linkService->setContentObjectRenderer($this->contentObjectRenderer);
 
         $typoLink = $data['header_link'] ?? '';
         $link = $this->linkService->resolveTypoLink($typoLink);

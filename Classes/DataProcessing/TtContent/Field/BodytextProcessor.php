@@ -5,7 +5,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -23,7 +22,7 @@ class BodytextProcessor implements FieldProcessorInterface, ContentRendererAware
     public function process(string $fieldName, array $data, array $variables): array
     {
         $value = $data[self::FIELD_NAME];
-        $variables[$fieldName] = $this->cObj->parseFunc(
+        $variables[$fieldName] = $this->contentObjectRenderer->parseFunc(
             trim($value),
             null,
             '< lib.parseFunc_RTE'
