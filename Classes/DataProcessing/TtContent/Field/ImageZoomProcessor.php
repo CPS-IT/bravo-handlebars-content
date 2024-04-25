@@ -20,7 +20,6 @@ class ImageZoomProcessor implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $stop = 1;
         if(
             empty($data[TtContentRecordInterface::FIELD_IMAGE_ZOOM])
             || !(bool)$data[TtContentRecordInterface::FIELD_IMAGE_ZOOM]

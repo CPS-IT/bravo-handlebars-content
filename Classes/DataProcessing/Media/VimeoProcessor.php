@@ -42,7 +42,7 @@ class VimeoProcessor implements MediaProcessorInterface
     ];
 
     public function __construct(
-        protected ContentObjectRenderer $cObj,
+        protected ContentObjectRenderer $contentObjectRenderer,
         protected TypoScriptService $typoScriptService
     ) {
 
@@ -112,7 +112,7 @@ class VimeoProcessor implements MediaProcessorInterface
         foreach ($config['variants'] as $variant => $fileConfig) {
             $fileConfig = $this->typoScriptService->convertPlainArrayToTypoScriptArray($fileConfig);
             $fileConfig['file'] = $file;
-            $files[$variant] = $this->cObj->cObjGetSingle('IMG_RESOURCE', $fileConfig);
+            $files[$variant] = $this->contentObjectRenderer->cObjGetSingle('IMG_RESOURCE', $fileConfig);
         }
         return $files;
     }
@@ -143,7 +143,7 @@ class VimeoProcessor implements MediaProcessorInterface
         }
 
         foreach ($config['labels'] as $label => $ll) {
-            $labels[$label] = trim($this->cObj->getData($ll));
+            $labels[$label] = trim($this->contentObjectRenderer->getData($ll));
         }
 
         return $labels;

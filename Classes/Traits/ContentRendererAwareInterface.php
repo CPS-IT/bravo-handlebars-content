@@ -1,6 +1,8 @@
 <?php
 
-declare(strict_types=1);
+namespace Cpsit\BravoHandlebarsContent\Traits;
+
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -9,15 +11,8 @@ declare(strict_types=1);
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-
-namespace Cpsit\BravoHandlebarsContent\Domain\Model\Dto;
-
-readonly class Link
+interface ContentRendererAwareInterface
 {
-    public function __construct(
-        public string $url = '',
-        public string $label = '',
-        public string $target = '')
-    {
-    }
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void;
+
 }

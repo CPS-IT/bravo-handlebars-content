@@ -12,10 +12,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 trait OnlineMediaProcessorTrait
 {
-    /**
-     * @var OnlineMediaHelperInterface|false
-     */
-    protected $onlineMediaHelper;
+    protected false|OnlineMediaHelperInterface $onlineMediaHelper = false;
 
     protected function getOriginalFile(FileInterface $file): File|FileInterface
     {
@@ -42,9 +39,9 @@ trait OnlineMediaProcessorTrait
      *
      * @return false|OnlineMediaHelperInterface
      */
-    protected function getOnlineMediaHelper(FileInterface $file)
+    protected function getOnlineMediaHelper(FileInterface $file): false|OnlineMediaHelperInterface
     {
-        if ($this->onlineMediaHelper === null) {
+        if ($this->onlineMediaHelper === false) {
             $orgFile = $file;
             if ($orgFile instanceof FileReference) {
                 $orgFile = $orgFile->getOriginalFile();

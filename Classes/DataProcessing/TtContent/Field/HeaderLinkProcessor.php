@@ -6,39 +6,33 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the bravo handlebars content package.
  *
- *  (c) 2024 Dirk Wenzel <wenzel@cps-it.de>
- *  All rights reserved
- *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
- * A copy is found in the text file GPL.txt and important notices to the license
- * from the author is found in LICENSE.txt distributed with these scripts.
- * This script is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-class HeaderLinkProcessor implements FieldProcessorInterface
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ */
+
+class HeaderLinkProcessor implements FieldProcessorInterface, ContentRendererAwareInterface
 {
-    use FieldProcessorConfigTrait;
+    use FieldProcessorConfigTrait, ContentRendererTrait;
 
-    private LinkService $linkService;
-    public function __construct(ContentObjectRenderer $contentObjectRenderer) {
-        $this->linkService = GeneralUtility::makeInstance(
-            LinkService::class,
-            $contentObjectRenderer
-        );
+
+    public function __construct(protected LinkService $linkService)
+    {
     }
 
     public function process(string $fieldName, array $data, array $variables): array
     {
+        $this->linkService->setContentObjectRenderer($this->cObj);
+
         $typoLink = $data['header_link'] ?? '';
-        $variables[$fieldName]  = $this->linkService->resolveTypoLink($typoLink);
+        $link = $this->linkService->resolveTypoLink($typoLink);
+        $variables[$fieldName] = $this->linkService->linkResultToArray($link);
         return $variables;
     }
 }

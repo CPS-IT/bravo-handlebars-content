@@ -13,40 +13,37 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\Service;
 
 use Cpsit\BravoHandlebarsContent\Domain\Model\Dto\Link;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Typolink\LinkResult;
 use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
 
-/**
- * LinkService
- *
- * @author Elias Häußler <e.haeussler@familie-redlich.de>
- * @license GPL-2.0-or-later
- */
-final readonly class LinkService
+
+final class LinkService implements ContentRendererAwareInterface
 {
+
+    use ContentRendererTrait;
+
     public function __construct(
-        private ContentObjectRenderer $contentObjectRenderer,
+        protected ContentObjectRenderer $contentObjectRenderer,
     ) {
     }
 
-    public function resolveTypoLink(string $typoLink): Link
+    public function resolveTypoLink(string $typoLink): LinkResultInterface
     {
         $linkResult = $this->parseTypoLink($typoLink);
 
-        if ($linkResult === null) {
-            return new Link();
+        if (!($linkResult instanceof LinkResultInterface)) {
+            $linkResult = new LinkResult('', '');
         }
 
-        return new Link(
-            $linkResult->getUrl(),
-            (string)$linkResult->getAttribute('title'),
-            $linkResult->getTarget(),
-        );
+        return $linkResult;
     }
 
     public function parseTypoLink(string $typoLink): LinkResultInterface|null
     {
-        $linkResult = $this->contentObjectRenderer->typoLink('|', [
+        $linkResult = $this->contentObjectRenderer->typoLink('', [
             'parameter' => $typoLink,
             'returnLast' => 'result',
         ]);
@@ -56,5 +53,18 @@ final readonly class LinkService
         }
 
         return $linkResult;
+    }
+
+    public function linkResultToArray(LinkResultInterface $linkResult): array
+    {
+        return [
+            'url' => $linkResult->getUrl(),
+            'label' => $linkResult->getLinkText(),
+            'title' => $linkResult->getAttribute('title') ?: '',
+            'class' => $linkResult->getAttribute('class') ?: '',
+            'target' => $linkResult->getTarget(),
+            'type' => $linkResult->getType(),
+            'additionalAttributes' => $linkResult->getAttributes(),
+        ];
     }
 }

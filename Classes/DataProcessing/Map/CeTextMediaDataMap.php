@@ -4,33 +4,24 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the bravo handlebars content package.
  *
- *  (c) 2024 Dirk Wenzel <wenzel@cps-it.de>
- *  All rights reserved
- *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
- * A copy is found in the text file GPL.txt and important notices to the license
- * from the author is found in LICENSE.txt distributed with these scripts.
- * This script is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ */
 class CeTextMediaDataMap implements DataMapInterface
 {
     use FieldMapTrait;
 
     public const DEFAULT_FIELD_MAPS = [
         TtContent::FIELD_BODYTEXT => 'textHtml',
-        TtContent::FIELD_HEADLINES => 'headlinesData',
         TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
         TtContent::FIELD_UID => 'id',
         TtContent::FIELD_IMAGE_ZOOM => 'lightbox',
-        // note: 'assets.pictureData' must only be set for images and **not** for videos
+
+        // Image mapping - start
         TtContent::FIELD_ASSETS . '.image.0.variants.mobile.src' => 'pictureData.sourceTextMedia.sourceS',
         TtContent::FIELD_ASSETS . '.image.0.variants.tablet.src' => 'pictureData.sourceTextMedia.sourceM',
         TtContent::FIELD_ASSETS . '.image.0.variants.desktop.src' => 'pictureData.sourceTextMedia.sourceL',
@@ -62,7 +53,6 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.youtube.0.publicUrl' => 'mediaData.iframeData.dataSrc',
         TtContent::FIELD_ASSETS . '.youtube.0.options.allow' => 'mediaData.iframeData.allow',
         TtContent::FIELD_ASSETS . '.youtube.0.title' => 'mediaData.iframeData.title',
-        // Youtube Video mapping - end
 
         // Vimeo Video mapping - start
         TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.accessibility' => 'mediaData.@accessibility.text',
@@ -79,9 +69,8 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.vimeo.0.publicUrl' => 'mediaData.iframeData.dataSrc',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.allow' => 'mediaData.iframeData.allow',
         TtContent::FIELD_ASSETS . '.vimeo.0.title' => 'mediaData.iframeData.title',
-        // Vimeo Video mapping - end
 
-        // audio mapping
+        // Audio mapping
         TtContent::FIELD_ASSETS . '.audio.0.src' => 'audioData.src',
         TtContent::FIELD_ASSETS . '.audio.0.attributes' => 'audioData.attributes',
         TtContent::FIELD_ASSETS . '.audio.0.mimeType' => 'audioData.type',
