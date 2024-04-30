@@ -111,6 +111,7 @@ services:
     public: true
 
   Cpsit\BravoHandlebarsContent\Service\MediaDataService:
+    public: true
     arguments:
       - !tagged_iterator { tag: Handlerbars.MediaProcessor }
 
