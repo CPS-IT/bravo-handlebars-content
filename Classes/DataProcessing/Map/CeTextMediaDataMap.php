@@ -40,7 +40,7 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.image.0.lightboxImg' => 'lightboxImg',
 
         // Youtube Video mapping - start
-        TtContent::FIELD_ASSETS . '.youtube.0.options.labels.accessibility' => 'media.accessibility.text',
+        TtContent::FIELD_ASSETS . '.youtube.0.options.labels.accessibility' => 'media.accessibility',
         TtContent::FIELD_ASSETS . '.youtube.0.options.labels.textHTML' => 'media.textHTML',
         TtContent::FIELD_ASSETS . '.youtube.0.description' => 'media.mediaCaption',
         TtContent::FIELD_ASSETS . '.youtube.0.copyright' => 'media.copyright',
@@ -48,15 +48,14 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.tablet' => 'media.picture.sourceTextMedia.sourceM',
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.desktop' => 'media.picture.sourceTextMedia.sourceL',
         TtContent::FIELD_ASSETS . '.youtube.0.previewImage.original' => 'media.picture.img.src',
-        TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.loading' => 'media.picture.img.loading',
         TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.height' => 'media.picture.img.height',
         TtContent::FIELD_ASSETS . '.youtube.0.options.previewImage.width' => 'media.picture.img.width',
-        TtContent::FIELD_ASSETS . '.youtube.0.publicUrl' => 'media.iframeData.dataSrc',
+        TtContent::FIELD_ASSETS . '.youtube.0.publicUrl' => 'media.iframeCookiebot.dataSrc',
         TtContent::FIELD_ASSETS . '.youtube.0.options.allow' => 'media.iframeData.allow',
         TtContent::FIELD_ASSETS . '.youtube.0.title' => 'media.iframeData.title',
 
         // Vimeo Video mapping - start
-        TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.accessibility' => 'media.accessibility.text',
+        TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.accessibility' => 'media.accessibility',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.labels.textHTML' => 'media.textHTML',
         TtContent::FIELD_ASSETS . '.vimeo.0.description' => 'media.mediaCaption',
         TtContent::FIELD_ASSETS . '.vimeo.0.copyright' => 'media.copyright',
@@ -64,17 +63,16 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.tablet' => 'media.picture.sourceTextMedia.sourceM',
         TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.desktop' => 'media.picture.sourceTextMedia.sourceL',
         TtContent::FIELD_ASSETS . '.vimeo.0.previewImage.original' => 'media.picture.img.src',
-        TtContent::FIELD_ASSETS . '.vimeo.0.options.previewImage.loading' => 'media.picture.img.loading',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.previewImage.height' => 'media.picture.img.height',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.previewImage.width' => 'media.picture.img.width',
-        TtContent::FIELD_ASSETS . '.vimeo.0.publicUrl' => 'media.iframeData.dataSrc',
+        TtContent::FIELD_ASSETS . '.vimeo.0.publicUrl' => 'media.iframeCookiebot.dataSrc',
         TtContent::FIELD_ASSETS . '.vimeo.0.options.allow' => 'media.iframeData.allow',
         TtContent::FIELD_ASSETS . '.vimeo.0.title' => 'media.iframeData.title',
 
         // Audio mapping
-        TtContent::FIELD_ASSETS . '.audio.0.src' => 'audioData.src',
-        TtContent::FIELD_ASSETS . '.audio.0.attributes' => 'audioData.attributes',
-        TtContent::FIELD_ASSETS . '.audio.0.mimeType' => 'audioData.type',
+        TtContent::FIELD_ASSETS . '.audio.0.src' => 'audio.src',
+        TtContent::FIELD_ASSETS . '.audio.0.attributes' => 'audio.attributes',
+        TtContent::FIELD_ASSETS . '.audio.0.mimeType' => 'audio.type',
     ];
 
 }
