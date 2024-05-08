@@ -74,6 +74,10 @@ class CollectionDataProcessor implements DataProcessorInterface
             $this->assertValidVariableName($variableName);
             $configuration = $variablesToProcess[$variableName . '.'] ?? [];
             $as = !empty($configuration['as']) && is_string($configuration['as']) ? $configuration['as'] : $variableName;
+            if (empty($configuration['as'])) {
+                // seems clumsy
+                $configuration['as'] = $as;
+            }
             if ($this->isContentObject($objectType)) {
                 $variables[$as] = $cObj->cObjGetSingle(
                     $objectType, $configuration, 'variables.' . $variableName
