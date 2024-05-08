@@ -14,26 +14,12 @@ use SplObjectStorage;
  */
 class CeTextDataMap implements DataMapInterface
 {
+    use FieldMapTrait;
+
     public const DEFAULT_FIELD_MAPS = [
         TtContent::FIELD_BODYTEXT => 'textHtml',
         TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
         TtContent::FIELD_UID => 'id',
     ];
 
-    protected SplObjectStorage $fieldMaps;
-
-    public function __construct() {
-        $this->fieldMaps = new SplObjectStorage();
-        foreach (self::DEFAULT_FIELD_MAPS as $source => $target) {
-            $this->fieldMaps->attach(new FieldMap($source, $target));
-        }
-    }
-
-    /**
-     * @return SplObjectStorage<FieldMap>
-     */
-    public function getFieldMaps(): SplObjectStorage
-    {
-        return $this->fieldMaps;
-    }
 }
