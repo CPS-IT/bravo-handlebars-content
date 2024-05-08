@@ -20,7 +20,7 @@ interface TtContentRecordInterface
     public const FIELD_HEADER = 'header';
     public const FIELD_HEADER_LAYOUT = 'header_layout';
     public const FIELD_HEADER_LINK = 'header_link';
-    public const FIELD_HEADLINES = '@headlines';
+    public const FIELD_HEADLINES = 'headlines';
     public const FIELD_HIDDEN = 'hidden';
     public const FIELD_IMAGE_BORDER = 'imageborder';
     public const FIELD_IMAGE_COLUMNS = 'imagecols';

@@ -36,7 +36,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_BODYTEXT => BodytextProcessor::class,
         self::FIELD_HEADER => PassThrough::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
-        // note: `header_link` must be processed before `@headlines`
+        // note: `header_link` must be processed before `headlines`
         self::FIELD_HEADER_LINK => HeaderLinkProcessor::class,
         self::FIELD_HEADLINES => HeadlinesProcessor::class,
         self::FIELD_HIDDEN => PassThrough::class,
