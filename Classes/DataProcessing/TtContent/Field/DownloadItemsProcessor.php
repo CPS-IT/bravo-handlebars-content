@@ -6,6 +6,8 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 use TYPO3\CMS\Core\Resource\Collection\StaticFileCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -14,6 +16,7 @@ use TYPO3\CMS\Core\Resource\FileReference;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
 class DownloadItemsProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
@@ -53,35 +56,40 @@ class DownloadItemsProcessor implements FieldProcessorInterface
 
         $downloadItems = [];
         foreach ($fileReferences as $fileReference) {
-            $downloadItems[] = [
-                'iconDownload' => true,
-                'iconPosition' => 'left',
-                'label' => $fileReference->getNameWithoutExtension() . $this->getDownloadInfos($fileReference),
-                'url' => $fileReference->getPublicUrl()
-            ];
+            $downloadItems[] = $this->getDownloadProperties($fileReference);
         }
-
         $variables[$fieldName] = $downloadItems;
         return $variables;
     }
 
     /**
      * @param mixed $fileReference
-     * @return string
+     * @return array
      */
-    protected function getDownloadInfos(mixed $fileReference): string
+    protected function getDownloadProperties(mixed $fileReference): array
     {
-        // note: we gather some example information
-        // todo: add localization for keys, readable file size, check sys_language...
-        $info = [
-            'language:' => $fileReference->getProperty('language'),
-            'extension' => $fileReference->getExtension(),
-            'fileSize' => $fileReference->getSize(),
+        $downloadItem = [
+            'url' => $fileReference->getPublicUrl(),
         ];
-        $values = [];
-        foreach ($info as $key => $value) {
-            $values[] = "$key: $value";
+        $properties = [
+            'title',
+            'description',
+            'download_name',
+            'size',
+            'extension',
+            'language',
+            'copyright',
+            'url',
+            'accessible',
+        ];
+
+        foreach ($properties as $property) {
+            if ($fileReference->hasProperty($property)) {
+                $downloadItem[GeneralUtility::underscoredToLowerCamelCase($property)] =
+                    $fileReference->getProperty($property);
+            }
         }
-        return implode(', ', $values);
+
+        return $downloadItem;
     }
 }

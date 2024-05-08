@@ -17,8 +17,6 @@ class CeUploadsDataMap implements DataMapInterface
     use FieldMapTrait;
 
     public const DEFAULT_FIELD_MAPS = [
-        TtContent::FIELD_FILE_COLLECTIONS => 'fileCollections',
-        TtContent::FIELD_MEDIA => 'files',
         TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
         TtContent::FIELD_UID => 'id',
     ];

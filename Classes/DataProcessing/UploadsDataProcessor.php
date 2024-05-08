@@ -37,7 +37,7 @@ class UploadsDataProcessor extends TtContentDataProcessor implements FieldMappin
         self::FIELD_MEDIA => FileReferencesProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
-        'items' => DownloadItemsProcessor::class
+        'files' => DownloadItemsProcessor::class
     ];
 
 }
