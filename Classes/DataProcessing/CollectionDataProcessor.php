@@ -84,13 +84,12 @@ class CollectionDataProcessor implements DataProcessorInterface
                 );
             }
             if ($this->isDataProcessor($objectType)) {
-                // note: we must NOT pass $processedData here, otherwise we would
-                // get infinitely nested results
+                // @todo: passing $processedData here might lead to infinitely nested results
                 $localProcessed = $this->getDataProcessor($objectType)
                     ->process($this->contentObjectRenderer,
                         $processorConfiguration,
                         $configuration,
-                        []
+                        $processedData
                     );
                 $variables[$as] = $localProcessed[$as];
             }
