@@ -16,9 +16,39 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
+/**
+ * Map array values from source to target
+ *
+ * Example:
+ * $processedData [
+ *  publicationDate => foo,
+ *  categories => bar
+ * ]
+ * kicker = handlebarsMapFields
+ * kicker {
+ *   separator = :
+ *   map {
+ *     publicationDate = kicker:publicationDate
+ *     categories = kicker:categories
+ *   }
+ * }
+ *
+ * Return processed data array
+ *
+ * $processedData [
+ *   publicationDate => foo,
+ *   categories => bar
+ *   kicker => [
+ *    publicationDate => foo,
+ *    categories => bar
+ *   ]
+ * ]
+ *
+ */
 class MapFieldsDataProcessor implements DataProcessorInterface
 {
-    use ProcessorVariablesTrait;
+    public const SEPARATOR = ':';
 
     /**
      * @inheritDoc
@@ -30,22 +60,20 @@ class MapFieldsDataProcessor implements DataProcessorInterface
         array $processedData
     ): array
     {
-        $this->readSettingsFromConfig($processorConfiguration);
+        $separator = $processorConfiguration['separator'] ?? self::SEPARATOR;
+        $map = $processorConfiguration['map.'] ?? [];
         $data = $processedData;
-        if(empty($this->settings['map'])) {
-            return $data;
-        }
-        foreach ($this->settings['map'] as $fieldConfig) {
-            if(!ArrayUtility::isValidPath($processedData, $fieldConfig['from'])) {
+
+        foreach ($map as $source => $target) {
+            if(!ArrayUtility::isValidPath($processedData, $source, $separator)) {
                 continue;
             }
             try {
-              $value =  ArrayUtility::getValueByPath($processedData, $fieldConfig['from']);
-              $data = ArrayUtility::setValueByPath($data, $fieldConfig['to'], $value);
+              $value =  ArrayUtility::getValueByPath($processedData, $source, $separator);
+              $data = ArrayUtility::setValueByPath($data, $target, $value, $separator);
             }catch (MissingArrayPathException) {
 
             }
-
         }
 
         return $data;
