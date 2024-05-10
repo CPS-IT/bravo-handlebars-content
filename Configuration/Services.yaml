@@ -78,6 +78,10 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsLinkList'
+  Cpsit\BravoHandlebarsContent\DataProcessing\DatabaseQueryProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsDatabaseQuery'
 
   ####
   # data maps
