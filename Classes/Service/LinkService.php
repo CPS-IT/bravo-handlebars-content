@@ -15,6 +15,8 @@ namespace Cpsit\BravoHandlebarsContent\Service;
 use Cpsit\BravoHandlebarsContent\Domain\Model\Dto\Link;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
+use Cpsit\BravoHandlebarsContent\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Typolink\LinkResult;
 use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
@@ -64,7 +66,24 @@ final class LinkService implements ContentRendererAwareInterface
             'class' => $linkResult->getAttribute('class') ?: '',
             'target' => $linkResult->getTarget(),
             'type' => $linkResult->getType(),
-            'additionalAttributes' => $linkResult->getAttributes(),
+            'additionalAttributes' => $this->filterAdditionalAttributes($linkResult->getAttributes()),
         ];
     }
+
+    protected function filterAdditionalAttributes(array $attributes): array
+    {
+        $additionalAttributes = [];
+        $filteredAttributes = array_filter(
+            $attributes,
+            static fn(string $key) => !in_array($key, ['href', 'target', 'class', 'title'], true),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        foreach ($filteredAttributes as $attribute => $value) {
+            $additionalAttributes[StringUtility::hyphenToLowerCamelCase($attribute)] = $value;
+        }
+        return $additionalAttributes;
+    }
+
+
 }
