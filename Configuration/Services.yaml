@@ -95,6 +95,8 @@ services:
   ####
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
     public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor:
+    public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkProcessor:
