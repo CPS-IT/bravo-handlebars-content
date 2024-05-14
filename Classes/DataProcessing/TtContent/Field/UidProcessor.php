@@ -11,6 +11,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
 class UidProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
@@ -20,7 +21,10 @@ class UidProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $variables[$fieldName] = 'c' . $data[$fieldName];
+        if (isset($data[$fieldName])) {
+            $variables[$fieldName] = 'c' . $data[$fieldName];
+        }
+
         return $variables;
     }
 }

@@ -52,6 +52,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
 
     protected array $requiredKeys = [];
+    protected array $processorConfiguration = [];
 
 
     /**
@@ -69,7 +70,9 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
             return $processedData;
         }
 
-        $this->readSettingsFromConfig($processorConfiguration);
+        $this->processorConfiguration = $processorConfiguration;
+
+        $this->readSettingsFromConfig($this->processorConfiguration);
 
         if (!empty($this->settings['fieldConfig'])) {
             $this->fieldProcessorConfiguration->set($this->settings['fieldConfig']);
