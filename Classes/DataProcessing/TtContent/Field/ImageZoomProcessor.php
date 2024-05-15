@@ -30,7 +30,7 @@ class ImageZoomProcessor implements FieldProcessorInterface
         }
 
         foreach ($variables[TtContentRecordInterface::FIELD_ASSETS]['image'] as $key => $image) {
-            if(!empty($image['linkedImage']['href'])){
+            if(!empty($image['linkedImage']['url'])){
                 continue;
             }
             $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['lightbox'] = 1;

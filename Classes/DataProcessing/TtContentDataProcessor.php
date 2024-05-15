@@ -7,6 +7,7 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
 use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
@@ -42,6 +43,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_HIDDEN => PassThrough::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
+        self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
     ];
 
     public function __construct(protected FieldProcessorConfiguration $fieldProcessorConfiguration, protected DataMapInterface $dataMap)
@@ -50,6 +52,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
 
     protected array $requiredKeys = [];
+    protected array $processorConfiguration = [];
 
 
     /**
@@ -67,7 +70,9 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
             return $processedData;
         }
 
-        $this->readSettingsFromConfig($processorConfiguration);
+        $this->processorConfiguration = $processorConfiguration;
+
+        $this->readSettingsFromConfig($this->processorConfiguration);
 
         if (!empty($this->settings['fieldConfig'])) {
             $this->fieldProcessorConfiguration->set($this->settings['fieldConfig']);

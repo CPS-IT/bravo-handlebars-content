@@ -24,18 +24,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
 class TextDataProcessor extends TtContentDataProcessor implements FieldMappingInterface
 {
     use FieldMappingTrait;
-
-    public const DEFAULT_FIELDS = [
-        self::FIELD_BODYTEXT => BodytextProcessor::class,
-        self::FIELD_HEADER => PassThrough::class,
-        self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
-        self::FIELD_HEADER_LINK => HeaderLinkProcessor::class,
-        self::FIELD_HEADLINES => HeadlinesProcessor::class,
-        self::FIELD_HIDDEN => PassThrough::class,
-        self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
-        self::FIELD_UID => UidProcessor::class,
-    ];
-
 }
 
 

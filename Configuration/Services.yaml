@@ -33,6 +33,12 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'collection'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\SerialDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsSerial'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
     tags:
       - name: 'data.processor'
@@ -78,16 +84,15 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsLinkList'
-
   Cpsit\BravoHandlebarsContent\DataProcessing\DatabaseQueryProcessor:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsDatabaseQuery'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\EachDataProcessor:
+  Cpsit\BravoHandlebarsContent\DataProcessing\MediaProcessor:
     tags:
       - name: 'data.processor'
-        identifier: 'handlebarsEach'
+        identifier: 'handlebarsMedia'
 
   ####
   # data maps
@@ -100,6 +105,8 @@ services:
   # field processors
   ####
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor:
     public: true
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
     public: true

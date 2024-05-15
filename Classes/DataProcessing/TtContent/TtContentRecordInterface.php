@@ -32,6 +32,7 @@ interface TtContentRecordInterface
     public const FIELD_SPACE_BEFORE = 'space_before_class';
     public const FIELD_SUBHEADER = 'subheader';
     public const FIELD_UID = 'uid';
+    public const FIELD_FRAME_CLASS = 'frame_class';
     public const FIELD_PI_FLEXFORM = 'pi_flexform';
 
 }
