@@ -23,6 +23,27 @@ use TYPO3\CMS\Frontend\DataProcessing\DataProcessorRegistry;
  * of the License, or any later version.
  */
 
+/**
+ * Resolved nested processors
+ *
+ *  Example:
+ *  lib.serial = handlebarsSerial
+ *  lib.serial {
+ *      // Optional: if not present results will be merged in $processedData
+ *      as = targetVariableName
+ *      dataProcessing {
+ *          processor = processorIdentifier
+ *          processor {
+ *              //... configuration
+ *          }
+ *
+ *          otherProcessor = processorIdentifier
+ *          otherProcessor {
+ *              //... configuration
+ *          }
+ *      }
+ *  }
+ */
 class SerialDataProcessor implements DataProcessorInterface
 {
     protected ?ContentObjectRenderer $contentObjectRenderer = null;
