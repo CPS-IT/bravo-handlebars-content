@@ -39,6 +39,11 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsSerial'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\EachDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsEach'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
     tags:
       - name: 'data.processor'
