@@ -4,6 +4,7 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use mysql_xdevapi\Exception;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\Exception\MissingArrayPathException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -37,13 +38,16 @@ class EachDataProcessor implements DataProcessorInterface
         $this->processorConfiguration = $processorConfiguration;
 
         $records = $this->getRecords($processedData);
+        $records = $this->processRecords($records);
 
-        $records = $this->precessRecords($records);
+        return $this->putRecords($processedData, $records);
+    }
 
-
-        $data = $processedData;
-
-        return $processedData;
+    protected function putRecords(array $processedData, array $processedRecords): array
+    {
+        $separator = $this->processorConfiguration['separator'] ?? self::SEPARATOR;
+        $targetPath = $this->processorConfiguration['sourcePath'] ?? [];
+        return ArrayUtility::setValueByPath($processedData, $targetPath, $processedRecords, $separator);
     }
 
     protected function getRecords(array $processedData): array
@@ -52,7 +56,7 @@ class EachDataProcessor implements DataProcessorInterface
             $separator = $this->processorConfiguration['separator'] ?? self::SEPARATOR;
             $sourcePath = $this->processorConfiguration['sourcePath'] ?? [];
             $records = ArrayUtility::getValueByPath($processedData, $sourcePath, $separator);
-        } catch (\Exception) {
+        } catch (MissingArrayPathException) {
             $records = [];
         }
 
@@ -62,7 +66,7 @@ class EachDataProcessor implements DataProcessorInterface
         return $records;
     }
 
-    protected function precessRecords(array $records): array
+    protected function processRecords(array $records): array
     {
         $processedRecordVariables = [];
         foreach ($records as $key => $record) {
@@ -76,7 +80,6 @@ class EachDataProcessor implements DataProcessorInterface
                 $processedRecordVariables[$key]
             );
         }
-
         return $processedRecordVariables;
     }
 }
