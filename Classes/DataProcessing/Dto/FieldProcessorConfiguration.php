@@ -1,7 +1,5 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing\Dto;
-
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -9,6 +7,9 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\Dto;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
+namespace Cpsit\BravoHandlebarsContent\DataProcessing\Dto;
+
 class FieldProcessorConfiguration
 {
     public function __construct(protected array $configuration = [])

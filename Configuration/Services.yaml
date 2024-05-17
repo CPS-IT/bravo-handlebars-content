@@ -64,8 +64,6 @@ services:
         identifier: 'ceTextMedia'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\UploadsDataProcessor:
-    arguments:
-      $dataMap: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\CeUploadsDataMap'
     tags:
       - name: 'data.processor'
         identifier: 'ceUploads'
@@ -85,10 +83,6 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsMapFields'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\LinkListProcessor:
-    tags:
-      - name: 'data.processor'
-        identifier: 'handlebarsLinkList'
   Cpsit\BravoHandlebarsContent\DataProcessing\DatabaseQueryProcessor:
     tags:
       - name: 'data.processor'
@@ -98,6 +92,11 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsMedia'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\FileLikProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsFileLink'
 
   ####
   # data maps

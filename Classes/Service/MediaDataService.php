@@ -1,13 +1,5 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\Service;
-
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
-use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
-use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
-use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -15,6 +7,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
+namespace Cpsit\BravoHandlebarsContent\Service;
+
+use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
+use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class MediaDataService implements ContentRendererAwareInterface
 {

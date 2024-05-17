@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the bravo handlebars content package.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ */
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
@@ -18,14 +26,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterfa
 use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
-
-/*
- * This file is part of the bravo handlebars content package.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
- */
 
 class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProcessorInterface, TtContentRecordInterface
 {
@@ -46,14 +46,14 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
     ];
 
-    public function __construct(protected FieldProcessorConfiguration $fieldProcessorConfiguration, protected DataMapInterface $dataMap)
-    {
+    public function __construct(
+        protected FieldProcessorConfiguration $fieldProcessorConfiguration,
+        protected DataMapInterface $dataMap
+    ) {
     }
-
 
     protected array $requiredKeys = [];
     protected array $processorConfiguration = [];
-
 
     /**
      * @inheritDoc
@@ -61,11 +61,10 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
      */
     public function process(
         ContentObjectRenderer $cObj,
-        array                 $contentObjectConfiguration,
-        array                 $processorConfiguration,
-        array                 $processedData
-    ): array
-    {
+        array $contentObjectConfiguration,
+        array $processorConfiguration,
+        array $processedData
+    ): array {
         if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
             return $processedData;
         }
@@ -80,7 +79,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
         $variables = $this->processFields($cObj, $processedData, $this->settings);
 
-        if($this instanceof FieldMappingInterface) {
+        if ($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);
         }
         return array_merge($processedData, $variables);
