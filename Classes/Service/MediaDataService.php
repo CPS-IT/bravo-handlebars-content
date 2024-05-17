@@ -6,6 +6,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -22,7 +23,7 @@ class MediaDataService implements ContentRendererAwareInterface
     /** @var array<MediaProcessorInterface> */
     protected array $processorInstances = [];
 
-    public function __construct(iterable $processorInstances)
+    public function __construct(iterable $processorInstances, protected ContentObjectRenderer $contentObjectRenderer)
     {
         $this->processorInstances = iterator_to_array($processorInstances);
     }

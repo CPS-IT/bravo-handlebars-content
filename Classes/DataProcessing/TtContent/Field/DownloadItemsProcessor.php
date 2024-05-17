@@ -19,8 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadItemsProcessor implements FieldProcessorInterface
 {
-    use FieldProcessorConfigTrait;
-
     /**
      * @inheritDoc
      */
