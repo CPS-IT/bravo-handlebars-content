@@ -98,7 +98,7 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsMedia'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\FileLikProcessor:
+  Cpsit\BravoHandlebarsContent\DataProcessing\FileLinkProcessor:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsFileLink'

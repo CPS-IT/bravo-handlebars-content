@@ -40,7 +40,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * Result:
  * Resolved file links array see: FileLinkService::resolveFileLik
  */
-class FileLikProcessor implements DataProcessorInterface
+class FileLinkProcessor implements DataProcessorInterface
 {
     use ProcessorVariablesTrait;
 
