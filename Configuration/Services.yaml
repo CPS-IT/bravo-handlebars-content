@@ -34,15 +34,15 @@ services:
       - name: 'data.processor'
         identifier: 'collection'
 
-  Cpsit\BravoHandlebarsContent\DataProcessing\SerialDataProcessor:
-    tags:
-      - name: 'data.processor'
-        identifier: 'handlebarsSerial'
-
   Cpsit\BravoHandlebarsContent\DataProcessing\EachDataProcessor:
     tags:
       - name: 'data.processor'
         identifier: 'handlebarsEach'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\SerialDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsSerial'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
     tags:
@@ -67,6 +67,11 @@ services:
     tags:
       - name: 'data.processor'
         identifier: 'ceUploads'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\UnsetDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsUnset'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\ContentObjectDataProcessor:
     tags:
