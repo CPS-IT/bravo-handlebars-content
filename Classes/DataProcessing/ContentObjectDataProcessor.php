@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
@@ -32,17 +33,26 @@ class ContentObjectDataProcessor implements DataProcessorInterface
     ): array
     {
 
-        $this->cObj = $cObj;
-
         if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
             return $processedData;
         }
 
-        // Set the target variable
-        $targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, 'ContentObjects');
+        $contentObjectsConf = $processorConfiguration['contentObjects.'] ?? [];
+        $contentObjects = [];
+        foreach ($contentObjectsConf as $theKey => $theValue) {
+            if (!str_contains($theKey, '.')) {
+                $conf = $contentObjectsConf[$theKey . '.'] ?? [];
+                $contentObjects[$theKey] = $cObj->cObjGetSingle($theValue, $conf);
+            }
+        }
 
-        $processedData[$targetVariableName] = $this->getContentObjectVariables($processorConfiguration);
+        $targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, '');
 
+        if (!empty($targetVariableName)) {
+            $processedData[$targetVariableName] = $contentObjects;
+        } else {
+            ArrayUtility::mergeRecursiveWithOverrule($processedData, $contentObjects);
+        }
         return $processedData;
     }
 

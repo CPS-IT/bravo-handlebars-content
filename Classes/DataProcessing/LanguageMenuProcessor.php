@@ -35,7 +35,7 @@ class LanguageMenuProcessor extends \TYPO3\CMS\Frontend\DataProcessing\LanguageM
 
         $countAvailableLanguages = $this->countAvailableLanguages($processedData[$this->menuTargetVariableName]);
 
-        $processedData['languageAvailability'] = $countAvailableLanguages > 1;
+        $processedData['available'] = $countAvailableLanguages > 1;
         $processedData['availableLanguagesCount'] = $countAvailableLanguages;
 
         return $processedData;

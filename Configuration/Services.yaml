@@ -71,7 +71,7 @@ services:
   Cpsit\BravoHandlebarsContent\DataProcessing\ContentObjectDataProcessor:
     tags:
       - name: 'data.processor'
-        identifier: 'contentObject'
+        identifier: 'handlebarsContentObjects'
 
   Cpsit\BravoHandlebarsContent\DataProcessing\FooterDataProcessor:
     tags:
