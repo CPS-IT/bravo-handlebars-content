@@ -98,6 +98,11 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsFileLink'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\LanguageMenuProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsLanguageMenu'
+
   ####
   # data maps
   ####
