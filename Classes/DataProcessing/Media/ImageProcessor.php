@@ -99,10 +99,10 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
     {
         $link = $this->createLink($file);
         if (!empty($link)) {
-            $accessibility = $labels['accessibilityLinkSelf'];
+            $accessibility = $labels['accessibilityLinkSelf'] ?? '';
 
             if (!empty($link['target']) && $link['target'] == '_blank') {
-                $accessibility = $labels['accessibilityLinkBlank'];
+                $accessibility = $labels['accessibilityLinkBlank'] ?? '';
             }
 
             if (!empty($link['title'])) {
