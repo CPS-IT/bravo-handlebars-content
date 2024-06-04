@@ -28,6 +28,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * kicker = handlebarsMapFields
  * kicker {
  *   separator = :
+ *   skipEmptyValues = 0
  *   map {
  *     publicationDate = kicker:publicationDate
  *     categories = kicker:categories
@@ -60,6 +61,12 @@ class MapFieldsDataProcessor implements DataProcessorInterface
         array $processedData
     ): array
     {
+        if (
+            isset($processorConfiguration['if.'])
+            && !$cObj->checkIf($processorConfiguration['if.'])) {
+            return $processedData;
+        }
+
         $separator = $processorConfiguration['separator'] ?? self::SEPARATOR;
         $map = $processorConfiguration['map.'] ?? [];
         $data = $processedData;
@@ -69,7 +76,11 @@ class MapFieldsDataProcessor implements DataProcessorInterface
                 continue;
             }
             try {
+
               $value =  ArrayUtility::getValueByPath($processedData, $source, $separator);
+                if(!empty($processorConfiguration['skipEmptyValues']) && empty($value) ) {
+                    continue;
+                }
               $data = ArrayUtility::setValueByPath($data, $target, $value, $separator);
             }catch (MissingArrayPathException) {
 
