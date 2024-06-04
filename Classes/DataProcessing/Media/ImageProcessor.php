@@ -11,6 +11,7 @@ use TYPO3\CMS\Core\Resource\AbstractFile;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /*
@@ -53,7 +54,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
     {
         return (
             $file instanceof FileReference
-            && $file->getType() === AbstractFile::FILETYPE_IMAGE
+            &&  $file->getOriginalFile()->isImage()
         );
     }
 
