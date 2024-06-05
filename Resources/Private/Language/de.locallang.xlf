@@ -31,6 +31,10 @@
 					]]>
 				</target>
 			</trans-unit>
+			<trans-unit id="label.file.accessible">
+				<source>accessible</source>
+				<target>barrierefrei</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
