@@ -24,13 +24,17 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProce
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
+use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
+use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 
 class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProcessorInterface, TtContentRecordInterface
 {
     use FieldAwareProcessorTrait,
-        ProcessorVariablesTrait;
+        ProcessorVariablesTrait,
+        LocalizationTrait;
 
 
     public const DEFAULT_FIELDS = [
@@ -48,7 +52,10 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
     public function __construct(
         protected FieldProcessorConfiguration $fieldProcessorConfiguration,
-        protected DataMapInterface $dataMap
+        protected DataMapInterface $dataMap,
+        private readonly ContentObjectRenderer  $contentObjectRenderer,
+        private readonly LanguageServiceFactory $languageServiceFactory
+
     ) {
     }
 
@@ -78,11 +85,32 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         }
 
         $variables = $this->processFields($cObj, $processedData, $this->settings);
+        $variables = $this->processLocalLang($contentObjectConfiguration, $variables);
 
         if ($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);
         }
         return array_merge($processedData, $variables);
+    }
+
+    /**
+     * @param array $contentObjectConfiguration
+     * @param mixed $variables
+     * @return mixed
+     */
+    protected function processLocalLang(array $contentObjectConfiguration, array $variables): mixed
+    {
+        if (!empty($contentObjectConfiguration['localLang.'])) {
+            $localizedStrings = [];
+            try {
+                $localLangConfig = $this->getTypoScriptToPlainArray($contentObjectConfiguration['localLang.']);
+                $localizedStrings = $this->getLocalizedStrings($localLangConfig);
+            } catch (InvalidConfigurationException|ContentRenderingException $e) {
+            }
+            $as = $localLangConfig['as'] ?? 'localLang';
+            $variables[$as] = $localizedStrings;
+        }
+        return $variables;
     }
 }
 

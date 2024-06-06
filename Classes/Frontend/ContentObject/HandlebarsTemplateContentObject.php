@@ -51,6 +51,16 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
             $this->settings
         );
 
+        $defaultData = [];
+        if(!empty($conf['defaultData.']['variables.'])) {
+            foreach ($conf['defaultData.']['variables.'] as $index => $variableName) {
+                if(empty($variables[$variableName])) {
+                    continue;
+                }
+                $defaultData[$variableName] = $variables[$variableName];
+            }
+        }
+        $this->renderer->setDefaultData($defaultData);
 
         return $this->renderer->render(
             $this->resolveTemplateName($conf),

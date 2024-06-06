@@ -14,6 +14,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
 trait ProcessorVariablesTrait
 {
     protected array $settings = [];
@@ -49,18 +50,27 @@ trait ProcessorVariablesTrait
         return $variables;
     }
 
+    protected function getTypoScriptToPlainArray($typoScriptArray): array
+    {
+        $plainArray = [];
+        if ($typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class)) {
+            $plainArray = $typoScriptService->convertTypoScriptArrayToPlainArray($typoScriptArray);
+        }
+
+        return $plainArray;
+    }
+
     protected function readSettingsFromConfig(array $conf): void
     {
         if (isset($conf['settings.'])) {
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $this->settings = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['settings.']);
+            $this->settings = $this->getTypoScriptToPlainArray($conf['settings.']);
         }
 
         if (property_exists($this, 'requiredKeys') && defined('static::DEFAULT_FIELDS')) {
             $this->requiredKeys = array_keys(static::DEFAULT_FIELDS);
         }
 
-        if(!empty($this->settings[self::KEY_FIELDS])) {
+        if (!empty($this->settings[self::KEY_FIELDS])) {
             $this->requiredKeys = GeneralUtility::trimExplode(',', $this->settings[self::KEY_FIELDS]);
         }
     }

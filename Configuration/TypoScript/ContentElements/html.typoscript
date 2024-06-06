@@ -6,6 +6,7 @@
 tt_content.html = HANDLEBARSTEMPLATE
 tt_content.html {
   templateName = @ce-html
+  localLang < lib.localLang
   dataProcessing {
     10 = handlebarsMapFields
     10 {

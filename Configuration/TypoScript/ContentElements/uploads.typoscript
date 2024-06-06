@@ -5,6 +5,12 @@
 tt_content.uploads = HANDLEBARSTEMPLATE
 tt_content.uploads {
   templateName = @ce-download-list
+  localLang < lib.localLang
+  defaultData {
+    variables {
+      10 = localLang
+    }
+  }
   dataProcessing {
     10 = files
     10 {

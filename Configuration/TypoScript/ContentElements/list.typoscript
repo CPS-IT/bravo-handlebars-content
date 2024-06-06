@@ -6,6 +6,7 @@
 tt_content.list = HANDLEBARSTEMPLATE
 tt_content.list {
   templateName = @ce-plugin
+  localLang < lib.localLang
   dataProcessing {
     10 = ceText
     20 = handlebarsTypoScriptObjectPath

@@ -2,6 +2,7 @@ tt_content.text >
 tt_content.text = HANDLEBARSTEMPLATE
 tt_content.text {
   templateName = @ce-text
+  localLang < lib.localLang
   dataProcessing {
     10 = ceText
   }

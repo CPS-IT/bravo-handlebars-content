@@ -2,6 +2,13 @@ tt_content.textmedia >
 tt_content.textmedia = HANDLEBARSTEMPLATE
 tt_content.textmedia {
   templateName = @ce-text-media
+  templateName = @ce-download-list
+  localLang < lib.localLang
+  defaultData {
+    variables {
+      10 = localLang
+    }
+  }
   dataProcessing {
     10 = ceTextMedia
     10 {

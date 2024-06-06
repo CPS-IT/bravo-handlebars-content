@@ -4,7 +4,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
@@ -28,7 +27,9 @@ use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 class LocalizationDataProcessor implements DataProcessorInterface
 {
     use IfAwareProcessorTrait,
-        AsAwareProcessorTrait;
+        AsAwareProcessorTrait,
+        LocalizationTrait,
+        ProcessorVariablesTrait;
 
     public function __construct(
         private readonly ContentObjectRenderer  $contentObjectRenderer,
@@ -49,49 +50,10 @@ class LocalizationDataProcessor implements DataProcessorInterface
         }
 
         $targetVariableName = $this->determineTargetVariableName($processorConfiguration);
-        $this->assertValidSource($processorConfiguration);
-        $sources = $processorConfiguration['sources.'];
-        $request = $this->contentObjectRenderer->getRequest();
-        $languageService = $this->languageServiceFactory->createFromSiteLanguage(
-            $request->getAttribute('language')
-            ?? $request->getAttribute('site')->getDefaultLanguage()
+        $processedData[$targetVariableName] = $this->getLocalizedStrings(
+            $this->getTypoScriptToPlainArray($processorConfiguration)
         );
-
-        $labels = [];
-        foreach ($sources as $source) {
-            /** @noinspection SlowArrayOperationsInLoopInspection */
-            $labels = array_merge($labels, $languageService->getLabelsFromResource($source));
-        }
-
-        if(!empty($processorConfiguration['includePattern'])) {
-            $pattern = $processorConfiguration['includePattern'];
-            $labels = array_filter($labels,
-                static function ($key) use ($pattern){
-                    return preg_match($pattern, $key);
-                }, ARRAY_FILTER_USE_KEY
-            );
-        }
-
-        if (!empty($processorConfiguration['splitChar'])) {
-            $splitChar = $processorConfiguration['splitChar'];
-            $labels = ArrayUtility::unflatten($labels, $splitChar);
-        }
-
-        $processedData[$targetVariableName] = $labels;
         return $processedData;
-    }
-
-    /**
-     * @throws \Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException
-     */
-    protected function assertValidSource(array $processorConfiguration): void
-    {
-        if (empty($processorConfiguration['sources.'] || !is_array($processorConfiguration['sources']))) {
-            throw new InvalidConfigurationException(
-                'Missing or invalid configuration key `sources`',
-                1717584873
-            );
-        }
     }
 
 }

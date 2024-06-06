@@ -1,0 +1,8 @@
+lib.localLang {
+  sources {
+    10 = EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf
+  }
+
+  includePattern = //
+  splitChar = .
+}
