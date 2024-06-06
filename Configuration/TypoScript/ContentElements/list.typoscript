@@ -2,11 +2,10 @@
 # This is the default rendering definition for plugins.
 #
 # CType: list
-
-tt_content.list = HANDLEBARSTEMPLATE
+tt_content.list >
+tt_content.list =< handlebarsContent.default
 tt_content.list {
   templateName = @ce-plugin
-  localLang < lib.localLang
   dataProcessing {
     10 = ceText
     20 = handlebarsTypoScriptObjectPath

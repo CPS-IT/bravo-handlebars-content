@@ -1,14 +1,8 @@
 tt_content.textmedia >
-tt_content.textmedia = HANDLEBARSTEMPLATE
+tt_content.textmedia =< handlebarsContent.default
 tt_content.textmedia {
   templateName = @ce-text-media
-  templateName = @ce-download-list
-  localLang < lib.localLang
-  defaultData {
-    variables {
-      10 = localLang
-    }
-  }
+
   dataProcessing {
     10 = ceTextMedia
     10 {
@@ -21,18 +15,22 @@ tt_content.textmedia {
                 accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_blank
                 accessibilityLinkSelf = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_self
               }
+
               cropVariants {
                 desktop {
                   maxWidth = 1280
                 }
+
                 tablet {
                   maxWidth = 640
                 }
+
                 mobile {
                   maxWidth = 320
                 }
               }
             }
+
             youtube {
               width = 0
               height = 0
@@ -57,15 +55,18 @@ tt_content.textmedia {
                   desktop {
                     file.maxW = 1280
                   }
+
                   tablet {
                     file.maxW = 640
                   }
+
                   mobile {
                     file.maxW = 320
                   }
                 }
               }
             }
+
             vimeo {
               width = 0
               height = 0
@@ -90,15 +91,18 @@ tt_content.textmedia {
                   desktop {
                     file.maxW = 1280
                   }
+
                   tablet {
                     file.maxW = 640
                   }
+
                   mobile {
                     file.maxW = 320
                   }
                 }
               }
             }
+
             audio {
               loop = false
               controls = false
