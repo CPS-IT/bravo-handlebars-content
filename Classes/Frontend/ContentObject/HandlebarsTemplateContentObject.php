@@ -18,6 +18,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
 class HandlebarsTemplateContentObject extends AbstractContentObject
 {
     use ProcessorVariablesTrait;
@@ -51,6 +52,15 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
             $this->settings
         );
 
+        $defaultData = [];
+        $variableNames = empty($conf['defaultDataVariables'])? [] : GeneralUtility::trimExplode(',', $conf['defaultDataVariables']);
+        foreach ($variableNames as $variableName) {
+            if (empty($variables[$variableName])) {
+                continue;
+            }
+            $defaultData[$variableName] = $variables[$variableName];
+        }
+        $this->renderer->setDefaultData($defaultData);
 
         return $this->renderer->render(
             $this->resolveTemplateName($conf),

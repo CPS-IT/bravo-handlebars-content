@@ -24,13 +24,15 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProce
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProcessorInterface, TtContentRecordInterface
 {
     use FieldAwareProcessorTrait,
-        ProcessorVariablesTrait;
+        ProcessorVariablesTrait,
+        LocalizationTrait;
 
 
     public const DEFAULT_FIELDS = [
@@ -48,7 +50,10 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
 
     public function __construct(
         protected FieldProcessorConfiguration $fieldProcessorConfiguration,
-        protected DataMapInterface $dataMap
+        protected DataMapInterface $dataMap,
+        private readonly ContentObjectRenderer  $contentObjectRenderer,
+        private readonly LanguageServiceFactory $languageServiceFactory
+
     ) {
     }
 

@@ -2,8 +2,8 @@
 # With this element you can output raw HTML code on the page.
 #
 # CType: html
-
-tt_content.html = HANDLEBARSTEMPLATE
+tt_content.html >
+tt_content.html =< handlebarsContent.default
 tt_content.html {
   templateName = @ce-html
   dataProcessing {
