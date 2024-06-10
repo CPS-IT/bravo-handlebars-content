@@ -59,8 +59,7 @@ class MapFieldsDataProcessor implements DataProcessorInterface
         array $contentObjectConfiguration,
         array $processorConfiguration,
         array $processedData
-    ): array
-    {
+    ): array {
         if (
             isset($processorConfiguration['if.'])
             && !$cObj->checkIf($processorConfiguration['if.'])) {
@@ -69,25 +68,23 @@ class MapFieldsDataProcessor implements DataProcessorInterface
 
         $separator = $processorConfiguration['separator'] ?? self::SEPARATOR;
         $map = $processorConfiguration['map.'] ?? [];
-        $data = $processedData;
 
         foreach ($map as $source => $target) {
-            if(!ArrayUtility::isValidPath($processedData, $source, $separator)) {
+            if (!ArrayUtility::isValidPath($processedData, $source, $separator)) {
                 continue;
             }
             try {
-
-              $value =  ArrayUtility::getValueByPath($processedData, $source, $separator);
-                if(!empty($processorConfiguration['skipEmptyValues']) && empty($value) ) {
+                $value = ArrayUtility::getValueByPath($processedData, $source, $separator);
+                if (!empty($processorConfiguration['skipEmptyValues']) && empty($value)) {
                     continue;
                 }
-              $data = ArrayUtility::setValueByPath($data, $target, $value, $separator);
-            }catch (MissingArrayPathException) {
+                $processedData = ArrayUtility::setValueByPath($processedData, $target, $value, $separator);
+            } catch (MissingArrayPathException) {
 
             }
         }
 
-        return $data;
+        return $processedData;
     }
 }
 
