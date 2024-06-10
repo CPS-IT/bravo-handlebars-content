@@ -11,9 +11,9 @@ tt_content.textmedia {
           assets {
             image {
               labels {
-                accessibilityLightbox = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_lightbox
-                accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_blank
-                accessibilityLinkSelf = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_linked_image_self
+                accessibilityLightbox = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.lightbox
+                accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.image.linked.blank
+                accessibilityLinkSelf = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.image.linked.self
               }
 
               cropVariants {
@@ -42,8 +42,8 @@ tt_content.textmedia {
               enablejsapi = 0
 
               labels {
-                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
-                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:media_cookie_disclaimer
+                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.video.play
+                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:text.media.cookie_disclaimer
               }
 
               previewImage {
@@ -78,8 +78,8 @@ tt_content.textmedia {
               enablejsapi = 0
 
               labels {
-                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility_video_play
-                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:media_cookie_disclaimer
+                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.video.play
+                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:text.media.cookie_disclaimer
               }
 
               previewImage {
