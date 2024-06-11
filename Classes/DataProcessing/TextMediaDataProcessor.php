@@ -20,6 +20,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcesso
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -49,6 +50,7 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         self::FIELD_IMAGE_ZOOM => ImageZoomProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
+        self::FIELD_UID => FrameClassProcessor::class,
         'modifier' => ModifierProcessor::class,
         'imageBelowText' => ImageBelowTextProcessor::class,
         'contentText' => ContentTextProcessor::class,
