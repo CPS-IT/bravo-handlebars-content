@@ -91,7 +91,9 @@ class CollectionDataProcessor implements DataProcessorInterface
                         $configuration,
                         $processedData
                     );
-                $variables[$as] = $localProcessed[$as];
+                if(isset($localProcessed[$as])) {
+                    $variables[$as] = $localProcessed[$as];
+                }
             }
         }
 
