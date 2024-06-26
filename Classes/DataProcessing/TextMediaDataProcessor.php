@@ -50,7 +50,7 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         self::FIELD_IMAGE_ZOOM => ImageZoomProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
-        self::FIELD_UID => FrameClassProcessor::class,
+        self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
         'modifier' => ModifierProcessor::class,
         'imageBelowText' => ImageBelowTextProcessor::class,
         'contentText' => ContentTextProcessor::class,
