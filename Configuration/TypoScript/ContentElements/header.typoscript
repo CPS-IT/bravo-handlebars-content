@@ -5,6 +5,6 @@ tt_content.header {
   templateName = @ce-text
   dataProcessing {
     fields = header,header_layout,header_link,headlines,hidden,space_before_class,uid
-    10 = ceText
+    10 = ceHeader
   }
 }

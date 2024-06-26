@@ -54,6 +54,11 @@ services:
       - name: 'data.processor'
         identifier: 'ttContent'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\HeaderDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceHeader'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor:
     arguments:
       $dataMap: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\CeTextDataMap'

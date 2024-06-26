@@ -15,7 +15,7 @@ class SpaceBeforeProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
 
-    public const DEFAULT_CLASS = 'u-space-top:default';
+    public const DEFAULT_CLASS = '';
 
     /**
      * @inheritDoc
