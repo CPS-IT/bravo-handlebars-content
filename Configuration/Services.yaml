@@ -118,6 +118,11 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsFileLink'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\LinkProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsLink'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\LanguageMenuProcessor:
     tags:
       - name: 'data.processor'
