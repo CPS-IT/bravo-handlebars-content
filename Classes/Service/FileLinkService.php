@@ -19,6 +19,7 @@ final class FileLinkService
 {
     public const FILE_PROPERTIES = [
         'title',
+        'name',
         'description',
         'download_name',
         'size',
@@ -52,6 +53,11 @@ final class FileLinkService
 
                 if ($property === 'size') {
                     $value = self::formatFileSize($value);
+                }
+
+                // Set file name as title if title is empty
+                if ($property === 'title' && empty($value)) {
+                    $value = $fileReference->getProperty('name');
                 }
 
                 $downloadItem[GeneralUtility::underscoredToLowerCamelCase($property)] = $value;
