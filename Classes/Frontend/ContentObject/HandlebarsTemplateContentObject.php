@@ -6,6 +6,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\ProcessorVariablesTrait;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use Fr\Typo3Handlebars\Renderer\HandlebarsRenderer;
 use TYPO3\CMS\Core\Page\AssetCollector;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
@@ -24,11 +25,10 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
     use ProcessorVariablesTrait;
 
     public function __construct(
-        protected AssetCollector       $assetCollector,
+        protected AssetCollector $assetCollector,
         protected ContentDataProcessor $contentDataProcessor,
-        protected HandlebarsRenderer   $renderer,
-    )
-    {
+        protected HandlebarsRenderer $renderer,
+    ) {
     }
 
     /**
@@ -53,7 +53,8 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         );
 
         $defaultData = [];
-        $variableNames = empty($conf['defaultDataVariables'])? [] : GeneralUtility::trimExplode(',', $conf['defaultDataVariables']);
+        $variableNames = empty($conf['defaultDataVariables']) ? [] : GeneralUtility::trimExplode(',',
+            $conf['defaultDataVariables']);
         foreach ($variableNames as $variableName) {
             if (empty($variables[$variableName])) {
                 continue;
@@ -93,17 +94,20 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
 
     protected function addPageAssets(array $conf): void
     {
-        $assetsConfig = [];
+        $assets = [];
         if (!empty($conf['assets.'])) {
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $assetsConfig = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['assets.']);
+            $assets = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['assets.']);
         }
 
-        if (!empty($assetsConfig['javaScript'])) {
-            foreach ($assetsConfig['javaScript'] as $identifier => $item) {
-                $options = [];
+        foreach ($assets as $assetType => $assetConfig) {
+            foreach ($assetConfig as $identifier => $item) {
                 if (empty($item['source']) || !is_string($item['source'])) {
-                    $message = sprintf('missing key "source" in configuration assets.javaScript.%s for %s.', $identifier, get_class($this));
+                    $message = sprintf(
+                        'Missing key "source" in configuration assets.%s.%s for %s.',
+                        $assetType,
+                        $identifier,
+                        get_class($this));
                     throw new InvalidConfigurationException(
                         $message,
                         1709302386
@@ -111,13 +115,24 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
                 }
                 $source = $item['source'];
 
-                if (!empty($item['options'])) {
+                $options = [];
+                if (!empty($item['options']) && is_array($item['options'])) {
                     $options = $item['options'];
                 }
-                // todo: we might need to pass additional parameters here
-                $this->assetCollector->addJavaScript($identifier, $source, $options);
+
+                $attributes = [];
+                if (!empty($item['attributes']) && is_array($item['attributes'])) {
+                    $attributes = $item['attributes'];
+                }
+
+                if($assetType == 'javaScript') {
+                    $this->assetCollector->addJavaScript($identifier, $source, $attributes, $options);
+                }
+
+                if($assetType == 'css') {
+                    $this->assetCollector->addStyleSheet($identifier, $source, $attributes, $options);
+                }
             }
         }
     }
-
 }
