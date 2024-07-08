@@ -6,7 +6,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\ProcessorVariablesTrait;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use Fr\Typo3Handlebars\Renderer\HandlebarsRenderer;
 use TYPO3\CMS\Core\Page\AssetCollector;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
@@ -92,6 +91,7 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         return $templateName;
     }
 
+
     protected function addPageAssets(array $conf): void
     {
         $assets = [];
@@ -115,21 +115,32 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
                 }
                 $source = $item['source'];
 
-                $options = [];
-                if (!empty($item['options']) && is_array($item['options'])) {
-                    $options = $item['options'];
-                }
+                $options = [
+                    'priority' => !empty($item['options']['priority']) && (bool)$item['options']['priority'],
+                    'useNonce' => !empty($item['options']['useNonce']) && (bool)$item['options']['useNonce'],
+                ];
 
                 $attributes = [];
                 if (!empty($item['attributes']) && is_array($item['attributes'])) {
                     $attributes = $item['attributes'];
                 }
 
-                if($assetType == 'javaScript') {
+                if ($assetType == 'javaScript') {
+                    // boolean attributes shall output attr="attr" if set
+                    foreach (['async', 'defer', 'nomodule'] as $_attr) {
+                        if ($attributes[$_attr] ?? false) {
+                            $attributes[$_attr] = $_attr;
+                        }
+                    }
+
                     $this->assetCollector->addJavaScript($identifier, $source, $attributes, $options);
                 }
 
-                if($assetType == 'css') {
+                if ($assetType == 'css') {
+                    // boolean attributes shall output attr="attr" if set
+                    if ($attributes['disabled'] ?? false) {
+                        $attributes['disabled'] = 'disabled';
+                    }
                     $this->assetCollector->addStyleSheet($identifier, $source, $attributes, $options);
                 }
             }
