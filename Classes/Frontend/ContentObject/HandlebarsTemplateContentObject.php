@@ -24,11 +24,10 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
     use ProcessorVariablesTrait;
 
     public function __construct(
-        protected AssetCollector       $assetCollector,
+        protected AssetCollector $assetCollector,
         protected ContentDataProcessor $contentDataProcessor,
-        protected HandlebarsRenderer   $renderer,
-    )
-    {
+        protected HandlebarsRenderer $renderer,
+    ) {
     }
 
     /**
@@ -53,7 +52,8 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         );
 
         $defaultData = [];
-        $variableNames = empty($conf['defaultDataVariables'])? [] : GeneralUtility::trimExplode(',', $conf['defaultDataVariables']);
+        $variableNames = empty($conf['defaultDataVariables']) ? [] : GeneralUtility::trimExplode(',',
+            $conf['defaultDataVariables']);
         foreach ($variableNames as $variableName) {
             if (empty($variables[$variableName])) {
                 continue;
@@ -91,19 +91,23 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         return $templateName;
     }
 
+
     protected function addPageAssets(array $conf): void
     {
-        $assetsConfig = [];
+        $assets = [];
         if (!empty($conf['assets.'])) {
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $assetsConfig = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['assets.']);
+            $assets = $typoScriptService->convertTypoScriptArrayToPlainArray($conf['assets.']);
         }
 
-        if (!empty($assetsConfig['javaScript'])) {
-            foreach ($assetsConfig['javaScript'] as $identifier => $item) {
-                $options = [];
+        foreach ($assets as $assetType => $assetConfig) {
+            foreach ($assetConfig as $identifier => $item) {
                 if (empty($item['source']) || !is_string($item['source'])) {
-                    $message = sprintf('missing key "source" in configuration assets.javaScript.%s for %s.', $identifier, get_class($this));
+                    $message = sprintf(
+                        'Missing key "source" in configuration assets.%s.%s for %s.',
+                        $assetType,
+                        $identifier,
+                        get_class($this));
                     throw new InvalidConfigurationException(
                         $message,
                         1709302386
@@ -111,13 +115,35 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
                 }
                 $source = $item['source'];
 
-                if (!empty($item['options'])) {
-                    $options = $item['options'];
+                $options = [
+                    'priority' => !empty($item['options']['priority']) && (bool)$item['options']['priority'],
+                    'useNonce' => !empty($item['options']['useNonce']) && (bool)$item['options']['useNonce'],
+                ];
+
+                $attributes = [];
+                if (!empty($item['attributes']) && is_array($item['attributes'])) {
+                    $attributes = $item['attributes'];
                 }
-                // todo: we might need to pass additional parameters here
-                $this->assetCollector->addJavaScript($identifier, $source, $options);
+
+                if ($assetType == 'javaScript') {
+                    // boolean attributes shall output attr="attr" if set
+                    foreach (['async', 'defer', 'nomodule'] as $_attr) {
+                        if ($attributes[$_attr] ?? false) {
+                            $attributes[$_attr] = $_attr;
+                        }
+                    }
+
+                    $this->assetCollector->addJavaScript($identifier, $source, $attributes, $options);
+                }
+
+                if ($assetType == 'css') {
+                    // boolean attributes shall output attr="attr" if set
+                    if ($attributes['disabled'] ?? false) {
+                        $attributes['disabled'] = 'disabled';
+                    }
+                    $this->assetCollector->addStyleSheet($identifier, $source, $attributes, $options);
+                }
             }
         }
     }
-
 }
