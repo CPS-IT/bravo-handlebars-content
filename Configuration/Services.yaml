@@ -103,6 +103,11 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsMapFields'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\UnsetPathDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsUnsetPath'
+
   Cpsit\BravoHandlebarsContent\DataProcessing\DatabaseQueryProcessor:
     tags:
       - name: 'data.processor'
