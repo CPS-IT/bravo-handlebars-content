@@ -55,10 +55,14 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         if ($file instanceof FileReference && $file->getOriginalFile()->isImage()) {
             return true;
         }
-
-        if ($file->isImage()) {
-            return true;
+        try {
+            if ($file->isImage()) {
+                return true;
+            }
+        } catch (\Exception $e) {
+            return false;
         }
+
         return false;
     }
 
