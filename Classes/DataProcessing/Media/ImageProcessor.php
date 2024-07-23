@@ -52,10 +52,14 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
 
     public function canProcess(FileInterface $file): bool
     {
-        return (
-            $file instanceof FileReference
-            &&  $file->getOriginalFile()->isImage()
-        );
+        if ($file instanceof FileReference && $file->getOriginalFile()->isImage()) {
+            return true;
+        }
+
+        if ($file->isImage()) {
+            return true;
+        }
+        return false;
     }
 
     /**
