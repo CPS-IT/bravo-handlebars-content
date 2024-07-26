@@ -28,6 +28,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
     use MetaDataCollectorTrait, ContentRendererTrait;
 
     public const KEY_CROP_VARIANTS = 'cropVariants';
+    public const KEY_SRCSET = 'srcset';
     public const KEY_HEIGHT = 'height';
     public const KEY_WIDTH = 'width';
     public const KEY_VARIANTS = 'variants';
@@ -73,6 +74,10 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         if (!empty($config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS])) {
             $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
         }
+
+        #if (!empty($config[self::MEDIA_TYPE][self::KEY_SRCSET])) {
+        #    $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
+        #}
 
         $labels = $this->collectLabels($config[self::MEDIA_TYPE] ??= []);
         $linkedImage = $this->collectFileReferenceLink($file, $labels);
@@ -153,6 +158,30 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         $cropString = $file instanceof FileReference ? $file->getProperty('crop') : '';
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
         $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+
+        if(isset($config[self::KEY_SRCSET]) && is_array($config[self::KEY_SRCSET])) {
+            $images = [];
+            foreach ($config[self::KEY_SRCSET] as $key => $conf) {
+                $processingInstructions = [
+                    'width' => $conf['width'] ?? '',
+                    'height' => $conf['height'] ?? '',
+                    'minWidth' => $conf['minWidth'] ?? '',
+                    'minHeight' => $conf['minHeight'] ?? '',
+                    'maxWidth' => $conf['maxWidth'] ?? '',
+                    'maxHeight' => $conf['maxHeight'] ?? '',
+                    'crop' => $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file),
+                ];
+                $image = $this->imageService->applyProcessingInstructions($file, $processingInstructions);
+
+                $images[$key] = [
+                    self::KEY_SRC => $this->imageService->getImageUri($image),
+                    self::KEY_WIDTH => $image->getProperty(self::KEY_WIDTH),
+                    self::KEY_HEIGHT => $image->getProperty(self::KEY_HEIGHT)
+                ];
+            }
+            return $images;
+        }
+        // fall back
         $config['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file);
         $image = $this->imageService->applyProcessingInstructions($file, $config);
         return [
