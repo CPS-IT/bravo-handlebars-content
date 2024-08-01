@@ -22,12 +22,12 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_IMAGE_ZOOM => 'lightbox',
 
         // Image mapping - start
-        TtContent::FIELD_ASSETS . '.image.0.variants.mobile.src' => 'picture.sourceTextMedia.sourceS',
-        TtContent::FIELD_ASSETS . '.image.0.variants.tablet.src' => 'picture.sourceTextMedia.sourceM',
-        TtContent::FIELD_ASSETS . '.image.0.variants.desktop.src' => 'picture.sourceTextMedia.sourceL',
+        TtContent::FIELD_ASSETS . '.image.0.variants.default.sourceS.src' => 'picture.sourceTextMedia.sourceS',
+        TtContent::FIELD_ASSETS . '.image.0.variants.default.sourceM.src' => 'picture.sourceTextMedia.sourceM',
+        TtContent::FIELD_ASSETS . '.image.0.variants.default.sourceL.src' => 'picture.sourceTextMedia.sourceL',
         'picture.sourceTextMedia.sourceS' => 'picture.img.src',
-        TtContent::FIELD_ASSETS . '.image.0.variants.mobile.width' => 'picture.img.width',
-        TtContent::FIELD_ASSETS . '.image.0.variants.mobile.height' => 'picture.img.height',
+        TtContent::FIELD_ASSETS . '.image.0.variants.default.sourceS.width' => 'picture.img.width',
+        TtContent::FIELD_ASSETS . '.image.0.variants.default.sourceS.height' => 'picture.img.height',
         TtContent::FIELD_ASSETS . '.image.0.labels.accessibilityLightbox' => 'accessibility',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.target' => 'linkedImage.target',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.url' => 'linkedImage.url',
