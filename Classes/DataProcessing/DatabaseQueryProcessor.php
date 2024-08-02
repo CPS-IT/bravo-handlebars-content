@@ -45,11 +45,12 @@ class DatabaseQueryProcessor extends \TYPO3\CMS\Frontend\DataProcessing\Database
     ): array {
         $processedData = parent::process($cObj, $contentObjectConfiguration, $processorConfiguration, $processedData);
         $removeDataKey = $cObj->stdWrapValue('removeDataKey', $processorConfiguration, 0);
+        $targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, 'records');
+        $data = $processedData[$targetVariableName] ?? [];
 
-        if ($removeDataKey) {
+        if ($removeDataKey && !empty($data)) {
             $records = [];
-            $targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, 'records');
-            foreach ($processedData[$targetVariableName] as $processedRecord) {
+            foreach ($data as $processedRecord) {
                 $record = $processedRecord['data'];
                 foreach ($processedRecord as $key => $value) {
                     if ($key !== 'data') {
