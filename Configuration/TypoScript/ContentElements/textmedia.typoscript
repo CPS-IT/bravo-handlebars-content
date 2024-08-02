@@ -17,16 +17,18 @@ tt_content.textmedia {
               }
 
               cropVariants {
-                desktop {
-                  maxWidth = 1280
-                }
-
-                tablet {
-                  maxWidth = 640
-                }
-
-                mobile {
-                  maxWidth = 320
+                default {
+                  srcset {
+                    sourceS {
+                      maxWidth = 320
+                    }
+                    sourceM {
+                      maxWidth = 640
+                    }
+                    sourceL {
+                      maxWidth = 1280
+                    }
+                  }
                 }
               }
             }
