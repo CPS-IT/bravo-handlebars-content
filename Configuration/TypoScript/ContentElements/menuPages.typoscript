@@ -18,5 +18,6 @@ tt_content.menu_pages {
                 }
             }
         }
+        20 = ceHeader
     }
 }
