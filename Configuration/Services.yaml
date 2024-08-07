@@ -138,6 +138,11 @@ services:
       - name: 'data.processor'
         identifier: 'handlebarsLanguageMenu'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\CropTextProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'cropText'
+
   ####
   # data maps
   ####
