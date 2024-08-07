@@ -1,0 +1,22 @@
+# Menu of selected pages:
+# ...
+#
+# CType: menu_pages
+tt_content.menu_pages >
+tt_content.menu_pages =< handlebarsContent.default
+tt_content.menu_pages {
+    templateName = "@ce-menu-pages"
+    dataProcessing {
+        10 = menu
+        10 {
+            special = list
+            special.value.field = pages
+            dataProcessing {
+                10 = files
+                10 {
+                    references.fieldName = media
+                }
+            }
+        }
+    }
+}
