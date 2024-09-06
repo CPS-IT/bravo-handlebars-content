@@ -1,0 +1,10 @@
+tt_content.header >
+tt_content.header =< handlebarsContent.default
+tt_content.header {
+  # note: we dont have a dedicated template for header
+  templateName = @ce-text
+  dataProcessing {
+    fields = header,header_layout,header_link,headlines,hidden,space_before_class,uid
+    10 = ceHeader
+  }
+}

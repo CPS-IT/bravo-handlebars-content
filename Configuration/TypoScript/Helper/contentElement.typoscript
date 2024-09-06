@@ -1,0 +1,21 @@
+handlebarsContent.default >
+handlebarsContent.default = HANDLEBARSTEMPLATE
+handlebarsContent.default {
+  # default variables for renderer - will be passed to any partial
+  defaultDataVariables = lang
+  dataProcessing {
+    1 = handlebarsLocalization
+    1 {
+      as = lang
+      sources {
+        # add sources as necessary
+        10 = EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf
+      }
+
+      # include everything - you may change this
+      includePattern = //
+      # split keys into arrays
+      splitChar = .
+    }
+  }
+}

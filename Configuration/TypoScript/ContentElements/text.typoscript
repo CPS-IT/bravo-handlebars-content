@@ -1,0 +1,8 @@
+tt_content.text >
+tt_content.text =< handlebarsContent.default
+tt_content.text {
+  templateName = @ce-text
+  dataProcessing {
+    10 = ceText
+  }
+}

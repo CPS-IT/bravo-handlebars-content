@@ -1,0 +1,119 @@
+tt_content.textmedia >
+tt_content.textmedia =< handlebarsContent.default
+tt_content.textmedia {
+  templateName = @ce-text-media
+
+  dataProcessing {
+    10 = ceTextMedia
+    10 {
+      settings {
+        fieldConfig {
+          assets {
+            image {
+              labels {
+                accessibilityLightbox = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.lightbox
+                accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.image.linked.blank
+                accessibilityLinkSelf = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.image.linked.self
+              }
+
+              cropVariants {
+                default {
+                  srcset {
+                    sourceS {
+                      maxWidth = 320
+                    }
+                    sourceM {
+                      maxWidth = 640
+                    }
+                    sourceL {
+                      maxWidth = 1280
+                    }
+                  }
+                }
+              }
+            }
+
+            youtube {
+              width = 0
+              height = 0
+              controls = 1
+              no-cookie = 1
+              modestbranding = 1
+              loop = 1
+              relatedVideos = 0
+              enablejsapi = 0
+
+              labels {
+                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.video.play
+                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:text.media.cookie_disclaimer
+              }
+
+              previewImage {
+                width = 320
+                height = 180
+                loading = lazy
+                // imgResource config
+                variants {
+                  desktop {
+                    file.maxW = 1280
+                  }
+
+                  tablet {
+                    file.maxW = 640
+                  }
+
+                  mobile {
+                    file.maxW = 320
+                  }
+                }
+              }
+            }
+
+            vimeo {
+              width = 0
+              height = 0
+              controls = 1
+              no-cookie = 1
+              modestbranding = 1
+              loop = 1
+              relatedVideos = 0
+              enablejsapi = 0
+
+              labels {
+                accessibility = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.video.play
+                textHTML = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:text.media.cookie_disclaimer
+              }
+
+              previewImage {
+                width = 320
+                height = 180
+                loading = lazy
+                // imgResource config
+                variants {
+                  desktop {
+                    file.maxW = 1280
+                  }
+
+                  tablet {
+                    file.maxW = 640
+                  }
+
+                  mobile {
+                    file.maxW = 320
+                  }
+                }
+              }
+            }
+
+            audio {
+              loop = false
+              controls = false
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+

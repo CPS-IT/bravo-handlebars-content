@@ -8,28 +8,177 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
-  # TYPO3 handlebars begin
-  Cpsit\Typo3HandlebarsComponents\DataProcessing\PageProcessor:
-    tags: ['handlebars.processor']
-    calls:
-      - setPresenter: ['@Cpsit\BravoHandlebarsContent\Presenter\PagePresenter']
+  _instanceof:
+    ####
+    # handlebars media processors
+    ####
+    Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface:
+      tags: [ 'Handlerbars.MediaProcessor' ]
 
-  Cpsit\Typo3HandlebarsComponents\Domain\Factory\Page\PageFactory:
-    alias: 'Cpsit\BravoHandlebarsContent\Domain\Factory\Page\PageFactory'
-
-  Cpsit\Typo3HandlebarsComponents\Renderer\Component\Page\PageContentRendererInterface:
-    alias: 'Cpsit\BravoHandlebarsContent\Renderer\Component\Page\PageContentRenderer'
-
-  # Register all available content objects
-  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsContentObject:
+  ####
+  # handlebars template content objects
+  ####
+  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
     arguments:
       $renderer: '@handlebars.renderer'
+      $assetCollector: '@TYPO3\CMS\Core\Page\AssetCollector'
     tags:
       - name: frontend.contentobject
-        identifier: 'HANDLEBARSCONTENT'
-  Cpsit\BravoHandlebarsContent\DataProcessing\HeadlinesDataProcessor:
+        identifier: 'HANDLEBARSTEMPLATE'
+
+  ####
+  # data processors
+  ####
+  Cpsit\BravoHandlebarsContent\DataProcessing\CollectionDataProcessor:
     tags:
       - name: 'data.processor'
-        identifier: 'headlines'
+        identifier: 'collection'
 
+  Cpsit\BravoHandlebarsContent\DataProcessing\EachDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsEach'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\LocalizationDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsLocalization'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\SerialDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsSerial'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'ttContent'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\HeaderDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceHeader'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor:
+    arguments:
+      $dataMap: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\CeTextDataMap'
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceText'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\TextMediaDataProcessor:
+    arguments:
+      $dataMap: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\CeTextMediaDataMap'
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceTextMedia'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\UploadsDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'ceUploads'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\UnsetDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsUnset'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\ContentObjectDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsContentObjects'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\TypoScriptObjectPathProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsTypoScriptObjectPath'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\FooterDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'footer'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\MapFieldsDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsMapFields'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\KeepPathDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsKeepPath'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\UnsetPathDataProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsUnsetPath'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\DatabaseQueryProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsDatabaseQuery'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\MediaProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsMedia'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\FileLinkProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsFileLink'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\LinkProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsLink'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\LanguageMenuProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'handlebarsLanguageMenu'
+
+  Cpsit\BravoHandlebarsContent\DataProcessing\CropTextProcessor:
+    tags:
+      - name: 'data.processor'
+        identifier: 'cropText'
+
+  ####
+  # data maps
+  ####
+  # default implementation for interface
+  Cpsit\BravoHandlebarsContent\DataProcessing\Map\DefaultDataMap: ~
+  Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface: '@Cpsit\BravoHandlebarsContent\DataProcessing\Map\DefaultDataMap'
+
+  ####
+  # field processors
+  ####
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\LinkProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PlainTextProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\RelatedRecordsProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileCollectionsProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FileReferencesProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\MediaProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FlexformProcessor:
+    public: true
+  Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration:
+    public: true
+
+  Cpsit\BravoHandlebarsContent\Service\MediaDataService:
+    public: true
+    arguments:
+      - !tagged_iterator { tag: Handlerbars.MediaProcessor }
+      - '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
 

@@ -1,0 +1,19 @@
+# General Plugin:
+# This is the default rendering definition for plugins.
+#
+# CType: list
+tt_content.list >
+tt_content.list =< handlebarsContent.default
+tt_content.list {
+  templateName = @ce-plugin
+  dataProcessing {
+    10 = ceText
+    20 = handlebarsTypoScriptObjectPath
+    20 {
+      if.isTrue.field = list_type
+      as = textHtml
+      typoscriptObjectPath.field = list_type
+      typoscriptObjectPath.wrap = tt_content.list.20.|
+    }
+  }
+}

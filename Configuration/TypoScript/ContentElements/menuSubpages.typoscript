@@ -1,0 +1,24 @@
+# Menu of subpages of selected pages:
+# ...
+#
+# CType: menu_subpages
+tt_content.menu_subpages >
+tt_content.menu_subpages =< handlebarsContent.default
+tt_content.menu_subpages {
+  templateName = @ce-menu-subpages
+  dataProcessing {
+    10 = menu
+    10 {
+      special = directory
+      special.value.field = pages
+      dataProcessing {
+        10 = files
+        10 {
+          references.fieldName = media
+        }
+      }
+    }
+    20 = ceHeader
+  }
+}
+

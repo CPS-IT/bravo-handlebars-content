@@ -1,0 +1,2 @@
+@import 'EXT:bravo_handlebars_content/Configuration/TypoScript/Helper/*.typoscript'
+@import 'EXT:bravo_handlebars_content/Configuration/TypoScript/ContentElements/*.typoscript'

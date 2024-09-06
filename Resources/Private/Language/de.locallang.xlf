@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext"
+		  original="EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf">
+		<body>
+			<!-- # duplicate entries for compatibility, check if they can be removed -->
+			<trans-unit id="accessibility_linked_image_self">
+				<source>opens the link in same window</source>
+				<target>öffnet den Link im selben Fenster</target>
+			</trans-unit>
+			<trans-unit id="accessibility_linked_image_blank">
+				<source>opens the link in a new window</source>
+				<target>öffnet den Link in einem neuen Fenster</target>
+			</trans-unit>
+			<trans-unit id="accessibility_lightbox">
+				<source>opens image in an enlarged view</source>
+				<target>öffnet Bild in einer vergrößerten Darstellung</target>
+			</trans-unit>
+			<trans-unit id="accessibility_video_play">
+				<source>search</source>
+				<target>Video starten</target>
+			</trans-unit>
+			<trans-unit id="media_cookie_disclaimer">
+				<source>
+					<![CDATA[
+					<p>Diese Inhalte können nicht angezeigt werden, da die Marketing-Cookies abgelehnt wurden. Klicken Sie <a href=\"/cookiebot\">hier</a>, um die Cookies zu akzeptieren und den Inhalt anzuzeigen!</p>
+					]]>
+				</source>
+				<target>
+					<![CDATA[
+					<p>This content cannot be displayed because marketing cookies have been rejected. Click <a href=\"/cookiebot\">here</a> to accept the cookies and view the content!</p>
+					]]>
+				</target>
+			</trans-unit>
+			<!-- # end duplicate -->
+			<trans-unit id="accessibility.image.linked.self">
+				<source>opens the link in same window</source>
+				<target>öffnet den Link im selben Fenster</target>
+			</trans-unit>
+			<trans-unit id="accessibility.image.linked.blank">
+				<source>opens the link in a new window</source>
+				<target>öffnet den Link in einem neuen Fenster</target>
+			</trans-unit>
+			<trans-unit id="accessibility.lightbox">
+				<source>opens image in an enlarged view</source>
+				<target>öffnet Bild in einer vergrößerten Darstellung</target>
+			</trans-unit>
+			<trans-unit id="accessibility.video.play">
+				<source>search</source>
+				<target>Video starten</target>
+			</trans-unit>
+			<trans-unit id="text.media.cookie_disclaimer">
+				<source>
+					<![CDATA[
+					<p>This content cannot be displayed because marketing cookies have been rejected. Click <a href="/cookiebot">here</a> to accept the cookies and view the content!</p>
+					]]>
+				</source>
+				<target>
+					<![CDATA[
+					<p>Diese Inhalte können nicht angezeigt werden, da die Marketing-Cookies abgelehnt wurden. Klicken Sie <a href="/cookiebot">hier</a>, um die Cookies zu akzeptieren und den Inhalt anzuzeigen!</p>
+					]]>
+				</target>
+			</trans-unit>
+
+			<trans-unit id="accessibility.image.linked.self">
+				<source>opens the link in same window</source>
+				<target>öffnet den Link im selben Fenster</target>
+			</trans-unit>
+			<trans-unit id="accessibility.image.linked.blank">
+				<source>öffnet den Link in einem neuen Fenster</source>
+			</trans-unit>
+			<trans-unit id="label.file.accessible">
+				<source>accessible</source>
+				<target>barrierefrei</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
