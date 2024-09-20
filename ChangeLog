@@ -1,3 +1,8 @@
+2024-09-20         [RELEASE] Release of bravo-handlebars-content 1.0.1 (Vladimir Falcón Piva)
+2024-09-20 ac69491 Fixed PHP Runtime Deprecation Notice: strip_tags(): Passing null to parameter (Vladimir Falcón Piva)
+2024-09-20 90ab4c5 PHP Warning: foreach() argument must be of type array|object, int given (Vladimir Falcón Piva)
+2024-09-20 1e6889e Fixed PHP Runtime Deprecation Notice: trim(): Passing null to parameter (Vladimir Falcón Piva)
+
 2024-09-06         [RELEASE] Release of bravo-handlebars-content 1.0.0 (Dirk Wenzel)
 2024-08-07 9c9185c [TASK][planio-59347] add crop text processor (Karavas)
 2024-08-07 0ea4ff9 [TASK][planio-59347] add crop text processor (Karavas)
