@@ -21,7 +21,7 @@ class BodytextProcessor implements FieldProcessorInterface, ContentRendererAware
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $value = $data[self::FIELD_NAME];
+        $value = $data[self::FIELD_NAME] ?? '';
         $variables[$fieldName] = $this->contentObjectRenderer->parseFunc(
             trim($value),
             null,

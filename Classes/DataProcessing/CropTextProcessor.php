@@ -54,7 +54,7 @@ class CropTextProcessor implements DataProcessorInterface
         $cropEllipsis = $processorConfiguration['cropping.']['cropEllipsis'] ?? '...';
         $htmlCropper = GeneralUtility::makeInstance(HtmlCropper::class);
         if (isset($processorConfiguration['cropping.']['stripHtml']) && $processorConfiguration['cropping.']['stripHtml'] === '1') {
-            $text = strip_tags($processedData[$processorConfiguration['field']]);
+            $text = strip_tags($processedData[$processorConfiguration['field']] ?? '');
         }
         $croppedText = $htmlCropper->crop($text, $cropNumber, $cropEllipsis, true);
 
