@@ -11,5 +11,5 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Vladimir Falcón Piva',
     'author_email' => 'v.falcon@familie-redlich.de',
     'author_company' => 'CPS',
-    'version' => '1.0.1',
+    'version' => '1.1.0',
 ];
