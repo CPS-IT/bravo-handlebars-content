@@ -1,3 +1,7 @@
+2024-11-06         [RELEASE] Release of bravo-handlebars-content 1.1.0 (Vladimir Falcón Piva)
+2024-11-06 8b8491d Feature TYPO3 shortcut content element. (Vladimir Falcón Piva)
+2024-10-14 2b353a1 61462 fix display of image alternative text (Markus Dübbert)
+
 2024-09-20         [RELEASE] Release of bravo-handlebars-content 1.0.1 (Vladimir Falcón Piva)
 2024-09-20 ac69491 Fixed PHP Runtime Deprecation Notice: strip_tags(): Passing null to parameter (Vladimir Falcón Piva)
 2024-09-20 90ab4c5 PHP Warning: foreach() argument must be of type array|object, int given (Vladimir Falcón Piva)
