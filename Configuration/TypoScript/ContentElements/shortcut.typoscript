@@ -1,0 +1,17 @@
+# Insert records:
+# This element embeds other content elements.
+#
+# CType: shortcut
+tt_content.shortcut >
+tt_content.shortcut =< handlebarsContent.default
+tt_content.shortcut {
+  templateName = @ce-insert-record
+  variables {
+    insertRecordContent = RECORDS
+    insertRecordContent {
+      source.field = records
+      tables = {$styles.content.shortcut.tables}
+    }
+  }
+
+}

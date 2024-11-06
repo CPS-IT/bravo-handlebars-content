@@ -32,7 +32,7 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.target' => 'linkedImage.target',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.url' => 'linkedImage.url',
         TtContent::FIELD_ASSETS . '.image.0.linkedImage.accessibility' => 'linkedImage.accessibility',
-        TtContent::FIELD_ASSETS . '.image.0.alternative' => 'picture.img.alt',
+        TtContent::FIELD_ASSETS . '.image.0.alt' => 'picture.img.alt',
         TtContent::FIELD_ASSETS . '.image.0.description' => 'picture.caption',
         TtContent::FIELD_ASSETS . '.image.0.copyright' => 'picture.copyright.copyright',
         TtContent::FIELD_ASSETS . '.image.0.lightbox' => 'lightbox',
