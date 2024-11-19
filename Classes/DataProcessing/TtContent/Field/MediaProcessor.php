@@ -8,6 +8,7 @@ use Cpsit\BravoHandlebarsContent\Service\MediaDataService;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Frontend\DataProcessing\FilesProcessor;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -16,13 +17,14 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
+
 class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInterface
 {
     use FieldProcessorConfigTrait, ContentRendererTrait;
 
     public function __construct(
-        protected MediaDataService $mediaDataService,
-        protected FileReferencesProcessor $fileReferencesProcessor,
+        protected MediaDataService            $mediaDataService,
+        protected FilesProcessor              $filesProcessor,
         protected FieldProcessorConfiguration $fieldProcessorConfiguration
     )
     {
@@ -33,19 +35,31 @@ class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInt
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        $variables = $this->fileReferencesProcessor->process($fieldName, $data, $variables);
-        if(empty($variables[$fieldName])) {
+        $filesProcessorConfig = [
+            'references.' => [
+                'fieldName' => $fieldName,
+                'table' => 'tt_content',
+            ],
+            'as' => $fieldName
+        ];
+        $variables = $this->filesProcessor->process(
+            $this->contentObjectRenderer,
+            [],
+            $filesProcessorConfig,
+            ['data' => $data]
+        );
+        if (empty($variables[$fieldName])) {
             return $variables;
         }
         $config = $this->fieldProcessorConfiguration->get($fieldName);
 
         $mediaData = [];
         foreach ($variables[$fieldName] as $file) {
-            if(!$file instanceof FileInterface) {
+            if (!$file instanceof FileInterface) {
                 continue;
             }
 
-            if($this->mediaDataService instanceof ContentRendererAwareInterface) {
+            if ($this->mediaDataService instanceof ContentRendererAwareInterface) {
                 $this->mediaDataService->setContentObjectRenderer($this->contentObjectRenderer);
             }
 
@@ -54,7 +68,7 @@ class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInt
 
         foreach ($mediaData as $media) {
             if (empty($media['type'])) {
-               continue;
+                continue;
             }
             $variables[$fieldName][$media['type']][] = $media;
         }
