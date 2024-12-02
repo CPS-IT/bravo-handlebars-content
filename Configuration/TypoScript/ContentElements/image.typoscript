@@ -1,0 +1,76 @@
+tt_content.image >
+tt_content.image =< handlebarsContent.default
+tt_content.image {
+  templateName = @ce-image-slider
+
+  dataProcessing {
+    10 = ceHeader
+
+    20 = files
+    20 {
+      if.isTrue.field = image
+      references {
+        fieldName = image
+        table = tt_content
+      }
+      as = imageFiles
+    }
+
+    25 = handlebarsMedia
+    25 {
+      as = images
+      data = imageFiles
+      settings {
+        image {
+          cropVariants {
+            default {
+              srcset {
+                sourceS {
+                  maxWidth = 320
+                }
+                sourceM {
+                  maxWidth = 640
+                }
+                sourceL {
+                  maxWidth = 1280
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    100 = handlebarsMapFields
+    100 {
+      separator = :
+      skipEmptyValues = 1
+      map {
+        images:0:copyright = images:0:copyright:copyright
+        images:0:alt = images:0:img:alt
+
+        images:0:variants:default:sourceS:height = images:0:img:height
+        images:0:variants:default:sourceS:width = images:0:img:width
+
+        images:0:variants:default:sourceS:src = images:0:sourceImageSlider:sourceS
+        images:0:variants:default:sourceM:src = images:0:sourceImageSlider:sourceM
+        images:0:variants:default:sourceL:src = images:0:sourceImageSlider:sourceL
+
+        images:0:sourceImageSlider:sourceS = images:0:img:src
+      }
+    }
+
+    110 = handlebarsUnset
+    110 {
+      fields = imageFiles
+    }
+
+    150 = handlebarsUnsetPath
+    150 {
+      paths {
+        #0 = logoImage:0:linkedImage
+      }
+    }
+  }
+}
+
