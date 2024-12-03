@@ -1,6 +1,6 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing;
+declare(strict_types=1);
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -10,6 +10,8 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
  * of the License, or any later version.
  */
 
+namespace Cpsit\BravoHandlebarsContent\DataProcessing;
+
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\Exception\MissingArrayPathException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -17,6 +19,29 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
+/**
+ * Process each record in a list of records.
+ *
+ * Example TypoScript configuration:
+ *
+ * 10 = handlebarsEach
+ * 10 {
+ *   sourcePath = records
+ *   separator = :
+ *   # optional: table to be used for the content object renderer
+ *   table = tt_address
+ *   dataProcessing {
+ *     10 = handlebarsMapFields
+ *     10 {
+ *       map {
+ *        first_name = firstName
+ *      }
+ *     }
+ *   }
+ * }
+ *
+ * where "sourcePath" means the variable containing the list of records.
+ */
 class EachDataProcessor implements DataProcessorInterface
 {
     public const SEPARATOR = ':';
@@ -71,7 +96,7 @@ class EachDataProcessor implements DataProcessorInterface
         foreach ($records as $key => $record) {
             $recordContentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $recordContentObjectRenderer->setRequest($this->contentObjectRenderer->getRequest());
-            $recordContentObjectRenderer->start($record, $this->processorConfiguration['table']);
+            $recordContentObjectRenderer->start($record, $this->processorConfiguration['table'] ?? '');
             $processedRecordVariables[$key] = $record;
             $processedRecordVariables[$key] = $this->contentDataProcessor->process(
                 $recordContentObjectRenderer,

@@ -16,6 +16,8 @@ tt_content.image {
       as = imageFiles
     }
 
+    ###############################################
+    # Parse image files to handlebars media
     25 = handlebarsMedia
     25 {
       as = images
@@ -41,35 +43,39 @@ tt_content.image {
       }
     }
 
-    100 = handlebarsMapFields
-    100 {
+    ###############################################
+    # Iterate over images and map fields
+    30 = handlebarsEach
+    30 {
       separator = :
-      skipEmptyValues = 1
-      map {
-        images:0:copyright = images:0:copyright:copyright
-        images:0:alt = images:0:img:alt
-
-        images:0:variants:default:sourceS:height = images:0:img:height
-        images:0:variants:default:sourceS:width = images:0:img:width
-
-        images:0:variants:default:sourceS:src = images:0:sourceImageSlider:sourceS
-        images:0:variants:default:sourceM:src = images:0:sourceImageSlider:sourceM
-        images:0:variants:default:sourceL:src = images:0:sourceImageSlider:sourceL
-
-        images:0:sourceImageSlider:sourceS = images:0:img:src
+      sourcePath = images
+      dataProcessing {
+        10 = handlebarsMapFields
+        10 {
+          separator = :
+          skipEmptyValues = 1
+          map {
+            copyright = copyright:copyright
+            description = caption
+            alt = img:alt
+            variants:default:sourceS:height = img:height
+            variants:default:sourceS:width = img:width
+            variants:default:sourceS:src = sourceImageSlider:sourceS
+            variants:default:sourceM:src = sourceImageSlider:sourceM
+            variants:default:sourceL:src = sourceImageSlider:sourceL
+            sourceImageSlider:sourceS = img:src
+          }
+        }
+        20 = handlebarsUnset
+        20 {
+          fields = options, labels, variants, language
+        }
       }
     }
 
     110 = handlebarsUnset
     110 {
       fields = imageFiles
-    }
-
-    150 = handlebarsUnsetPath
-    150 {
-      paths {
-        #0 = logoImage:0:linkedImage
-      }
     }
   }
 }
