@@ -1,0 +1,23 @@
+# Typo3 form plugin:
+# This is the default configuration for form plugin
+# uses ce-plugin template
+#
+# CType: form_formframework
+tt_content.form_formframework >
+tt_content.form_formframework =< handlebarsContent.default
+tt_content.form_formframework {
+  templateName = @ce-plugin
+  dataProcessing {
+    10 = ceText
+    20 = handlebarsContentObjects
+    20 {
+      contentObjects {
+        textHtml = EXTBASEPLUGIN
+        textHtml {
+          extensionName = Form
+          pluginName = Formframework
+        }
+      }
+    }
+  }
+}
