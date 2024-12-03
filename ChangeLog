@@ -1,3 +1,9 @@
+2024-12-03         [RELEASE] Release of bravo-handlebars-content 1.2.0 (Dirk Wenzel)
+2024-12-03 f60aa7a #56553 Image gallery (Vladimir Falcón Piva)
+2024-12-02 dbe2843 #56553 image integration in handlebars (Kathrin Grafahrend)
+2024-11-27 326d550 #62066 Form integration in handlebars (Vladimir Falcón Piva)
+2024-11-19 b37c296 MediaProcessor refactored we now use the core FilesProcessor to handle file relations. This ensures proper localization handling (Dirk Wenzel)
+
 2024-11-06         [RELEASE] Release of bravo-handlebars-content 1.1.0 (Vladimir Falcón Piva)
 2024-11-06 8b8491d Feature TYPO3 shortcut content element. (Vladimir Falcón Piva)
 2024-10-14 2b353a1 61462 fix display of image alternative text (Markus Dübbert)
