@@ -1,0 +1,82 @@
+tt_content.image >
+tt_content.image =< handlebarsContent.default
+tt_content.image {
+  templateName = @ce-image-slider
+
+  dataProcessing {
+    10 = ceHeader
+
+    20 = files
+    20 {
+      if.isTrue.field = image
+      references {
+        fieldName = image
+        table = tt_content
+      }
+      as = imageFiles
+    }
+
+    ###############################################
+    # Parse image files to handlebars media
+    25 = handlebarsMedia
+    25 {
+      as = images
+      data = imageFiles
+      settings {
+        image {
+          cropVariants {
+            default {
+              srcset {
+                sourceS {
+                  maxWidth = 320
+                }
+                sourceM {
+                  maxWidth = 640
+                }
+                sourceL {
+                  maxWidth = 1280
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    ###############################################
+    # Iterate over images and map fields
+    30 = handlebarsEach
+    30 {
+      separator = :
+      sourcePath = images
+      dataProcessing {
+        10 = handlebarsMapFields
+        10 {
+          separator = :
+          skipEmptyValues = 1
+          map {
+            copyright = copyright:copyright
+            description = caption
+            alt = img:alt
+            variants:default:sourceS:height = img:height
+            variants:default:sourceS:width = img:width
+            variants:default:sourceS:src = sourceImageSlider:sourceS
+            variants:default:sourceM:src = sourceImageSlider:sourceM
+            variants:default:sourceL:src = sourceImageSlider:sourceL
+            sourceImageSlider:sourceS = img:src
+          }
+        }
+        20 = handlebarsUnset
+        20 {
+          fields = options, labels, variants, language
+        }
+      }
+    }
+
+    110 = handlebarsUnset
+    110 {
+      fields = imageFiles
+    }
+  }
+}
+
