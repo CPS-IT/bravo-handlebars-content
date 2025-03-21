@@ -9,6 +9,7 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
@@ -43,7 +44,26 @@ class DatabaseQueryProcessor extends \TYPO3\CMS\Frontend\DataProcessing\Database
         array $processorConfiguration,
         array $processedData
     ): array {
-        $processedData = parent::process($cObj, $contentObjectConfiguration, $processorConfiguration, $processedData);
+
+        // note: we work with a clone of $cObj here in order to prevent side effects of changing its data array
+        $clone = clone $cObj;
+        if(!empty($processorConfiguration['removePrefixes']) && !empty ($processorConfiguration['prefixedFields'])) {
+            // remove table prefixes from group fields
+            $prefixes = GeneralUtility::trimExplode(',', $processorConfiguration['removePrefixes'], true);
+            $prefixedFields = GeneralUtility::trimExplode(',', $processorConfiguration['prefixedFields'], true);
+            foreach ($prefixes as $prefix) {
+                foreach ($prefixedFields as $prefixedField) {
+                    if(empty($processedData['data'][$prefixedField])) {
+                        continue;
+                    };
+                    $processedData['data'][$prefixedField] = str_replace($prefix, '', $processedData['data'][$prefixedField]);
+                }
+            }
+
+            $clone->data = $processedData['data'];
+        }
+
+        $processedData = parent::process($clone, $contentObjectConfiguration, $processorConfiguration, $processedData);
         $removeDataKey = $cObj->stdWrapValue('removeDataKey', $processorConfiguration, 0);
         $targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, 'records');
         $data = $processedData[$targetVariableName] ?? [];

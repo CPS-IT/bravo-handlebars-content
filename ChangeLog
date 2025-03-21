@@ -1,3 +1,6 @@
+2025-03-21         [RELEASE] Release of bravo-handlebars-content 1.3.0 (Dirk Wenzel)
+2025-03-21 32ee599 [FEATURE] DataBaseQueryProcessor now removes table prefixes from fields (Dirk Wenzel)
+
 2024-12-03         [RELEASE] Release of bravo-handlebars-content 1.2.0 (Dirk Wenzel)
 2024-12-03 f60aa7a #56553 Image gallery (Vladimir Falcón Piva)
 2024-12-02 dbe2843 #56553 image integration in handlebars (Kathrin Grafahrend)
