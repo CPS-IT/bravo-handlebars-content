@@ -1,14 +1,39 @@
+# copied from tt_content.textmedia
+
 tt_content.teaser-hero >
 tt_content.teaser-hero =< handlebarsContent.default
 tt_content.teaser-hero {
   templateName = @ce-hero-teaser
-
   dataProcessing {
-    5 = ceTextMedia
-    5 {
+    10 = ceTextMedia
+    10 {
       settings {
         fieldConfig {
           assets {
+            image {
+              labels {
+                accessibilityLightbox = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.lightbox
+                accessibilityLinkBlank = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.image.linked.blank
+                accessibilityLinkSelf = LLL:EXT:bravo_handlebars_content/Resources/Private/Language/locallang.xlf:accessibility.image.linked.self
+              }
+
+              cropVariants {
+                default {
+                  srcset {
+                    sourceS {
+                      maxWidth = 320
+                    }
+                    sourceM {
+                      maxWidth = 640
+                    }
+                    sourceL {
+                      maxWidth = 1280
+                    }
+                  }
+                }
+              }
+            }
+
             youtube {
               width = 0
               height = 0
@@ -79,6 +104,11 @@ tt_content.teaser-hero {
                   }
                 }
               }
+            }
+
+            audio {
+              loop = false
+              controls = false
             }
           }
         }
