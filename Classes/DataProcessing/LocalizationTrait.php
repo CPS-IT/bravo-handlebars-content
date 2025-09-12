@@ -71,7 +71,7 @@ trait LocalizationTrait
      */
     protected function assertValidSource(array $config): void
     {
-        if (empty($config['sources'] || !is_array($config['sources']))) {
+        if (!isset($config['sources']) || empty($config['sources']) || !is_array($config['sources'])) {
             throw new InvalidConfigurationException(
                 'Missing or invalid configuration key `sources`',
                 1717584873

@@ -80,13 +80,16 @@ final class FileLinkServiceTest extends UnitTestCase
                 return in_array($property, ['title', 'name', 'extension']);
             });
 
-        $this->fileReference->expects(self::exactly(3))
+        $this->fileReference->expects(self::exactly(4))
             ->method('getProperty')
-            ->willReturnMap([
-                ['title', ''], // Empty title
-                ['name', 'document.docx'],
-                ['extension', 'docx']
-            ]);
+            ->willReturnCallback(function($property) {
+                return match($property) {
+                    'title' => '', // Empty title
+                    'name' => 'document.docx',
+                    'extension' => 'docx',
+                    default => null
+                };
+            });
 
         $result = FileLinkService::resolveFileLik($this->fileReference);
 
@@ -174,7 +177,7 @@ final class FileLinkServiceTest extends UnitTestCase
             'name' => 'complete.pdf',
             'description' => 'A complete test document',
             'download_name' => 'download-complete.pdf',
-            'size' => 2048000, // ~2MB
+            'size' => 2097152, // Exactly 2MB (2 * 1024 * 1024)
             'extension' => 'pdf',
             'language' => 'en',
             'copyright' => '© 2024 Test Corp',
@@ -304,16 +307,19 @@ final class FileLinkServiceTest extends UnitTestCase
                 return in_array($property, $availableProperties);
             });
 
-        $this->fileReference->expects(self::exactly(count($availableProperties)))
+        $this->fileReference->expects(self::exactly(count($availableProperties) + 1)) // +1 for extra 'name' call when title is empty
             ->method('getProperty')
-            ->willReturnMap([
-                ['title', ''], // Empty title - should use name
-                ['name', 'annual-report-2024.pdf'],
-                ['description', 'Annual financial report for 2024'],
-                ['size', 15728640], // 15MB
-                ['extension', 'pdf'],
-                ['download_name', 'Annual_Report_2024_Final.pdf']
-            ]);
+            ->willReturnCallback(function($property) {
+                return match($property) {
+                    'title' => '', // Empty title - should use name
+                    'name' => 'annual-report-2024.pdf',
+                    'description' => 'Annual financial report for 2024',
+                    'size' => 15728640, // 15MB
+                    'extension' => 'pdf',
+                    'download_name' => 'Annual_Report_2024_Final.pdf',
+                    default => null
+                };
+            });
 
         $result = FileLinkService::resolveFileLik($this->fileReference);
 

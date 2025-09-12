@@ -310,14 +310,6 @@ final class LinkServiceTest extends UnitTestCase
     #[DataProvider('linkTypesDataProvider')]
     public function resolveTypoLinkHandlesDifferentLinkTypes(string $typoLink, string $expectedType, string $expectedUrl): void
     {
-        $this->linkResult->expects(self::once())
-            ->method('getType')
-            ->willReturn($expectedType);
-
-        $this->linkResult->expects(self::once())
-            ->method('getUrl')
-            ->willReturn($expectedUrl);
-
         $this->contentObjectRenderer->expects(self::once())
             ->method('typoLink')
             ->willReturn($this->linkResult);

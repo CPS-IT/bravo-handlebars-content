@@ -15,6 +15,37 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+// Test-specific MediaDataService that can be instantiated without constructor arguments
+class TestableMediaDataService extends MediaDataService
+{
+    private MockObject $mock;
+
+    public function __construct()
+    {
+        // Empty constructor for testing - will be configured via setMock()
+    }
+
+    public function setMock(MockObject $mock): void
+    {
+        $this->mock = $mock;
+    }
+
+    public function setContentObjectRenderer($cObj): void
+    {
+        if (isset($this->mock)) {
+            $this->mock->setContentObjectRenderer($cObj);
+        }
+    }
+
+    public function process($file, $config = []): array
+    {
+        if (isset($this->mock)) {
+            return $this->mock->process($file, $config);
+        }
+        return [];
+    }
+}
+
 /**
  * Test case for MediaProcessor
  *
@@ -72,13 +103,15 @@ final class MediaProcessorTest extends UnitTestCase
             'alt' => 'Test image'
         ];
 
+        // Create a testable MediaDataService that can be instantiated without constructor arguments
+        $mediaDataServiceStub = new TestableMediaDataService();
+        $mediaDataServiceStub->setMock($this->mediaDataService);
+
         // Mock GeneralUtility::makeInstance for this test
-        GeneralUtility::addInstance(MediaDataService::class, $this->mediaDataService);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub);
         GeneralUtility::addInstance(TypoScriptService::class, $this->typoScriptService);
 
-        $this->typoScriptService->expects(self::once())
-            ->method('convertTypoScriptArrayToPlainArray')
-            ->willReturn([]);
+        // TypoScriptService is not called when there are no settings
 
         $this->mediaDataService->expects(self::once())
             ->method('setContentObjectRenderer')
@@ -126,13 +159,15 @@ final class MediaProcessorTest extends UnitTestCase
             'url' => '/fileadmin/user_upload/test.mp4'
         ];
 
+        // Create a testable MediaDataService that can be instantiated without constructor arguments
+        $mediaDataServiceStub = new TestableMediaDataService();
+        $mediaDataServiceStub->setMock($this->mediaDataService);
+
         // Mock GeneralUtility::makeInstance for this test
-        GeneralUtility::addInstance(MediaDataService::class, $this->mediaDataService);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub);
         GeneralUtility::addInstance(TypoScriptService::class, $this->typoScriptService);
 
-        $this->typoScriptService->expects(self::once())
-            ->method('convertTypoScriptArrayToPlainArray')
-            ->willReturn([]);
+        // TypoScriptService is not called when there are no settings
 
         $this->mediaDataService->expects(self::once())
             ->method('setContentObjectRenderer')
@@ -203,13 +238,15 @@ final class MediaProcessorTest extends UnitTestCase
                 ['as', $processorConfiguration, 'files', 'files']
             ]);
 
+        // Create a testable MediaDataService that can be instantiated without constructor arguments
+        $mediaDataServiceStub = new TestableMediaDataService();
+        $mediaDataServiceStub->setMock($this->mediaDataService);
+
         // Mock GeneralUtility::makeInstance for this test
-        GeneralUtility::addInstance(MediaDataService::class, $this->mediaDataService);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub);
         GeneralUtility::addInstance(TypoScriptService::class, $this->typoScriptService);
 
-        $this->typoScriptService->expects(self::once())
-            ->method('convertTypoScriptArrayToPlainArray')
-            ->willReturn([]);
+        // TypoScriptService is not called when there are no settings
 
         $this->mediaDataService->expects(self::once())
             ->method('setContentObjectRenderer');
@@ -307,15 +344,20 @@ final class MediaProcessorTest extends UnitTestCase
                 ['as', $processorConfiguration, 'files', 'files']
             ]);
 
+        // Create testable MediaDataService instances for each file (2 files = 2 instances needed)
+        $mediaDataServiceStub1 = new TestableMediaDataService();
+        $mediaDataServiceStub1->setMock($this->mediaDataService);
+        $mediaDataServiceStub2 = new TestableMediaDataService();
+        $mediaDataServiceStub2->setMock($this->mediaDataService);
+
         // Mock GeneralUtility::makeInstance for this test
-        GeneralUtility::addInstance(MediaDataService::class, $this->mediaDataService);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub1);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub2);
         GeneralUtility::addInstance(TypoScriptService::class, $this->typoScriptService);
 
-        $this->typoScriptService->expects(self::once())
-            ->method('convertTypoScriptArrayToPlainArray')
-            ->willReturn([]);
+        // TypoScriptService is not called when there are no settings
 
-        $this->mediaDataService->expects(self::once())
+        $this->mediaDataService->expects(self::exactly(2))
             ->method('setContentObjectRenderer');
 
         $this->mediaDataService->expects(self::exactly(2))
@@ -421,8 +463,12 @@ final class MediaProcessorTest extends UnitTestCase
             ]
         ];
 
+        // Create a testable MediaDataService that can be instantiated without constructor arguments
+        $mediaDataServiceStub = new TestableMediaDataService();
+        $mediaDataServiceStub->setMock($this->mediaDataService);
+
         // Mock GeneralUtility::makeInstance for this test
-        GeneralUtility::addInstance(MediaDataService::class, $this->mediaDataService);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub);
         GeneralUtility::addInstance(TypoScriptService::class, $this->typoScriptService);
 
         $this->typoScriptService->expects(self::once())
@@ -485,13 +531,15 @@ final class MediaProcessorTest extends UnitTestCase
                 ['as', $config, 'files', $expectedTargetName]
             ]);
 
+        // Create a testable MediaDataService that can be instantiated without constructor arguments
+        $mediaDataServiceStub = new TestableMediaDataService();
+        $mediaDataServiceStub->setMock($this->mediaDataService);
+
         // Mock GeneralUtility::makeInstance for this test
-        GeneralUtility::addInstance(MediaDataService::class, $this->mediaDataService);
+        GeneralUtility::addInstance(MediaDataService::class, $mediaDataServiceStub);
         GeneralUtility::addInstance(TypoScriptService::class, $this->typoScriptService);
 
-        $this->typoScriptService->expects(self::once())
-            ->method('convertTypoScriptArrayToPlainArray')
-            ->willReturn([]);
+        // TypoScriptService is not called when there are no settings
 
         $this->mediaDataService->expects(self::once())
             ->method('setContentObjectRenderer');

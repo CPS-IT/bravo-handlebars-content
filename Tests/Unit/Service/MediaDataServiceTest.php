@@ -132,7 +132,7 @@ final class MediaDataServiceTest extends UnitTestCase
     public function processSetsContentObjectRendererOnAwareProcessors(): void
     {
         // Create a processor that implements ContentRendererAwareInterface
-        $contentRendererAwareProcessor = $this->createMock([
+        $contentRendererAwareProcessor = $this->createMockForIntersectionOfInterfaces([
             MediaProcessorInterface::class,
             ContentRendererAwareInterface::class
         ]);
@@ -171,7 +171,6 @@ final class MediaDataServiceTest extends UnitTestCase
             ->willReturn(true);
 
         // Ensure setContentObjectRenderer is never called on regular processors
-        $this->expectNotToPerformAssertions();
 
         $this->mediaProcessor1->expects(self::once())
             ->method('process')
@@ -188,7 +187,7 @@ final class MediaDataServiceTest extends UnitTestCase
         $this->subject->setContentObjectRenderer($newContentObjectRenderer);
 
         // Test that the new renderer is used when processing content-renderer-aware processors
-        $contentRendererAwareProcessor = $this->createMock([
+        $contentRendererAwareProcessor = $this->createMockForIntersectionOfInterfaces([
             MediaProcessorInterface::class,
             ContentRendererAwareInterface::class
         ]);

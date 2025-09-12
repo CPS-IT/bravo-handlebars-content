@@ -421,10 +421,15 @@ final class LocalizationDataProcessorTest extends UnitTestCase
 
         $this->request->expects(self::exactly(2))
             ->method('getAttribute')
-            ->willReturnMap([
-                ['language', null],
-                ['site', $this->site]
-            ]);
+            ->willReturnCallback(function($attribute) {
+                if ($attribute === 'language') {
+                    return null;
+                }
+                if ($attribute === 'site') {
+                    return $this->site;
+                }
+                return null;
+            });
 
         $this->site->expects(self::once())
             ->method('getDefaultLanguage')

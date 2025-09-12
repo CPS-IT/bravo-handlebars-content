@@ -37,7 +37,7 @@ final class LinkService implements ContentRendererAwareInterface
         $linkResult = $this->parseTypoLink($typoLink);
 
         if (!($linkResult instanceof LinkResultInterface)) {
-            $linkResult = new LinkResult('', '');
+            $linkResult = (new LinkResult('', ''))->withLinkText('');
         }
 
         return $linkResult;

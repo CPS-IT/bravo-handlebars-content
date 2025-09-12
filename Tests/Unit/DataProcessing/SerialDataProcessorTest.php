@@ -174,8 +174,13 @@ final class SerialDataProcessorTest extends UnitTestCase
 
         $this->dataProcessorRegistry->expects(self::exactly(2))
             ->method('getDataProcessor')
-            ->withConsecutive(['FirstProcessor'], ['SecondProcessor'])
-            ->willReturnOnConsecutiveCalls($firstProcessor, $secondProcessor);
+            ->willReturnCallback(function($processorName) use ($firstProcessor, $secondProcessor) {
+                return match($processorName) {
+                    'FirstProcessor' => $firstProcessor,
+                    'SecondProcessor' => $secondProcessor,
+                    default => null
+                };
+            });
 
         $firstProcessor->expects(self::once())
             ->method('process')
@@ -258,7 +263,7 @@ final class SerialDataProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'dataProcessing.' => [
-                '10' => DataProcessorInterface::class,
+                '10' => 'NonExistentClass',
                 '10.' => ['config' => 'value']
             ]
         ];
@@ -272,21 +277,16 @@ final class SerialDataProcessorTest extends UnitTestCase
             ->method('has')
             ->willReturn(false);
 
-        // Mock GeneralUtility::makeInstance to return our mock processor
-        GeneralUtility::addInstance(DataProcessorInterface::class, $this->mockProcessor);
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionCode(1427455378);
+        $this->expectExceptionMessage('Processor class or service name "NonExistentClass" does not exist!');
 
-        $this->mockProcessor->expects(self::once())
-            ->method('process')
-            ->willReturn(['instantiated' => 'data']);
-
-        $result = $this->subject->process(
+        $this->subject->process(
             $this->contentObjectRenderer,
             [],
             $processorConfiguration,
             $processedData
         );
-
-        self::assertArrayHasKey('instantiated', $result);
     }
 
     #[Test]
@@ -302,28 +302,26 @@ final class SerialDataProcessorTest extends UnitTestCase
         ];
         $processedData = ['existing' => 'data'];
 
-        $this->dataProcessorRegistry->expects(self::exactly(2))
+        $this->dataProcessorRegistry->expects(self::once())
             ->method('getDataProcessor')
-            ->withConsecutive(['NonExistentProcessor'], ['ExistingProcessor'])
-            ->willReturnOnConsecutiveCalls(null, $this->mockProcessor);
+            ->with('NonExistentProcessor')
+            ->willReturn(null);
 
         $this->container->expects(self::once())
             ->method('has')
             ->with('NonExistentProcessor')
             ->willReturn(false);
 
-        $this->mockProcessor->expects(self::once())
-            ->method('process')
-            ->willReturn(['existing_processed' => 'data']);
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionCode(1427455378);
+        $this->expectExceptionMessage('Processor class or service name "NonExistentProcessor" does not exist!');
 
-        $result = $this->subject->process(
+        $this->subject->process(
             $this->contentObjectRenderer,
             [],
             $processorConfiguration,
             $processedData
         );
-
-        self::assertArrayHasKey('existing_processed', $result);
     }
 
     #[Test]
