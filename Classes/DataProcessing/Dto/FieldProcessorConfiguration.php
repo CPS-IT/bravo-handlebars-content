@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -12,15 +14,15 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\Dto;
 
 class FieldProcessorConfiguration
 {
-    public function __construct(protected array $configuration = [])
-    {
-    }
+    public function __construct(protected array $configuration = []) {}
 
     /**
      * @param string $name field name
+     *
      * @return array
      */
-    public function get(string $name): array {
+    public function get(string $name): array
+    {
         return $this->configuration[$name] ?? [];
     }
 

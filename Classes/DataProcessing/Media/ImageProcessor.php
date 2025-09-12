@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
@@ -7,11 +9,9 @@ use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
-use TYPO3\CMS\Core\Resource\AbstractFile;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /*
@@ -25,31 +25,39 @@ use TYPO3\CMS\Extbase\Service\ImageService;
 #[AsTaggedItem(priority: 4)]
 class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInterface
 {
-    use MetaDataCollectorTrait, ContentRendererTrait;
+    use MetaDataCollectorTrait;
+    use ContentRendererTrait;
 
     public const KEY_CROP_VARIANTS = 'cropVariants';
+
     public const KEY_SRCSET = 'srcset';
+
     public const KEY_HEIGHT = 'height';
+
     public const KEY_WIDTH = 'width';
+
     public const KEY_VARIANTS = 'variants';
+
     public const KEY_LINKED_IMAGE = 'linkedImage';
+
     public const KEY_ORIGINAL = 'original';
+
     public const KEY_OPTIONS = 'options';
+
     public const KEY_LABELS = 'labels';
 
     public const MEDIA_TYPE = 'image';
 
     public const DEFAULT_CONFIG = [
         self::KEY_CROP_VARIANTS => [
-            'default' => []
-        ]
+            'default' => [],
+        ],
     ];
 
     public function __construct(
         protected ImageService $imageService,
         protected LinkService $linkService
-    ) {
-    }
+    ) {}
 
     public function canProcess(FileInterface $file): bool
     {
@@ -75,9 +83,9 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
             $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
         }
 
-        #if (!empty($config[self::MEDIA_TYPE][self::KEY_SRCSET])) {
+        # if (!empty($config[self::MEDIA_TYPE][self::KEY_SRCSET])) {
         #    $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
-        #}
+        # }
 
         $labels = $this->collectLabels($config[self::MEDIA_TYPE] ??= []);
         $linkedImage = $this->collectFileReferenceLink($file, $labels);
@@ -87,7 +95,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
             self::KEY_ORIGINAL => $file->getPublicUrl(),
             self::KEY_OPTIONS => $config[self::MEDIA_TYPE],
             self::KEY_LABELS => $labels,
-            self::KEY_VARIANTS => []
+            self::KEY_VARIANTS => [],
         ];
 
         if (!empty($linkedImage)) {
@@ -102,9 +110,9 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         foreach ($cropVariants as $variant => $variantConfig) {
             $imageData[self::KEY_VARIANTS][$variant] = $this->processCropVariant($variant, $variantConfig, $file);
         }
+
         return $imageData;
     }
-
 
     protected function collectFileReferenceLink(FileInterface $file, array $labels = []): array
     {
@@ -122,6 +130,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
 
             $link['accessibility'] = $accessibility;
         }
+
         return $link;
     }
 
@@ -130,6 +139,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         $link = $file->hasProperty('link') ? $file->getProperty('link') : '';
         $this->linkService->setContentObjectRenderer($this->contentObjectRenderer);
         $link = $this->linkService->resolveTypoLink($link);
+
         return $this->linkService->linkResultToArray($link);
     }
 
@@ -151,6 +161,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
      * @param string $cropVariant
      * @param array $config
      * @param FileInterface $file
+     *
      * @return array
      */
     protected function processCropVariant(string $cropVariant, array $config, FileInterface $file): array
@@ -159,7 +170,7 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
         $cropArea = $cropVariantCollection->getCropArea($cropVariant);
 
-        if(isset($config[self::KEY_SRCSET]) && is_array($config[self::KEY_SRCSET])) {
+        if (isset($config[self::KEY_SRCSET]) && is_array($config[self::KEY_SRCSET])) {
             $images = [];
             foreach ($config[self::KEY_SRCSET] as $key => $conf) {
                 $processingInstructions = [
@@ -176,18 +187,20 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
                 $images[$key] = [
                     self::KEY_SRC => $this->imageService->getImageUri($image),
                     self::KEY_WIDTH => $image->getProperty(self::KEY_WIDTH),
-                    self::KEY_HEIGHT => $image->getProperty(self::KEY_HEIGHT)
+                    self::KEY_HEIGHT => $image->getProperty(self::KEY_HEIGHT),
                 ];
             }
+
             return $images;
         }
         // fall back
         $config['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file);
         $image = $this->imageService->applyProcessingInstructions($file, $config);
+
         return [
             self::KEY_SRC => $this->imageService->getImageUri($image),
             self::KEY_WIDTH => $image->getProperty(self::KEY_WIDTH),
-            self::KEY_HEIGHT => $image->getProperty(self::KEY_HEIGHT)
+            self::KEY_HEIGHT => $image->getProperty(self::KEY_HEIGHT),
         ];
     }
 }

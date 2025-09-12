@@ -1,0 +1,58 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = 120
+
+# YAML files
+[*.{yml,yaml}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# XML files
+[*.xml]
+indent_size = 2
+
+# TypoScript files
+[*.{ts,tsconfig,typoscript}]
+indent_size = 4
+
+# JavaScript and TypeScript
+[*.{js,ts,jsx,tsx}]
+indent_size = 2
+
+# CSS and SCSS
+[*.{css,scss,sass,less}]
+indent_size = 2
+
+# HTML files
+[*.{html,htm,hbs,handlebars}]
+indent_size = 2
+
+# Composer files
+[composer.json]
+indent_size = 2
+
+# Package.json and other Node.js files
+[package.json]
+indent_size = 2
+
+# GitHub Actions
+[.github/workflows/*.yml]
+indent_size = 2

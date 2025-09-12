@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
@@ -27,6 +29,7 @@ use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 trait LocalizationTrait
 {
     private readonly ContentObjectRenderer $contentObjectRenderer;
+
     private readonly LanguageServiceFactory $languageServiceFactory;
 
     /**
@@ -49,12 +52,14 @@ trait LocalizationTrait
             $labels = array_merge($labels, $languageService->getLabelsFromResource($source));
         }
 
-        if(!empty($config['includePattern'])) {
+        if (!empty($config['includePattern'])) {
             $pattern = $config['includePattern'];
-            $labels = array_filter($labels,
-                static function ($key) use ($pattern){
+            $labels = array_filter(
+                $labels,
+                static function ($key) use ($pattern) {
                     return preg_match($pattern, $key);
-                }, ARRAY_FILTER_USE_KEY
+                },
+                ARRAY_FILTER_USE_KEY
             );
         }
 
@@ -71,12 +76,11 @@ trait LocalizationTrait
      */
     protected function assertValidSource(array $config): void
     {
-        if (empty($config['sources'] || !is_array($config['sources']))) {
+        if (!isset($config['sources']) || empty($config['sources']) || !is_array($config['sources'])) {
             throw new InvalidConfigurationException(
                 'Missing or invalid configuration key `sources`',
                 1717584873
             );
         }
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -13,8 +15,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 use Cpsit\BravoHandlebarsContent\Service\FileLinkService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
-
-
 
 /**
  * Process FAL files or files references
@@ -50,7 +50,6 @@ class FileLinkProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-
         if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
             return $processedData;
         }
@@ -71,6 +70,7 @@ class FileLinkProcessor implements DataProcessorInterface
         }
 
         $processedData[$targetVariableName] = $processedFiles;
+
         return $processedData;
     }
 }

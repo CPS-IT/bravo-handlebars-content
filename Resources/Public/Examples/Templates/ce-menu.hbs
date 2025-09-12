@@ -1,8 +1,8 @@
-{{!-- 
+{{!--
   Menu Content Element Template
-  
+
   This template renders a navigation menu.
-  
+
   Available data:
   - headlines.header: Header text
   - headlines.layout: HTML tag for header (h1, h2, etc.)
@@ -14,7 +14,7 @@
     {{#if headlines.header}}
         <{{headlines.layout}} class="ce-menu__header">{{headlines.header}}</{{headlines.layout}}>
     {{/if}}
-    
+
     {{#if menu}}
         <ul class="ce-menu__list">
             {{#each menu}}

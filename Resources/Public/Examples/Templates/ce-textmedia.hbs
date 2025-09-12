@@ -1,8 +1,8 @@
-{{!-- 
+{{!--
   Text & Media Content Element Template
-  
+
   This template renders a text content element with media files (images, videos, audio).
-  
+
   Available data:
   - headlines.header: Header text
   - headlines.layout: HTML tag for header (h1, h2, etc.)
@@ -26,7 +26,7 @@
             {{/if}}
         </{{headlines.layout}}>
     {{/if}}
-    
+
     <div class="ce-textmedia__inner{{#if gallery.position}} ce-textmedia--{{gallery.position}}{{/if}}">
         {{#if (and assets (or (eq gallery.position "above") (eq gallery.position "intext")))}}
             <div class="ce-textmedia__media{{#if gallery.columns}} ce-textmedia__media--columns-{{gallery.columns}}{{/if}}">
@@ -35,13 +35,13 @@
                 {{/each}}
             </div>
         {{/if}}
-        
+
         {{#if bodytext}}
             <div class="ce-textmedia__content">
                 {{{bodytext}}}
             </div>
         {{/if}}
-        
+
         {{#if (and assets (eq gallery.position "below"))}}
             <div class="ce-textmedia__media{{#if gallery.columns}} ce-textmedia__media--columns-{{gallery.columns}}{{/if}}">
                 {{#each assets}}

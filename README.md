@@ -6,18 +6,27 @@
 
 ## Overview
 
-The **bravo-handlebars-content** extension is a powerful content rendering component for TYPO3 that seamlessly integrates with the handlebars templating system. It provides a comprehensive set of data processors and content element configurations specifically designed for handlebars-based TYPO3 websites.
+The **bravo-handlebars-content** extension is a powerful content rendering 
+component for TYPO3 that seamlessly integrates with the handlebars templating 
+system. It provides a comprehensive set of data processors and content element 
+configurations specifically designed for handlebars-based TYPO3 websites.
 
 ## Key Features
 
-- **🎯 Handlebars Integration** - Full integration with the TYPO3 handlebars ecosystem
-- **🔧 Rich Data Processing Pipeline** - Over 20 specialized data processors for various content types
-- **📄 Content Element Support** - Pre-configured support for standard TYPO3 content elements
-- **🎬 Media Processing** - Advanced media handling for images, videos (YouTube/Vimeo), and audio files
-- **🔀 Flexible Field Mapping** - Configurable field mapping and transformation capabilities
-- **🌍 Localization Support** - Built-in localization data processor with multilingual support
-- **🎨 Asset Management** - Automatic CSS/JavaScript asset injection
-- **📱 Responsive Media** - Built-in responsive image and media configurations
+- **Handlebars Integration** - Full integration with the TYPO3 handlebars 
+ecosystem
+- **Rich Data Processing Pipeline** - Over 20 specialized data processors for 
+various content types
+- **Content Element Support** - Pre-configured support for standard TYPO3 
+content elements
+- **Media Processing** - Advanced media handling for images, 
+videos (YouTube/Vimeo), and audio files
+- **Flexible Field Mapping** - Configurable field mapping and transformation 
+capabilities
+- **Localization Support** - Built-in localization data processor with 
+multilingual support
+- **Asset Management** - Automatic CSS/JavaScript asset injection
+- **Responsive Media** - Built-in responsive image and media configurations
 
 ## Quick Start
 
@@ -62,7 +71,7 @@ The **bravo-handlebars-content** extension is a powerful content rendering compo
 
 ## Documentation
 
-### 📚 User Documentation
+### User Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -71,7 +80,7 @@ The **bravo-handlebars-content** extension is a powerful content rendering compo
 | **[Configuration](Documentation/Configuration.md)** | TypoScript configuration and customization |
 | **[Content Elements](Documentation/ContentElements.md)** | Supported content elements and field mapping |
 
-### 🔧 Developer Documentation
+### Developer Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -80,11 +89,11 @@ The **bravo-handlebars-content** extension is a powerful content rendering compo
 | **[API Reference](Documentation/API.md)** | Complete API documentation and class reference |
 | **[Troubleshooting](Documentation/Troubleshooting.md)** | Common issues and debugging techniques |
 
-### 📋 Examples
+### Examples
 
-| Resource | Description |
-|----------|-------------|
-| **[Template Examples](Resources/Public/Examples/Templates/)** | Ready-to-use Handlebars templates for content elements |
+| Resource                                                      | Description |
+|---------------------------------------------------------------|-------------|
+| **[Template Examples](Resources/Public/Examples/Templates/)** | Handlebars templates for content elements |
 | **[Media Partials](Resources/Public/Examples/Templates/partials/media/)** | Reusable media rendering templates |
 
 ## Available Data Processors
@@ -118,14 +127,14 @@ The extension includes 20+ specialized data processors:
 
 ## Supported Content Elements
 
-- ✅ **text** - Text content with optional headers
-- ✅ **textmedia** - Text with media gallery (images, videos, audio)
-- ✅ **header** - Standalone headers with linking
-- ✅ **html** - Raw HTML content
-- ✅ **uploads** - File downloads and document lists
-- ✅ **menu** - Page and section navigation
-- ✅ **shortcut** - Content references and shortcuts
-- ✅ **plugin** - Extension and plugin integration
+- **text** - Text content with optional headers
+- **textmedia** - Text with media gallery (images, videos, audio)
+- **header** - Standalone headers with linking
+- **html** - Raw HTML content
+- **uploads** - File downloads and document lists
+- **menu** - Page and section navigation
+- **shortcut** - Content references and shortcuts
+- **plugin** - Extension and plugin integration
 
 [➤ View content element documentation](Documentation/ContentElements.md)
 
@@ -212,7 +221,8 @@ class CustomProcessor implements DataProcessorInterface
 
 ## Contributing
 
-This extension is maintained by CPS-IT. For questions, issues, or contributions, please refer to the project's repository.
+This extension is maintained by CPS-IT. For questions, issues, or  
+contributions, please refer to the project's repository.
 
 ### Development Setup
 
@@ -229,9 +239,9 @@ This extension is licensed under GPL-2.0-or-later. See the LICENSE file for deta
 ---
 
 **Need Help?** 
-- 📖 [Read the Documentation](Documentation/)
-- 🐛 [Troubleshooting Guide](Documentation/Troubleshooting.md)
-- 💡 [View Examples](Resources/Public/Examples/Templates/)
+- [Read the Documentation](Documentation/)
+- [Troubleshooting Guide](Documentation/Troubleshooting.md)
+- [View Examples](Resources/Public/Examples/Templates/)
 
 **Last Updated:** 2025-09-12  
 **TYPO3 Compatibility:** 12.4 LTS

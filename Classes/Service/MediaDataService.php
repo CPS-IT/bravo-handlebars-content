@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -33,6 +35,7 @@ class MediaDataService implements ContentRendererAwareInterface
      *
      * @param FileInterface $file
      * @param array $config Optional configuration like width, height or additional attributes
+     *
      * @return array Data for template
      */
     public function process(FileInterface $file, array $config = []): array
@@ -46,10 +49,13 @@ class MediaDataService implements ContentRendererAwareInterface
             if (!$processorInstance->canProcess($file)) {
                 continue;
             }
-            if($processorInstance instanceof ContentRendererAwareInterface) {
+            if ($processorInstance instanceof ContentRendererAwareInterface) {
                 $processorInstance->setContentObjectRenderer($this->contentObjectRenderer);
             }
+
             return $processorInstance;
         }
+
+        throw new \RuntimeException('No suitable media processor found for file type', 1709328958);
     }
 }

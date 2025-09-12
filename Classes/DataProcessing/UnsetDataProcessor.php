@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 /*
@@ -10,8 +12,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
  * of the License, or any later version.
  */
 
-use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\Exception\MissingArrayPathException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -24,11 +24,10 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 class UnsetDataProcessor implements DataProcessorInterface
 {
     protected ?ContentObjectRenderer $contentObjectRenderer = null;
+
     protected array $processorConfiguration = [];
 
-    public function __construct(protected readonly ContentDataProcessor $contentDataProcessor)
-    {
-    }
+    public function __construct(protected readonly ContentDataProcessor $contentDataProcessor) {}
 
     public function process(
         ContentObjectRenderer $cObj,
@@ -47,7 +46,7 @@ class UnsetDataProcessor implements DataProcessorInterface
 
         $fields = GeneralUtility::trimExplode(',', $processorConfiguration['fields'] ?? []);
         foreach ($fields as $field) {
-            if(!isset($processedData[$field])){
+            if (!isset($processedData[$field])) {
                 continue;
             }
 

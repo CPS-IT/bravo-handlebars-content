@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use TYPO3\CMS\Core\Service\FlexFormService;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -16,14 +17,12 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class FlexformProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
+
     public const FIELD_NAME = 'pi_flexform';
 
     public function __construct(
         protected FlexFormService $flexFormService,
-    )
-    {
-
-    }
+    ) {}
 
     public function process(string $fieldName, array $data, array $variables): array
     {

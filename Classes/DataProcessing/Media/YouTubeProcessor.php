@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 /*
@@ -11,8 +13,8 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
  */
 
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
-use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -21,7 +23,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 #[AsTaggedItem(priority: 3)]
 class YouTubeProcessor implements MediaProcessorInterface
 {
-    use OnlineMediaProcessorTrait, MetaDataCollectorTrait;
+    use OnlineMediaProcessorTrait;
+    use MetaDataCollectorTrait;
 
     public const MEDIA_TYPE = 'youtube';
 
@@ -41,17 +44,15 @@ class YouTubeProcessor implements MediaProcessorInterface
                     'file' => [
                         'noScale' => 1,
                     ],
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ];
 
     public function __construct(
         protected ContentObjectRenderer $contentObjectRenderer,
         protected TypoScriptService $typoScriptService
-    ) {
-
-    }
+    ) {}
 
     public function canProcess(FileInterface $file): bool
     {
@@ -61,7 +62,7 @@ class YouTubeProcessor implements MediaProcessorInterface
     public function process(FileInterface $file, array $config = []): array
     {
         $onlineMedia = [
-            'type' => self::MEDIA_TYPE
+            'type' => self::MEDIA_TYPE,
         ];
         $config = $this->getConfigOverrides($config);
         $config = $this->collectOptions($config, $file);
@@ -73,6 +74,7 @@ class YouTubeProcessor implements MediaProcessorInterface
         ArrayUtility::mergeRecursiveWithOverrule($onlineMedia, $this->collectMetaDataFromFile($file));
         $config['labels'] = $this->collectLabels($config);
         $onlineMedia['options'] = $config;
+
         return $onlineMedia;
     }
 
@@ -82,6 +84,7 @@ class YouTubeProcessor implements MediaProcessorInterface
         if (!empty($config[self::MEDIA_TYPE])) {
             ArrayUtility::mergeRecursiveWithOverrule($configOverrides, $config[self::MEDIA_TYPE]);
         }
+
         return $configOverrides;
     }
 
@@ -107,6 +110,7 @@ class YouTubeProcessor implements MediaProcessorInterface
             $fileConfig['file'] = $file;
             $files[$variant] = $this->contentObjectRenderer->cObjGetSingle('IMG_RESOURCE', $fileConfig);
         }
+
         return $files;
     }
 
@@ -161,6 +165,7 @@ class YouTubeProcessor implements MediaProcessorInterface
                 $options['allow'] = 'autoplay; fullscreen';
             }
         }
+
         return $options;
     }
 }

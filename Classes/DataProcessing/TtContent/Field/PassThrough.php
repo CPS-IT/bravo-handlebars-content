@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -23,9 +25,10 @@ class PassThrough implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        if(isset($data[$fieldName])) {
+        if (isset($data[$fieldName])) {
             $variables[$fieldName] = $data[$fieldName];
         }
+
         return $variables;
     }
 }

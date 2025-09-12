@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 /*
@@ -52,7 +54,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  *    publicationDate => foo
  * ]
  * ```
- *
  */
 class KeepPathDataProcessor implements DataProcessorInterface
 {
@@ -64,7 +65,6 @@ class KeepPathDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-
         if (
             isset($processorConfiguration['if.'])
             && !$cObj->checkIf($processorConfiguration['if.'])) {
@@ -81,6 +81,7 @@ class KeepPathDataProcessor implements DataProcessorInterface
             if (!ArrayUtility::isValidPath($processedData, $path, $separator)) {
                 continue;
             }
+
             try {
                 $value = ArrayUtility::getValueByPath($processedData, $path, $separator);
                 if (!empty($processorConfiguration['skipEmptyValues']) && empty($value)) {
@@ -88,7 +89,6 @@ class KeepPathDataProcessor implements DataProcessorInterface
                 }
                 $data = ArrayUtility::setValueByPath($data, $path, $value, $separator);
             } catch (MissingArrayPathException) {
-
             }
         }
 

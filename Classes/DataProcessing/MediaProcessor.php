@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\Service\MediaDataService;
@@ -7,7 +9,6 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
-use Cpsit\BravoHandlebarsContent\DataProcessing\ProcessorVariablesTrait;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -16,7 +17,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\ProcessorVariablesTrait;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-
 
 /**
  * Process media  from FAL files or files references
@@ -60,7 +60,6 @@ class MediaProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-
         if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
             return $processedData;
         }
@@ -81,6 +80,7 @@ class MediaProcessor implements DataProcessorInterface
         }
 
         $processedData[$targetVariableName] = $processedFiles;
+
         return $processedData;
     }
 
@@ -89,6 +89,7 @@ class MediaProcessor implements DataProcessorInterface
         /** @var MediaDataService $mediaDataService */
         $mediaDataService = GeneralUtility::makeInstance(MediaDataService::class);
         $mediaDataService->setContentObjectRenderer($contentObjectRenderer);
+
         return $mediaDataService->process($file, $mediaRendererConfig);
     }
 }

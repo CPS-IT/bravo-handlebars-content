@@ -57,6 +57,7 @@ class LanguageMenuProcessor extends \TYPO3\CMS\Frontend\DataProcessing\LanguageM
             }
             $menuItem['level'] = $level;
         }
+
         return $menu;
     }
 }

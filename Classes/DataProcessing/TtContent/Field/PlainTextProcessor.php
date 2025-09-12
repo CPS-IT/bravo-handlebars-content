@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -16,10 +18,7 @@ class PlainTextProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
 
-    public function __construct(protected ContentObjectRenderer $contentObjectRenderer)
-    {
-
-    }
+    public function __construct(protected ContentObjectRenderer $contentObjectRenderer) {}
 
     public function process(string $fieldName, array $data, array $variables): array
     {

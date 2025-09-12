@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -11,11 +13,11 @@
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
-use SplObjectStorage;
 
 class DefaultDataMap implements DataMapInterface
 {
     use FieldMapTrait;
+
     public const DEFAULT_FIELD_MAPS = [
         TtContent::FIELD_UID => 'id',
     ];

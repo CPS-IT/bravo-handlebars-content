@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -14,12 +16,16 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 interface MediaProcessorInterface
 {
     public const KEY_ATTRIBUTES = 'attributes';
-    public const KEY_CAPTION = 'caption';
-    public const KEY_COPYRIGHT = 'copyright';
-    public const KEY_MIME_TYPE = 'mimeType';
-    public const KEY_SRC = 'src';
-    public const KEY_TYPE = 'type';
 
+    public const KEY_CAPTION = 'caption';
+
+    public const KEY_COPYRIGHT = 'copyright';
+
+    public const KEY_MIME_TYPE = 'mimeType';
+
+    public const KEY_SRC = 'src';
+
+    public const KEY_TYPE = 'type';
 
     public function canProcess(FileInterface $file): bool;
 

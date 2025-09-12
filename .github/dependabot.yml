@@ -1,0 +1,46 @@
+version: 2
+updates:
+  # Composer dependencies
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "cpsit/dev-team"
+    assignees:
+      - "cpsit/dev-team"
+    commit-message:
+      prefix: "[TASK]"
+      prefix-development: "[TASK]"
+    labels:
+      - "dependencies"
+      - "composer"
+    allow:
+      # Allow version updates for direct dependencies
+      - dependency-type: "direct"
+      # Allow security updates for all dependencies
+      - dependency-type: "indirect"
+        update-type: "security"
+    ignore:
+      # Ignore TYPO3 core updates - handle manually
+      - dependency-name: "typo3/cms-*"
+        update-types: ["version-update:semver-major"]
+      # Ignore PHP version updates
+      - dependency-name: "php"
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "[TASK]"
+    labels:
+      - "dependencies"
+      - "github-actions"

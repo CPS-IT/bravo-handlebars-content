@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 /*
@@ -15,8 +17,8 @@ interface FieldProcessorInterface
      * @param string $fieldName Field to processes
      * @param array $data  Raw data (record)
      * @param array $variables Already processed variables. Will be returned by parent data processor.
+     *
      * @return array
      */
     public function process(string $fieldName, array $data, array $variables): array;
-
 }

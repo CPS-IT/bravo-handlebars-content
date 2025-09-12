@@ -1,28 +1,114 @@
 {
-	"name": "cpsit/bravo-handlebars-content",
-	"type": "typo3-cms-extension",
-	"description": "Page rendering component for TYPO3 Handlebars",
-	"homepage": "https://www.cps-it.de/",
-	"license": [
-		"GPL-2.0-or-later"
-	],
-	"keywords": [
-		"TYPO3 CMS"
-	],
-	"require": {
-		"typo3/cms-core": "^12.4",
-    "typo3/cms-frontend": "^12.4",
-		"cpsit/typo3-handlebars": "*",
-		"cpsit/typo3-handlebars-components": "*"
-	},
-	"autoload": {
-		"psr-4": {
-			"Cpsit\\BravoHandlebarsContent\\": "Classes/"
-		}
-	},
-	"extra": {
-		"typo3/cms": {
-			"extension-key": "bravo_handlebars_content"
-		}
-	}
+  "name": "cpsit/bravo-handlebars-content",
+  "description": "Page rendering component for TYPO3 Handlebars",
+  "license": [
+    "GPL-2.0-or-later"
+  ],
+  "type": "typo3-cms-extension",
+  "keywords": [
+    "TYPO3 CMS"
+  ],
+  "homepage": "https://www.cps-it.de/",
+  "require": {
+    "php": "^8.2",
+    "cpsit/typo3-handlebars": "*",
+    "cpsit/typo3-handlebars-components": "*",
+    "typo3/cms-core": "^12.4",
+    "typo3/cms-frontend": "^12.4"
+  },
+  "require-dev": {
+    "armin/editorconfig-cli": "^2.1",
+    "cpsit/typo3-handlebars": "dev-dena-v12 as 2.0.0",
+    "cpsit/typo3-handlebars-components": "dev-feature/mediaDataProvider",
+    "ergebnis/composer-normalize": "^2.47",
+    "friendsofphp/php-cs-fixer": "^3.45",
+    "infection/infection": "^0.27",
+    "phpstan/phpstan": "^2.0",
+    "phpunit/phpunit": "^10.5",
+    "roave/security-advisories": "dev-latest",
+    "typo3/testing-framework": "^8.0.9"
+  },
+  "repositories": {
+    "handlebars": {
+      "type": "vcs",
+      "url": "https://github.com/CPS-IT/handlebars.git"
+    },
+    "handlebars-components": {
+      "type": "vcs",
+      "url": "https://github.com/CPS-IT/handlebars-components.git"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Cpsit\\BravoHandlebarsContent\\": "Classes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cpsit\\BravoHandlebarsContent\\Tests\\": "Tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "ergebnis/composer-normalize": true,
+      "infection/extension-installer": true,
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    },
+    "platform": {
+      "php": "8.2"
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "bravo_handlebars_content",
+      "web-dir": ".Build/web"
+    }
+  },
+  "scripts": {
+    "fix": [
+      "@fix:composer",
+      "@fix:editorconfig",
+      "@fix:php"
+    ],
+    "fix:composer": "@composer normalize",
+    "fix:editorconfig": "ec --fix",
+    "fix:php": "php-cs-fixer fix",
+    "lint": [
+      "@lint:composer",
+      "@lint:editorconfig",
+      "@lint:php",
+      "@sca:php"
+    ],
+    "lint:composer": "@composer normalize --dry-run",
+    "lint:editorconfig": "ec",
+    "lint:php": "php-cs-fixer fix --dry-run",
+    "sca": [
+      "@sca:php"
+    ],
+    "sca:php": "phpstan analyse --memory-limit=1G",
+    "test": "phpunit --configuration Tests/Build/phpunit/UnitTests.xml --no-coverage",
+    "test:coverage": "XDEBUG_MODE=coverage phpunit --configuration Tests/Build/phpunit/UnitTests.xml --coverage-html var/coverage --coverage-clover var/coverage/clover.xml --coverage-text",
+    "test:functional": "phpunit --configuration Tests/Build/phpunit/FunctionalTests.xml --testsuite Functional",
+    "test:mutation": "infection --configuration=infection.json.dist --min-msi=85 --min-covered-msi=90",
+    "test:unit": "phpunit --configuration Tests/Build/phpunit/UnitTests.xml --testsuite Unit"
+  },
+  "scripts-descriptions": {
+    "fix": "Run all code fixing tools (composer, editorconfig, php)",
+    "fix:composer": "Fix Composer configuration format and sorting",
+    "fix:editorconfig": "Fix EditorConfig violations (whitespace, line endings)",
+    "fix:php": "Fix PHP coding style violations using PHP CS Fixer",
+    "lint": "Run all linting checks (composer, editorconfig, php, static analysis)",
+    "lint:composer": "Check Composer configuration format without modifying files",
+    "lint:editorconfig": "Check EditorConfig compliance without modifying files",
+    "lint:php": "Check PHP coding style without modifying files",
+    "sca": "Run static code analysis (PHPStan)",
+    "sca:php": "Run PHPStan static analysis with 1GB memory limit",
+    "test": "Run unit tests without coverage (fast execution)",
+    "test:coverage": "Generate test coverage report (HTML, Clover XML, and text formats)",
+    "test:functional": "Run functional tests with full TYPO3 environment",
+    "test:mutation": "Run mutation testing with 85% MSI and 90% covered MSI requirements",
+    "test:unit": "Run unit tests only (isolated, fast tests)"
+  }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 /*
@@ -36,7 +38,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  * $processedData [
  *    categories => bar
  * ]
- *
  */
 class UnsetPathDataProcessor implements DataProcessorInterface
 {
@@ -48,7 +49,6 @@ class UnsetPathDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-
         if (
             isset($processorConfiguration['if.'])
             && !$cObj->checkIf($processorConfiguration['if.'])) {
@@ -62,10 +62,10 @@ class UnsetPathDataProcessor implements DataProcessorInterface
             if (!ArrayUtility::isValidPath($processedData, $path, $separator)) {
                 continue;
             }
+
             try {
                 $processedData = ArrayUtility::removeByPath($processedData, $path, $separator);
             } catch (MissingArrayPathException) {
-
             }
         }
 
