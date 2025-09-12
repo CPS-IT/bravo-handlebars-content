@@ -83,7 +83,7 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
 
         if (empty($templateName)) {
             throw new InvalidConfigurationException(
-                'Could not find template name for ' . $conf['templateName'],
+                'Could not find template name for ' . ($conf['templateName'] ?? 'undefined'),
                 1709328957
             );
         }
