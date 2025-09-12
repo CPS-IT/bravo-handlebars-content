@@ -1,8 +1,8 @@
-{{!-- 
+{{!--
   Uploads/Downloads Content Element Template
-  
+
   This template renders a list of downloadable files.
-  
+
   Available data:
   - headlines.header: Header text
   - headlines.layout: HTML tag for header (h1, h2, etc.)
@@ -15,13 +15,13 @@
     {{#if headlines.header}}
         <{{headlines.layout}} class="ce-uploads__header">{{headlines.header}}</{{headlines.layout}}>
     {{/if}}
-    
+
     {{#if bodytext}}
         <div class="ce-uploads__description">
             {{{bodytext}}}
         </div>
     {{/if}}
-    
+
     {{#if fileLinks}}
         <div class="ce-uploads__list">
             {{#each fileLinks}}

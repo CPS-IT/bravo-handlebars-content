@@ -39,5 +39,3 @@ class HeaderDataProcessor extends TtContentDataProcessor implements FieldMapping
         self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
     ];
 }
-
-

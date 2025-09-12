@@ -87,5 +87,3 @@ class MapFieldsDataProcessor implements DataProcessorInterface
         return $processedData;
     }
 }
-
-

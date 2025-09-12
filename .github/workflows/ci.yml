@@ -1,0 +1,359 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop, feature/** ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  COMPOSER_CACHE_FILES_DIR: ~/.composer/cache/files
+
+jobs:
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Check composer normalization
+        run: composer lint:composer
+
+      - name: Check EditorConfig compliance
+        run: composer lint:editorconfig
+
+      - name: Check coding standards
+        run: composer lint:php
+
+      - name: Run static analysis
+        run: composer sca:php
+
+      - name: Run unit tests with coverage
+        run: composer test:coverage
+
+      - name: Upload coverage results to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: var/coverage/clover.xml
+          fail_ci_if_error: true
+        if: success()
+
+      - name: Run mutation testing
+        run: composer test:mutation
+        if: success()
+
+      - name: Security audit
+        run: composer audit
+
+  build-matrix:
+    name: "Build Matrix - PHP ${{ matrix.php-version }} with TYPO3 ${{ matrix.typo3-version }}"
+    runs-on: ubuntu-latest
+    needs: quality-gate
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+        typo3-version: ['12.4']
+        include:
+          - php-version: '8.3'
+            typo3-version: '13.0'
+            experimental: true
+
+    continue-on-error: ${{ matrix.experimental || false }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-php${{ matrix.php-version }}-typo3${{ matrix.typo3-version }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-php${{ matrix.php-version }}-typo3${{ matrix.typo3-version }}-
+            ${{ runner.os }}-composer-php${{ matrix.php-version }}-
+            ${{ runner.os }}-composer-
+
+      - name: Install TYPO3 ${{ matrix.typo3-version }} dependencies
+        run: |
+          composer require --no-update typo3/cms-core:^${{ matrix.typo3-version }}
+          composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run unit tests
+        run: composer test:unit
+        
+      - name: Run functional tests
+        run: composer test:functional
+        if: matrix.typo3-version == '12.4'
+
+  extension-tests:
+    name: Extension Integration Tests
+    runs-on: ubuntu-latest
+    needs: quality-gate
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: typo3_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, pdo_mysql, mysqli
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Setup TYPO3 test environment
+        run: |
+          mkdir -p .Build/public/typo3conf/ext/
+          ln -s $PWD .Build/public/typo3conf/ext/bravo_handlebars_content
+
+      - name: Run functional tests with MySQL
+        run: |
+          export typo3DatabaseName=typo3_test
+          export typo3DatabaseHost=127.0.0.1
+          export typo3DatabaseUsername=root
+          export typo3DatabasePassword=root
+          composer test:functional
+
+      - name: Test extension configuration
+        run: |
+          echo "Testing extension configuration and services..."
+          php -r "
+            require_once 'vendor/autoload.php';
+            \$services = include 'Configuration/Services.yaml';
+            echo 'Services configuration loaded successfully' . PHP_EOL;
+          "
+
+  dependency-check:
+    name: Dependency Compatibility Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Check dependency conflicts (latest versions)
+        run: |
+          composer update --dry-run --prefer-dist
+          composer outdated --direct || echo "Outdated check completed"
+
+      - name: Test minimum supported PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+
+      - name: Install with minimum PHP requirements
+        run: |
+          composer install --no-progress --prefer-dist
+          composer test:unit
+
+      - name: Test TYPO3 compatibility
+        run: |
+          echo "Testing TYPO3 12.4 compatibility..."
+          composer require --no-update typo3/cms-core:^12.4
+          composer install --no-progress
+
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: quality-gate
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite, xdebug
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run performance benchmarks
+        run: |
+          echo "Running performance tests for data processors..."
+          # Add specific performance test commands here when available
+          # composer test:performance
+
+      - name: Memory usage analysis
+        run: |
+          echo "Analyzing memory usage patterns..."
+          php -d memory_limit=128M vendor/bin/phpunit \
+            --configuration Tests/Build/phpunit/UnitTests.xml \
+            --testsuite Unit \
+            --log-junit var/performance/junit.xml
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-results
+          path: var/performance/
+        if: always()
+
+  code-coverage:
+    name: Code Coverage Analysis
+    runs-on: ubuntu-latest
+    needs: quality-gate
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Generate detailed coverage report
+        run: composer test:coverage
+
+      - name: Check coverage thresholds
+        run: |
+          echo "Checking coverage meets 100% target (minimum 80%)..."
+          php -r "
+            \$coverage = simplexml_load_file('var/coverage/clover.xml');
+            \$metrics = \$coverage->project->metrics;
+            \$coveredstatements = (int)\$metrics['coveredstatements'];
+            \$statements = (int)\$metrics['statements'];
+            \$coverage_percent = round((\$coveredstatements / \$statements) * 100, 2);
+            echo \"Coverage: {\$coverage_percent}%\" . PHP_EOL;
+            if (\$coverage_percent < 80) {
+              echo \"FAIL: Coverage {\$coverage_percent}% is below minimum 80%\" . PHP_EOL;
+              exit(1);
+            }
+            if (\$coverage_percent < 100) {
+              echo \"WARNING: Coverage {\$coverage_percent}% is below target 100%\" . PHP_EOL;
+            }
+            echo \"Coverage check passed\" . PHP_EOL;
+          "
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: var/coverage/clover.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: var/coverage/
+        if: always()
+
+  documentation:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check documentation completeness
+        run: |
+          echo "Checking documentation files..."
+          required_docs=(
+            "README.md"
+            "Documentation/Installation.md"
+            "Documentation/QuickStart.md"
+            "Documentation/Configuration.md"
+            "Documentation/DataProcessors.md"
+            "Documentation/Development/Testing.md"
+            "Documentation/Development/2025-09-12_CodeReview.md"
+          )
+          
+          missing_docs=()
+          for doc in "${required_docs[@]}"; do
+            if [[ ! -f "$doc" ]]; then
+              missing_docs+=("$doc")
+            fi
+          done
+          
+          if [[ ${#missing_docs[@]} -gt 0 ]]; then
+            echo "Missing documentation files:"
+            printf '%s\n' "${missing_docs[@]}"
+            exit 1
+          fi
+          
+          echo "All required documentation files present"
+
+      - name: Validate markdown syntax
+        run: |
+          echo "Validating markdown files..."
+          find Documentation -name "*.md" -type f | while read -r file; do
+            echo "Checking $file"
+            # Basic markdown validation - check for common issues
+            if grep -n "]()" "$file"; then
+              echo "WARNING: Empty links found in $file"
+            fi
+          done

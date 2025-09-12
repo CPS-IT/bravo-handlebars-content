@@ -25,5 +25,3 @@ class TextDataProcessor extends TtContentDataProcessor implements FieldMappingIn
 {
     use FieldMappingTrait;
 }
-
-

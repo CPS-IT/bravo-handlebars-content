@@ -90,5 +90,3 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         return array_merge($processedData, $variables);
     }
 }
-
-

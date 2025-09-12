@@ -21,7 +21,7 @@ composer require cpsit/bravo-handlebars-content
 ## Requirements
 
 - TYPO3 12.4 LTS
-- PHP 8.1 or higher
+- PHP 8.2 or higher
 - cpsit/typo3-handlebars extension
 - cpsit/typo3-handlebars-components extension
 

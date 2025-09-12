@@ -1,0 +1,51 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build artifacts
+/.Build/
+/var/coverage/
+/var/coverage-functional/
+/var/infection/
+/var/phpstan/
+
+# IDE files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# TYPO3 specific
+/typo3conf/
+/uploads/
+/fileadmin/
+
+# Testing
+/.phpunit.result.cache
+/phpunit.xml
+/infection.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Configuration overrides
+/phpstan.neon
+/.php-cs-fixer.php
+/infection.json
+
+# private configuration
+.claude/settings.local.json

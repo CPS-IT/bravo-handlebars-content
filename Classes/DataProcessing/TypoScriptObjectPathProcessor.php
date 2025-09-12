@@ -140,5 +140,3 @@ class TypoScriptObjectPathProcessor implements DataProcessorInterface
     }
 
 }
-
-

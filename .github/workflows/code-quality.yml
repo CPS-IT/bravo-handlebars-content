@@ -1,0 +1,344 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run quality checks weekly on Sunday at 6 AM UTC
+    - cron: '0 6 * * 0'
+
+jobs:
+  static-analysis:
+    name: Static Code Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run PHPStan analysis (Level 8)
+        run: |
+          mkdir -p var/phpstan
+          composer sca:php
+
+      - name: Upload PHPStan results
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpstan-results
+          path: var/phpstan/
+        if: always()
+
+      - name: Check for TODO/FIXME comments
+        run: |
+          echo "Checking for TODO/FIXME comments..."
+          todos=$(find Classes -name "*.php" -type f -exec grep -l "TODO\|FIXME" {} \; || true)
+          if [[ -n "$todos" ]]; then
+            echo "Found TODO/FIXME comments in:"
+            echo "$todos"
+            echo "::warning::TODO/FIXME comments found - consider addressing them"
+          else
+            echo "No TODO/FIXME comments found"
+          fi
+
+  code-style:
+    name: Code Style Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Check PHP coding standards
+        run: composer lint:php
+
+      - name: Check EditorConfig compliance
+        run: composer lint:editorconfig
+
+      - name: Check composer.json format
+        run: composer lint:composer
+
+      - name: Verify file permissions
+        run: |
+          echo "Checking file permissions..."
+          # Check that no files have execute permissions unless they should
+          executable_files=$(find . -name "*.php" -type f -perm /111 | grep -v vendor || true)
+          if [[ -n "$executable_files" ]]; then
+            echo "Found PHP files with execute permissions:"
+            echo "$executable_files"
+            echo "::error::PHP files should not have execute permissions"
+            exit 1
+          fi
+
+      - name: Check for Windows line endings
+        run: |
+          echo "Checking for Windows line endings..."
+          crlf_files=$(find Classes Tests -name "*.php" -type f -exec file {} \; | grep CRLF || true)
+          if [[ -n "$crlf_files" ]]; then
+            echo "Found files with Windows line endings:"
+            echo "$crlf_files"
+            echo "::error::Files should use Unix line endings (LF)"
+            exit 1
+          fi
+
+  architecture-compliance:
+    name: Architecture Compliance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Check for strict types
+        run: |
+          echo "Checking for missing strict types declarations..."
+          missing_strict_types=()
+          while IFS= read -r -d '' file; do
+            if ! head -20 "$file" | grep -q "declare(strict_types=1)"; then
+              missing_strict_types+=("$file")
+            fi
+          done < <(find Classes Tests -name "*.php" -type f -print0)
+          
+          if [[ ${#missing_strict_types[@]} -gt 0 ]]; then
+            echo "Files missing strict types declaration:"
+            printf '%s\n' "${missing_strict_types[@]}"
+            echo "::error::All PHP files must have strict types declaration"
+            exit 1
+          fi
+          echo "All PHP files have strict types declaration"
+
+      - name: Check for proper namespacing
+        run: |
+          echo "Checking namespace compliance..."
+          find Classes -name "*.php" -type f | while read -r file; do
+            expected_namespace=$(echo "$file" | sed 's|Classes/||' | sed 's|/|\\|g' | sed 's|\.php$||')
+            if [[ -n "$expected_namespace" ]]; then
+              expected_namespace="Cpsit\\BravoHandlebarsContent\\$expected_namespace"
+              if ! grep -q "namespace $expected_namespace;" "$file"; then
+                echo "::warning::Namespace mismatch in $file (expected: $expected_namespace)"
+              fi
+            fi
+          done
+
+      - name: Check for dependency injection compliance
+        run: |
+          echo "Checking for GeneralUtility::makeInstance usage..."
+          makeinstance_files=$(grep -r "GeneralUtility::makeInstance" Classes || true)
+          if [[ -n "$makeinstance_files" ]]; then
+            echo "Found GeneralUtility::makeInstance usage:"
+            echo "$makeinstance_files"
+            echo "::warning::Consider using dependency injection instead of GeneralUtility::makeInstance"
+          fi
+
+      - name: Check for global variable usage
+        run: |
+          echo "Checking for global variable usage..."
+          global_vars=$(grep -r "\$GLOBALS\|\$_GET\|\$_POST\|\$_SESSION\|\$_COOKIE" Classes || true)
+          if [[ -n "$global_vars" ]]; then
+            echo "Found global variable usage:"
+            echo "$global_vars"
+            echo "::warning::Avoid direct global variable access"
+          fi
+
+  security-analysis:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run security audit
+        run: composer audit
+
+      - name: Check for potential security issues
+        run: |
+          echo "Checking for potential security issues..."
+          
+          # Check for eval() usage
+          eval_usage=$(grep -r "eval(" Classes || true)
+          if [[ -n "$eval_usage" ]]; then
+            echo "::error::Found eval() usage - potential security risk"
+            echo "$eval_usage"
+            exit 1
+          fi
+          
+          # Check for system() usage  
+          system_usage=$(grep -r "system(\|exec(\|shell_exec(\|passthru(" Classes || true)
+          if [[ -n "$system_usage" ]]; then
+            echo "::warning::Found system command execution - review for security"
+            echo "$system_usage"
+          fi
+          
+          # Check for SQL concatenation
+          sql_concat=$(grep -r "SELECT.*\." Classes | grep -E '\$|"' || true)
+          if [[ -n "$sql_concat" ]]; then
+            echo "::warning::Potential SQL injection - use prepared statements"
+            echo "$sql_concat"
+          fi
+
+      - name: Check for hardcoded credentials
+        run: |
+          echo "Checking for hardcoded credentials..."
+          
+          # Common patterns for credentials
+          patterns=("password.*=" "secret.*=" "key.*=" "token.*=")
+          found_credentials=""
+          
+          for pattern in "${patterns[@]}"; do
+            results=$(grep -ri "$pattern" Classes --include="*.php" | grep -v "// " | grep -v "/* " || true)
+            if [[ -n "$results" ]]; then
+              found_credentials+="$results\n"
+            fi
+          done
+          
+          if [[ -n "$found_credentials" ]]; then
+            echo "::warning::Potential hardcoded credentials found:"
+            echo -e "$found_credentials"
+          fi
+
+  documentation-quality:
+    name: Documentation Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check PHPDoc coverage
+        run: |
+          echo "Checking PHPDoc coverage..."
+          
+          # Find public methods without proper documentation
+          undocumented=$(find Classes -name "*.php" -type f -exec grep -l "public function" {} \; | \
+            xargs grep -L "@param\|@return\|@throws" || true)
+          
+          if [[ -n "$undocumented" ]]; then
+            echo "Files with potentially undocumented public methods:"
+            echo "$undocumented"
+            echo "::warning::Consider adding comprehensive PHPDoc comments"
+          fi
+
+      - name: Check for missing @throws annotations
+        run: |
+          echo "Checking for missing @throws annotations..."
+          
+          # Find methods that throw exceptions without @throws annotation
+          exception_methods=$(grep -r "throw new" Classes | cut -d: -f1 | sort -u)
+          if [[ -n "$exception_methods" ]]; then
+            for file in $exception_methods; do
+              if ! grep -q "@throws" "$file"; then
+                echo "::warning::Missing @throws annotation in $file"
+              fi
+            done
+          fi
+
+  complexity-analysis:
+    name: Complexity Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, intl, zip, json, iconv, gd
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Analyze method complexity
+        run: |
+          echo "Analyzing method complexity..."
+          
+          # Find long methods (>50 lines)
+          long_methods=$(find Classes -name "*.php" -exec awk '
+            /function / { start=NR; func=$0; next }
+            /^[[:space:]]*}[[:space:]]*$/ && start { 
+              if (NR-start > 50) 
+                print FILENAME ":" start ": " func " (" (NR-start) " lines)"
+              start=0 
+            }' {} \; || true)
+          
+          if [[ -n "$long_methods" ]]; then
+            echo "Methods longer than 50 lines:"
+            echo "$long_methods"
+            echo "::warning::Consider refactoring long methods"
+          fi
+
+      - name: Check for deep nesting
+        run: |
+          echo "Checking for deep nesting..."
+          
+          # Simple check for multiple nested if/for/while statements
+          deep_nesting=$(find Classes -name "*.php" -exec grep -n "^[[:space:]]*[[:space:]]*[[:space:]]*[[:space:]]*if\|for\|while" {} \; || true)
+          if [[ -n "$deep_nesting" ]]; then
+            echo "Potentially deeply nested code found:"
+            echo "$deep_nesting" | head -20
+            echo "::warning::Consider reducing nesting complexity"
+          fi
+
+      - name: Generate complexity report
+        run: |
+          echo "Generating complexity metrics..."
+          echo "Files: $(find Classes -name "*.php" | wc -l)"
+          echo "Lines of code: $(find Classes -name "*.php" -exec wc -l {} + | tail -1)"
+          echo "Classes: $(find Classes -name "*.php" -exec grep -l "^class " {} \; | wc -l)"
+          echo "Interfaces: $(find Classes -name "*.php" -exec grep -l "^interface " {} \; | wc -l)"
+          echo "Traits: $(find Classes -name "*.php" -exec grep -l "^trait " {} \; | wc -l)"

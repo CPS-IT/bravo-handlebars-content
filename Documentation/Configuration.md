@@ -1,16 +1,5 @@
 # Configuration
 
-## TypoScript Constants
-
-```typoscript
-styles.content {
-    # Allowed HTML tags for RTE content
-    allowTags = a, abbr, acronym, address, article, aside, b, bdo, big, blockquote, br, caption, center, cite, code, col, colgroup, dd, del, dfn, dl, div, dt, em, figure, font, footer, header, h1, h2, h3, h4, h5, h6, hr, i, img, ins, kbd, label, li, link, meta, nav, ol, p, pre, q, s, samp, sdfield, section, small, span, strike, strong, style, sub, sup, table, thead, tbody, tfoot, td, th, tr, title, tt, u, ul, var
-    
-    shortcut.tables = tt_content
-}
-```
-
 ## Default Content Element Configuration
 
 The extension provides a default configuration that all content elements can inherit from:

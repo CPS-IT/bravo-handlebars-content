@@ -1,0 +1,44 @@
+parameters:
+    level: 8
+    paths:
+        - Classes
+        - Tests
+    excludePaths:
+        - Tests/Fixtures
+    ignoreErrors:
+        # Allow mixed return types for TYPO3 data processors
+        - "#Method .* should return .* but returns mixed#"
+        # Allow TYPO3 core dependencies without strict typing
+        - "#Call to an undefined method TYPO3\\\\CMS\\\\Core\\\\.*::#"
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    # TYPO3 specific configuration
+    bootstrapFiles:
+        - .Build/vendor/autoload.php
+
+    # Include TYPO3 specific rules if available
+    includes:
+        - phar://vendor/phpstan/phpstan/phpstan.phar/conf/bleedingEdge.neon
+
+    # Memory and performance settings
+    tmpDir: var/phpstan
+
+    # Type coverage
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkUninitializedProperties: true
+    checkImplicitMixed: false
+
+    # Strict rules for better code quality
+    strictRules:
+        allRules: false
+        booleansInConditions: true
+        uselessCast: true
+        requireParentConstructorCall: false
+        disallowedLooseComparison: false
+
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 8
+        minimumNumberOfJobsPerProcess: 2

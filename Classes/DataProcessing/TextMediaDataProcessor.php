@@ -59,5 +59,3 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
 
 
 }
-
-

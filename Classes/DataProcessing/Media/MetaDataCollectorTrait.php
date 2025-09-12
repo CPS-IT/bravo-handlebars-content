@@ -14,7 +14,7 @@ trait MetaDataCollectorTrait
         'copyright' => 'copyright',
         'language' => 'language',
     ];
-    
+
     protected function collectMetaDataFromFile(FileInterface $file): array
     {
         $metaData = [];
