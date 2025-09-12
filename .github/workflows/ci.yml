@@ -21,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite
           tools: composer:v2
           coverage: xdebug
@@ -80,7 +80,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        php-version: ['8.2', '8.3', '8.4']
         typo3-version: ['12.4']
         include:
           - php-version: '8.3'
@@ -148,7 +148,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, pdo_mysql, mysqli
           tools: composer:v2
 
@@ -199,7 +199,7 @@ jobs:
       - name: Test minimum supported PHP version
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           tools: composer:v2
 
       - name: Install with minimum PHP requirements
@@ -225,7 +225,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite, xdebug
           tools: composer:v2
 
@@ -265,7 +265,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml, intl, zip, json, iconv, gd, pdo, sqlite, pdo_sqlite
           tools: composer:v2
           coverage: xdebug
