@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -19,27 +21,32 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
 {
     use FieldProcessorConfigTrait;
 
+    public const KEY_TABLE = 'table';
+
+    public const KEY_FIELD = 'field';
+
+    public const DEFAULT_TABLE = 'tt_content';
+
+    public const DEFAULT_FIELD = 'records';
+
+    protected string $table = self::DEFAULT_TABLE;
+
+    protected string $field = self::DEFAULT_FIELD;
+
+    protected array $configuration = [
+        self::KEY_TABLE => self::DEFAULT_TABLE,
+    ];
+
     public function __construct(
         protected ContentObjectRenderer $contentObjectRenderer,
         protected ConnectionPool $connectionPool,
     ) {}
 
-    public const KEY_TABLE = 'table';
-    public const KEY_FIELD = 'field';
-    public const DEFAULT_TABLE = 'tt_content';
-    public const DEFAULT_FIELD = 'records';
-
-    protected string $table = self::DEFAULT_TABLE;
-    protected string $field = self::DEFAULT_FIELD;
-    protected array $configuration = [
-        self::KEY_TABLE => self::DEFAULT_TABLE,
-
-    ];
-
     public function forTable(string $table): self
     {
         $clone = clone $this;
         $clone->table = $table;
+
         return $clone;
     }
 
@@ -47,6 +54,7 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
     {
         $clone = clone $this;
         $clone->field = $field;
+
         return $clone;
     }
 
@@ -63,8 +71,9 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
         $this->connectionPool->getConnectionForTable($this->table);
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
         $uids = GeneralUtility::intExplode(',', $data[$this->field]);
+
         try {
-           $records = $queryBuilder->select('*')
+            $records = $queryBuilder->select('*')
                 ->from($this->table)
                 ->where(
                     $queryBuilder->expr()->in('uid', $uids)

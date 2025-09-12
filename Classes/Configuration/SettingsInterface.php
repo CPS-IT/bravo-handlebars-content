@@ -18,6 +18,8 @@ namespace Cpsit\BravoHandlebarsContent\Configuration;
 interface SettingsInterface
 {
     public const NAME = 'BravoHandlebarsContent';
+
     public const KEY = 'bravo_handlebars_content';
+
     public const VENDOR_NAME = 'Cpsit';
 }

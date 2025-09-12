@@ -7,7 +7,8 @@
 
 ## Testing Strategy Overview
 
-This comprehensive testing plan establishes a multi-layered testing approach to achieve 100% code coverage while ensuring robust functionality and maintainability of the bravo-handlebars-content extension.
+This comprehensive testing plan establishes a multi-layered testing approach to achieve 100% code coverage while 
+ensuring robust functionality and maintainability of the bravo-handlebars-content extension.
 
 ### Testing Pyramid Structure
 
@@ -566,7 +567,7 @@ The testing plan will integrate with composer scripts for easy execution:
     "test": "phpunit --configuration Tests/Build/phpunit/UnitTests.xml --no-coverage",
     "test:unit": "phpunit --configuration Tests/Build/phpunit/UnitTests.xml --testsuite Unit",
     "test:functional": "phpunit --configuration Tests/Build/phpunit/FunctionalTests.xml --testsuite Functional",
-    "test:coverage": "XDEBUG_MODE=coverage phpunit --configuration Tests/Build/phpunit/UnitTests.xml --coverage-html var/coverage --coverage-clover var/coverage/clover.xml --coverage-text",
+    "test:coverage": "XDEBUG_MODE=coverage phpunit --configuration Tests/Build/phpunit/UnitTests.xml [...]",
     "test:mutation": "infection --configuration=infection.json.dist",
     "test:performance": "phpunit --group=performance --no-coverage"
   }
@@ -592,47 +593,49 @@ The testing plan will integrate with composer scripts for easy execution:
 ## Implementation Timeline
 
 ### Phase 1: Foundation
-- ✅ Set up testing infrastructure
-- ✅ Configure PHPUnit and TYPO3 testing framework
-- ✅ Create basic test structure
-- ✅ Implement first unit tests for utility classes
+- Set up testing infrastructure
+- Configure PHPUnit and TYPO3 testing framework
+- Create basic test structure
+- Implement first unit tests for utility classes
 
 ### Phase 2: Core Testing
-- ✅ Unit tests for service classes (100% coverage)
-- ✅ Unit tests for data processors (100% coverage)
-- ✅ Integration tests for processing pipeline
-- ✅ Database integration tests
+- Unit tests for service classes (100% coverage)
+- Unit tests for data processors (100% coverage)
+- Integration tests for processing pipeline
+- Database integration tests
 
 ### Phase 3: Advanced Testing
-- ✅ Functional tests for content rendering
-- ✅ Template rendering tests
-- ✅ Error condition testing
-- ✅ Performance testing implementation
+- Functional tests for content rendering
+- Template rendering tests
+- Error condition testing
+- Performance testing implementation
 
 ### Phase 4: Quality Assurance
-- ✅ Mutation testing setup and optimization
-- ✅ CI/CD pipeline implementation
-- ✅ Coverage gap analysis and remediation
-- ✅ Documentation and training materials
+- Mutation testing setup and optimization
+- CI/CD pipeline implementation
+- Coverage gap analysis and remediation
+- Documentation and training materials
 
 ## Success Criteria
 
 ### Primary Goals (Must Achieve)
-- ✅ **100% line coverage** across all production code
-- ✅ **Zero critical bugs** identified in testing
-- ✅ **All quality gates pass** in CI/CD pipeline
-- ✅ **Test suite executes** in < 5 minutes
+- **100% line coverage** across all production code
+- **Zero critical bugs** identified in testing
+- **All quality gates pass** in CI/CD pipeline
+- **Test suite executes** in < 5 minutes
 
 ### Secondary Goals (Should Achieve)
-- ✅ **> 85% mutation testing score**
-- ✅ **< 30 seconds unit test execution**
-- ✅ **Zero security vulnerabilities**
-- ✅ **Comprehensive documentation** of testing approach
+- **> 85% mutation testing score**
+- **< 30 seconds unit test execution**
+- **Zero security vulnerabilities**
+- **Comprehensive documentation** of testing approach
 
 ### Quality Maintenance (Ongoing)
-- ✅ **Automated test execution** on all commits
-- ✅ **Coverage regression prevention**
-- ✅ **Regular dependency security updates**
-- ✅ **Performance regression monitoring**
+- **Automated test execution** on all commits
+- **Coverage regression prevention**
+- **Regular dependency security updates**
+- **Performance regression monitoring**
 
-This comprehensive testing plan provides a clear roadmap to achieve 100% test coverage while maintaining high code quality standards. The multi-layered approach ensures robust testing at unit, integration, and functional levels, with appropriate tooling and automation to support continuous quality assurance.
+This comprehensive testing plan provides a clear roadmap to achieve 100% test coverage while maintaining high code 
+quality standards. The multi-layered approach ensures robust testing at unit, integration, and functional levels, 
+with appropriate tooling and automation to support continuous quality assurance.

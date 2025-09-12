@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
@@ -23,17 +25,14 @@ use TYPO3\CMS\Frontend\DataProcessing\DataProcessorRegistry;
 class CollectionDataProcessor implements DataProcessorInterface
 {
     public const RESERVED_VARIABLE_NAMES = [
-        'data', 'current'
+        'data', 'current',
     ];
 
     public function __construct(
-        private ContentObjectRenderer          $contentObjectRenderer,
-        private readonly ContainerInterface    $container,
+        private ContentObjectRenderer $contentObjectRenderer,
+        private readonly ContainerInterface $container,
         private readonly DataProcessorRegistry $dataProcessorRegistry
-
-    )
-    {
-    }
+    ) {}
 
     /**
      * Returns $processedData enriched by variables defined in
@@ -42,10 +41,10 @@ class CollectionDataProcessor implements DataProcessorInterface
      */
     public function process(
         ContentObjectRenderer $cObj,
-        array                 $contentObjectConfiguration,
-        array                 $processorConfiguration,
-        array                 $processedData): array
-    {
+        array $contentObjectConfiguration,
+        array $processorConfiguration,
+        array $processedData
+    ): array {
         // this content object renderer is already initialized with request, context etc.
         $this->contentObjectRenderer = $cObj;
 
@@ -61,7 +60,7 @@ class CollectionDataProcessor implements DataProcessorInterface
         );
         if (empty($targetVariableName)) {
             throw new InvalidConfigurationException(
-                sprintf('Missing configuration "as" in %s', get_class($this)),
+                sprintf('Missing configuration "as" in %s', static::class),
                 1713766921
             );
         }
@@ -80,38 +79,43 @@ class CollectionDataProcessor implements DataProcessorInterface
             }
             if ($this->isContentObject($objectType)) {
                 $variables[$as] = $cObj->cObjGetSingle(
-                    $objectType, $configuration, 'variables.' . $variableName
+                    $objectType,
+                    $configuration,
+                    'variables.' . $variableName
                 );
             }
             if ($this->isDataProcessor($objectType)) {
                 // @todo: passing $processedData here might lead to infinitely nested results
                 $localProcessed = $this->getDataProcessor($objectType)
-                    ->process($this->contentObjectRenderer,
+                    ->process(
+                        $this->contentObjectRenderer,
                         $processorConfiguration,
                         $configuration,
                         $processedData
                     );
-                if(isset($localProcessed[$as])) {
+                if (isset($localProcessed[$as])) {
                     $variables[$as] = $localProcessed[$as];
                 }
             }
         }
 
         $processedData[$targetVariableName] = $variables;
+
         return $processedData;
     }
 
     /**
      * @param mixed $variableName
-     * @return void
      */
     protected function assertValidVariableName(mixed $variableName): void
     {
         if (in_array($variableName, self::RESERVED_VARIABLE_NAMES, true)) {
-            $message =
-                sprintf('Invalid variable name %s. This name is reserved',
+            $message
+                = sprintf(
+                    'Invalid variable name %s. This name is reserved',
                     $variableName
                 );
+
             throw new \InvalidArgumentException($message, 1713637292);
         }
     }
@@ -124,7 +128,7 @@ class CollectionDataProcessor implements DataProcessorInterface
             return false;
         }
 
-        return ($contentObject instanceof AbstractContentObject);
+        return $contentObject instanceof AbstractContentObject;
     }
 
     protected function isDataProcessor(string $objectType): bool
@@ -132,23 +136,22 @@ class CollectionDataProcessor implements DataProcessorInterface
         $dataProcessor = $this->dataProcessorRegistry->getDataProcessor($objectType);
         if (
             $dataProcessor instanceof DataProcessorInterface
-            ||
-            ($this->container->has($objectType)
+            || ($this->container->has($objectType)
                 && ($this->container->get($objectType) instanceof DataProcessorInterface))
         ) {
             return true;
         }
 
-        return (
+        return
             class_exists($objectType)
-            && in_array(DataProcessorInterface::class, class_implements($objectType), true));
+            && in_array(DataProcessorInterface::class, class_implements($objectType), true);
     }
 
     protected function getDataProcessor(string $objectType): DataProcessorInterface
     {
         $processor = $this->dataProcessorRegistry->getDataProcessor($objectType);
         if (
-            null === $processor
+            $processor === null
             && $this->container->has($objectType)) {
             try {
                 $processor = $this->container->get($objectType);

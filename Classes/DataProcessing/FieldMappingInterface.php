@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 /*
@@ -11,13 +13,12 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
  */
 interface FieldMappingInterface
 {
-
     /**
      * Map given variables and returns resulting array
      *
      * @param array $variables
+     *
      * @return array
      */
     public function map(array $variables): array;
-
 }

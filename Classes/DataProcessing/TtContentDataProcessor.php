@@ -30,10 +30,9 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProcessorInterface, TtContentRecordInterface
 {
-    use FieldAwareProcessorTrait,
-        ProcessorVariablesTrait,
-        LocalizationTrait;
-
+    use FieldAwareProcessorTrait;
+    use ProcessorVariablesTrait;
+    use LocalizationTrait;
 
     public const DEFAULT_FIELDS = [
         self::FIELD_BODYTEXT => BodytextProcessor::class,
@@ -48,20 +47,20 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
     ];
 
+    protected array $requiredKeys = [];
+
+    protected array $processorConfiguration = [];
+
     public function __construct(
         protected FieldProcessorConfiguration $fieldProcessorConfiguration,
         protected DataMapInterface $dataMap,
-        private readonly ContentObjectRenderer  $contentObjectRenderer,
+        private readonly ContentObjectRenderer $contentObjectRenderer,
         private readonly LanguageServiceFactory $languageServiceFactory
-
-    ) {
-    }
-
-    protected array $requiredKeys = [];
-    protected array $processorConfiguration = [];
+    ) {}
 
     /**
      * @inheritDoc
+     *
      * @throws InvalidClassException
      */
     public function process(
@@ -87,6 +86,7 @@ class TtContentDataProcessor implements DataProcessorInterface, FieldAwareProces
         if ($this instanceof FieldMappingInterface) {
             $variables = $this->map($variables);
         }
+
         return array_merge($processedData, $variables);
     }
 }

@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-$config = \PhpCsFixer\Config::create();
-$config->getFinder()
+$config = new \PhpCsFixer\Config();
+$config
+    ->setRiskyAllowed(true)
+    ->getFinder()
     ->in(__DIR__ . '/Classes')
     ->in(__DIR__ . '/Tests')
     ->name('*.php');
@@ -107,7 +109,6 @@ $config->setRules([
     // Namespace notation
     'blank_line_after_namespace' => true,
     'no_leading_namespace_whitespace' => true,
-    'single_blank_line_before_namespace' => true,
     
     // Operator
     'concat_space' => ['spacing' => 'one'],
@@ -172,8 +173,8 @@ $config->setRules([
     
     // Strict
     'declare_strict_types' => true,
-    'strict_comparison' => true,
-    'strict_param' => true,
+    'strict_comparison' => false,
+    'strict_param' => false,
     
     // String notation
     'escape_implicit_backslashes' => true,

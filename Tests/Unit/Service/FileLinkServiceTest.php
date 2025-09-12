@@ -8,13 +8,14 @@ use Cpsit\BravoHandlebarsContent\Service\FileLinkService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for FileLinkService
  *
  * @covers \Cpsit\BravoHandlebarsContent\Service\FileLinkService
+ *
+ * @internal
  */
 final class FileLinkServiceTest extends UnitTestCase
 {
@@ -51,7 +52,7 @@ final class FileLinkServiceTest extends UnitTestCase
                 ['title', 'Test Document'],
                 ['name', 'test.pdf'],
                 ['size', 1048576], // 1MB in bytes
-                ['extension', 'pdf']
+                ['extension', 'pdf'],
             ]);
 
         $result = FileLinkService::resolveFileLik($this->fileReference);
@@ -61,7 +62,7 @@ final class FileLinkServiceTest extends UnitTestCase
             'title' => 'Test Document',
             'name' => 'test.pdf',
             'size' => '1.00 MB',
-            'extension' => 'pdf'
+            'extension' => 'pdf',
         ];
 
         self::assertEquals($expected, $result);
@@ -82,8 +83,8 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(4))
             ->method('getProperty')
-            ->willReturnCallback(function($property) {
-                return match($property) {
+            ->willReturnCallback(function ($property) {
+                return match ($property) {
                     'title' => '', // Empty title
                     'name' => 'document.docx',
                     'extension' => 'docx',
@@ -118,7 +119,7 @@ final class FileLinkServiceTest extends UnitTestCase
             ->willReturnMap([
                 ['title', 'Custom Image'],
                 ['size', 512000], // 500KB
-                ['extension', 'jpg']
+                ['extension', 'jpg'],
             ]);
 
         $result = FileLinkService::resolveFileLik($this->fileReference, $customProperties);
@@ -127,7 +128,7 @@ final class FileLinkServiceTest extends UnitTestCase
             'url' => 'https://example.com/fileadmin/custom.jpg',
             'title' => 'Custom Image',
             'size' => '500.00 KB',
-            'extension' => 'jpg'
+            'extension' => 'jpg',
         ];
 
         self::assertEquals($expected, $result);
@@ -155,7 +156,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $expected = [
             'url' => 'https://example.com/fileadmin/minimal.txt',
-            'name' => 'minimal.txt'
+            'name' => 'minimal.txt',
         ];
 
         self::assertEquals($expected, $result);
@@ -182,7 +183,7 @@ final class FileLinkServiceTest extends UnitTestCase
             'language' => 'en',
             'copyright' => '© 2024 Test Corp',
             'url' => 'https://example.com/fileadmin/complete.pdf',
-            'accessible' => 1
+            'accessible' => 1,
         ];
 
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
@@ -203,10 +204,18 @@ final class FileLinkServiceTest extends UnitTestCase
             'extension' => 'pdf',
             'language' => 'en',
             'copyright' => '© 2024 Test Corp',
-            'accessible' => 1
+            'accessible' => 1,
         ];
 
         self::assertEquals($expected, $result);
+    }
+
+    #[Test]
+    #[DataProvider('formatFileSizeDataProvider')]
+    public function formatFileSizeFormatsCorrectly(int $size, string $expected): void
+    {
+        $result = FileLinkService::formatFileSize($size);
+        self::assertSame($expected, $result);
     }
 
     /**
@@ -224,16 +233,8 @@ final class FileLinkServiceTest extends UnitTestCase
             'gigabytes' => [1073741824, '1.00 GB'], // 1024^3
             '1.25 GB' => [1342177280, '1.25 GB'],
             'terabytes' => [1099511627776, '1.00 TB'], // 1024^4
-            'large file' => [5368709120, '5.00 GB'] // 5GB
+            'large file' => [5368709120, '5.00 GB'], // 5GB
         ];
-    }
-
-    #[Test]
-    #[DataProvider('formatFileSizeDataProvider')]
-    public function formatFileSizeFormatsCorrectly(int $size, string $expected): void
-    {
-        $result = FileLinkService::formatFileSize($size);
-        self::assertSame($expected, $result);
     }
 
     #[Test]
@@ -280,7 +281,7 @@ final class FileLinkServiceTest extends UnitTestCase
             ->method('getProperty')
             ->willReturnMap([
                 ['download_name', 'custom_download_name.pdf'],
-                ['name', 'underscore.pdf']
+                ['name', 'underscore.pdf'],
             ]);
 
         $result = FileLinkService::resolveFileLik($this->fileReference);
@@ -300,7 +301,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
         // Simulate a scenario where only some properties are available
         $availableProperties = ['title', 'name', 'description', 'size', 'extension', 'download_name'];
-        
+
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
             ->method('hasProperty')
             ->willReturnCallback(function ($property) use ($availableProperties) {
@@ -309,8 +310,8 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count($availableProperties) + 1)) // +1 for extra 'name' call when title is empty
             ->method('getProperty')
-            ->willReturnCallback(function($property) {
-                return match($property) {
+            ->willReturnCallback(function ($property) {
+                return match ($property) {
                     'title' => '', // Empty title - should use name
                     'name' => 'annual-report-2024.pdf',
                     'description' => 'Annual financial report for 2024',
@@ -330,7 +331,7 @@ final class FileLinkServiceTest extends UnitTestCase
             'description' => 'Annual financial report for 2024',
             'size' => '15.00 MB', // Formatted size
             'extension' => 'pdf',
-            'downloadName' => 'Annual_Report_2024_Final.pdf' // Converted from download_name
+            'downloadName' => 'Annual_Report_2024_Final.pdf', // Converted from download_name
         ];
 
         self::assertEquals($expected, $result);
@@ -341,7 +342,7 @@ final class FileLinkServiceTest extends UnitTestCase
     {
         $expectedProperties = [
             'title', 'name', 'description', 'download_name', 'size',
-            'extension', 'language', 'copyright', 'url', 'accessible'
+            'extension', 'language', 'copyright', 'url', 'accessible',
         ];
 
         self::assertSame($expectedProperties, FileLinkService::FILE_PROPERTIES);

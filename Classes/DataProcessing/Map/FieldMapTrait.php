@@ -1,8 +1,8 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
+declare(strict_types=1);
 
-use SplObjectStorage;
+namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -13,20 +13,20 @@ use SplObjectStorage;
  */
 trait FieldMapTrait
 {
-    protected SplObjectStorage $fieldMaps;
+    protected \SplObjectStorage $fieldMaps;
 
     public function __construct()
     {
-        $this->fieldMaps = new SplObjectStorage();
+        $this->fieldMaps = new \SplObjectStorage();
         foreach (self::DEFAULT_FIELD_MAPS as $source => $target) {
             $this->fieldMaps->attach(new FieldMap($source, $target));
         }
     }
 
     /**
-     * @return SplObjectStorage<FieldMap>
+     * @return \SplObjectStorage<FieldMap>
      */
-    public function getFieldMaps(): SplObjectStorage
+    public function getFieldMaps(): \SplObjectStorage
     {
         return $this->fieldMaps;
     }

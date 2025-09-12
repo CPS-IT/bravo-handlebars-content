@@ -17,7 +17,6 @@ readonly class Link
     public function __construct(
         public string $url = '',
         public string $label = '',
-        public string $target = '')
-    {
-    }
+        public string $target = ''
+    ) {}
 }

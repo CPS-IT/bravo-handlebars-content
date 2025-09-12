@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
+
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 
@@ -13,13 +16,13 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterfa
  */
 class ContentMediaProcessor implements FieldProcessorInterface
 {
-
     use FieldProcessorConfigTrait;
 
     public function process(string $fieldName, array $data, array $variables): array
     {
         // todo: enable if media (video) present
         $variables[$fieldName] = !empty($data[TtContentRecordInterface::FIELD_ASSETS]);
+
         return $variables;
     }
 }

@@ -13,6 +13,8 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  * Integration test case for data processing pipeline
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor
+ *
+ * @internal
  */
 final class ProcessingPipelineTest extends FunctionalTestCase
 {
@@ -50,7 +52,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
             'CType' => 'text',
             'header' => 'Functional Test Header',
             'bodytext' => '<p>This is functional test content.</p>',
-            'header_layout' => 1
+            'header_layout' => 1,
         ];
 
         $this->contentObjectRenderer->start($contentData, 'tt_content');
@@ -69,7 +71,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
             'header' => 'Media Test',
             'bodytext' => 'Content with media',
             'header_layout' => 2,
-            'assets' => 1
+            'assets' => 1,
         ];
 
         $this->contentObjectRenderer->start($contentData, 'tt_content');
@@ -86,7 +88,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         $contentData = [
             'uid' => 3,
             'header' => 'Conditional Header',
-            'header_layout' => 0 // Hidden header
+            'header_layout' => 0, // Hidden header
         ];
 
         $this->contentObjectRenderer->start($contentData, 'tt_content');
@@ -94,7 +96,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         // Test conditional processing for hidden headers
         self::assertSame('Conditional Header', $this->contentObjectRenderer->data['header']);
         self::assertSame(0, $this->contentObjectRenderer->data['header_layout']);
-        
+
         // Verify header is marked as hidden (header_layout = 0)
         $isHeaderVisible = (int)$this->contentObjectRenderer->data['header_layout'] > 0;
         self::assertFalse($isHeaderVisible, 'Header should be hidden when header_layout is 0');
@@ -106,7 +108,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         $contentData = [
             'uid' => 4,
             'header' => null, // Invalid data
-            'bodytext' => null
+            'bodytext' => null,
         ];
 
         $this->contentObjectRenderer->start($contentData, 'tt_content');
@@ -115,7 +117,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         self::assertNull($this->contentObjectRenderer->data['header']);
         self::assertNull($this->contentObjectRenderer->data['bodytext']);
         self::assertSame(4, $this->contentObjectRenderer->data['uid']);
-        
+
         // Processing should handle null values gracefully
         $processedData = ['data' => $contentData, 'errorData' => ['handled' => true]];
         self::assertArrayHasKey('errorData', $processedData);
@@ -130,7 +132,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
             'pid' => 1,
             'tstamp' => time(),
             'header' => 'Integrity Test',
-            'sensitive_field' => 'should-be-preserved'
+            'sensitive_field' => 'should-be-preserved',
         ];
 
         $this->contentObjectRenderer->start($originalData, 'tt_content');
@@ -139,14 +141,14 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         self::assertSame($originalData, $this->contentObjectRenderer->data);
         self::assertSame('Integrity Test', $this->contentObjectRenderer->data['header']);
         self::assertSame('should-be-preserved', $this->contentObjectRenderer->data['sensitive_field']);
-        
+
         // Simulate data processing that preserves original data
         $processedData = [
             'data' => $originalData,
             'existing' => 'value',
-            'processedData' => ['processed' => true]
+            'processedData' => ['processed' => true],
         ];
-        
+
         self::assertArrayHasKey('data', $processedData);
         self::assertArrayHasKey('existing', $processedData);
         self::assertSame($originalData, $processedData['data']);
@@ -159,7 +161,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         $contentData = [
             'uid' => 6,
             'header' => 'TypoScript Integration Test',
-            'header_layout' => 3
+            'header_layout' => 3,
         ];
 
         $this->contentObjectRenderer->start($contentData, 'tt_content');
@@ -167,16 +169,16 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         // Test TypoScript integration basics
         self::assertSame('TypoScript Integration Test', $this->contentObjectRenderer->data['header']);
         self::assertSame(3, $this->contentObjectRenderer->data['header_layout']);
-        
+
         // Test configuration structure
         $configuration = [
             'templateName' => '@ce-text',
             'dataProcessing.' => [
                 '10' => 'TextDataProcessor',
-                '10.' => ['as' => 'textData']
-            ]
+                '10.' => ['as' => 'textData'],
+            ],
         ];
-        
+
         self::assertArrayHasKey('templateName', $configuration);
         self::assertArrayHasKey('dataProcessing.', $configuration);
         self::assertSame('@ce-text', $configuration['templateName']);
@@ -186,8 +188,8 @@ final class ProcessingPipelineTest extends FunctionalTestCase
     public function dataProcessingPipelinePerformanceWithLargeDataset(): void
     {
         $largeContentData = [];
-        for ($i = 0; $i < 100; $i++) {
-            $largeContentData["field_$i"] = "Large dataset content $i";
+        for ($i = 0; $i < 100; ++$i) {
+            $largeContentData["field_{$i}"] = "Large dataset content {$i}";
         }
 
         $largeContentData['header'] = 'Performance Test';
@@ -200,14 +202,14 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         // Simulate performance processing
         $processedData = [
             'data' => $largeContentData,
-            'performanceData' => ['processed' => true, 'fieldCount' => count($largeContentData)]
+            'performanceData' => ['processed' => true, 'fieldCount' => count($largeContentData)],
         ];
 
         $executionTime = microtime(true) - $startTime;
 
         // Verify performance (should complete quickly)
         self::assertLessThan(0.1, $executionTime, 'Data processing should complete in under 100ms');
-        
+
         // Verify result integrity
         self::assertArrayHasKey('performanceData', $processedData);
         self::assertSame('Performance Test', $largeContentData['header']);

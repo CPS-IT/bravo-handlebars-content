@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 /*
@@ -15,8 +17,7 @@ readonly class FieldMap
         public string $sourcePath,
         public string $targetPath,
         public string $delimiter = '.'
-    )
-    {}
+    ) {}
 
     public function getSourcePath(): string
     {

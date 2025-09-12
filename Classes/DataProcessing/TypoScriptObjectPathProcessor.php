@@ -18,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
-
 /**
  * Render a typoscript object path
  * Configuration:
@@ -38,7 +37,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  *   }
  *
  * Result: Plugin rendered content
- *
  */
 class TypoScriptObjectPathProcessor implements DataProcessorInterface
 {
@@ -77,6 +75,7 @@ class TypoScriptObjectPathProcessor implements DataProcessorInterface
         $targetVariableName = $this->contentObjectRenderer->stdWrapValue('as', $processorConfiguration, 'content');
 
         $processedData[$targetVariableName] = $content;
+
         return $processedData;
     }
 
@@ -90,12 +89,16 @@ class TypoScriptObjectPathProcessor implements DataProcessorInterface
             $timeTracker->push('/f:cObject/', '<' . $typoscriptObjectPath);
         }
         $timeTracker->incStackPointer();
-        $content = $this->contentObjectRenderer->cObjGetSingle($setup[$lastSegment], $setup[$lastSegment . '.'] ?? [],
-            $typoscriptObjectPath);
+        $content = $this->contentObjectRenderer->cObjGetSingle(
+            $setup[$lastSegment],
+            $setup[$lastSegment . '.'] ?? [],
+            $typoscriptObjectPath
+        );
         $timeTracker->decStackPointer();
         if ($timeTracker->LR) {
             $timeTracker->pull($content);
         }
+
         return $content;
     }
 
@@ -120,6 +123,7 @@ class TypoScriptObjectPathProcessor implements DataProcessorInterface
                 1540246570
             );
         }
+
         return $setup;
     }
 
@@ -131,12 +135,10 @@ class TypoScriptObjectPathProcessor implements DataProcessorInterface
         $request = $this->contentObjectRenderer->getRequest();
         $frontendTypoScript = $request->getAttribute('frontend.typoscript');
 
-        if (!($frontendTypoScript instanceof FrontendTypoScript)) {
+        if (!$frontendTypoScript instanceof FrontendTypoScript) {
             return [];
         }
 
         return $frontendTypoScript->getSetupArray();
-
     }
-
 }

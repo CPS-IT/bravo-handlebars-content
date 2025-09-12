@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\Tests\Unit\Utility;
 
 use Cpsit\BravoHandlebarsContent\Utility\StringUtility;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for StringUtility
  *
  * @covers \Cpsit\BravoHandlebarsContent\Utility\StringUtility
+ *
+ * @internal
  */
 final class StringUtilityTest extends UnitTestCase
 {

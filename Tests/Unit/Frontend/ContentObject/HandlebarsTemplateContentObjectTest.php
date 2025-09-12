@@ -19,15 +19,21 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * Test case for HandlebarsTemplateContentObject
  *
  * @covers \Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject
+ *
+ * @internal
  */
 final class HandlebarsTemplateContentObjectTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private HandlebarsTemplateContentObject $subject;
+
     private HandlebarsRenderer|MockObject $handlebarsRenderer;
+
     private AssetCollector|MockObject $assetCollector;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private ContentDataProcessor|MockObject $contentDataProcessor;
 
     protected function setUp(): void
@@ -61,7 +67,7 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
     public function renderReturnsRenderedTemplate(): void
     {
         $conf = [
-            'templateName' => '@ce-text'
+            'templateName' => '@ce-text',
         ];
 
         $expectedHtml = '<div class="ce-text"><h1>Test Header</h1><p>Test content</p></div>';
@@ -105,9 +111,9 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
             'dataProcessing.' => [
                 '10' => 'ceTextMedia',
                 '10.' => [
-                    'as' => 'mediaData'
-                ]
-            ]
+                    'as' => 'mediaData',
+                ],
+            ],
         ];
 
         $data = ['header' => 'Media Header'];
@@ -117,8 +123,8 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
             'current' => null,
             'mediaData' => [
                 'headlines' => ['header' => 'Media Header'],
-                'assets' => []
-            ]
+                'assets' => [],
+            ],
         ];
 
         // Mock the content object renderer data and stdWrapValue
@@ -159,15 +165,15 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
             'assets.' => [
                 'css.' => [
                     'custom' => [
-                        'source' => 'fileadmin/css/custom.css'
-                    ]
+                        'source' => 'fileadmin/css/custom.css',
+                    ],
                 ],
                 'javaScript.' => [
                     'custom' => [
-                        'source' => 'fileadmin/js/custom.js'
-                    ]
-                ]
-            ]
+                        'source' => 'fileadmin/js/custom.js',
+                    ],
+                ],
+            ],
         ];
 
         $data = ['header' => 'Asset Header'];
@@ -239,7 +245,7 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
     public function renderHandlesRenderingException(): void
     {
         $conf = [
-            'templateName' => '@invalid-template'
+            'templateName' => '@invalid-template',
         ];
 
         $data = [];
@@ -304,9 +310,9 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
             'templateName' => '@ce-complex',
             'templateName.' => [
                 'stdWrap.' => [
-                    'wrap' => '@|'
-                ]
-            ]
+                    'wrap' => '@|',
+                ],
+            ],
         ];
 
         $data = ['header' => 'Complex Header'];

@@ -42,6 +42,7 @@ class TestableMediaDataService extends MediaDataService
         if (isset($this->mock)) {
             return $this->mock->process($file, $config);
         }
+
         return [];
     }
 }
@@ -50,16 +51,22 @@ class TestableMediaDataService extends MediaDataService
  * Test case for MediaProcessor
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\MediaProcessor
+ *
+ * @internal
  */
 final class MediaProcessorTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private MediaProcessor $subject;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private MediaDataService|MockObject $mediaDataService;
+
     private FileInterface|MockObject $fileInterface;
-    private TypoScriptService|MockObject $typoScriptService;
+
+    private MockObject|TypoScriptService $typoScriptService;
 
     protected function setUp(): void
     {
@@ -85,22 +92,22 @@ final class MediaProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'data' => 'files',
         ];
-        
+
         $processedData = [
-            'files' => [$this->fileInterface]
+            'files' => [$this->fileInterface],
         ];
 
         $this->contentObjectRenderer->expects(self::exactly(2))
             ->method('stdWrapValue')
             ->willReturnMap([
                 ['data', $processorConfiguration, '', 'files'],
-                ['as', $processorConfiguration, 'files', 'files']
+                ['as', $processorConfiguration, 'files', 'files'],
             ]);
 
         $expectedMediaData = [
             'type' => 'image',
             'url' => '/fileadmin/user_upload/test.jpg',
-            'alt' => 'Test image'
+            'alt' => 'Test image',
         ];
 
         // Create a testable MediaDataService that can be instantiated without constructor arguments
@@ -140,23 +147,23 @@ final class MediaProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'data' => 'media',
-            'as' => 'processedMedia'
+            'as' => 'processedMedia',
         ];
-        
+
         $processedData = [
-            'media' => [$this->fileInterface]
+            'media' => [$this->fileInterface],
         ];
 
         $this->contentObjectRenderer->expects(self::exactly(2))
             ->method('stdWrapValue')
             ->willReturnMap([
                 ['data', $processorConfiguration, '', 'media'],
-                ['as', $processorConfiguration, 'files', 'processedMedia']
+                ['as', $processorConfiguration, 'files', 'processedMedia'],
             ]);
 
         $expectedMediaData = [
             'type' => 'video',
-            'url' => '/fileadmin/user_upload/test.mp4'
+            'url' => '/fileadmin/user_upload/test.mp4',
         ];
 
         // Create a testable MediaDataService that can be instantiated without constructor arguments
@@ -195,7 +202,7 @@ final class MediaProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'if.' => ['value' => '0'],
-            'data' => 'files'
+            'data' => 'files',
         ];
         $processedData = ['files' => [$this->fileInterface]];
 
@@ -222,7 +229,7 @@ final class MediaProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'if.' => ['value' => '1'],
-            'data' => 'files'
+            'data' => 'files',
         ];
         $processedData = ['files' => [$this->fileInterface]];
 
@@ -235,7 +242,7 @@ final class MediaProcessorTest extends UnitTestCase
             ->method('stdWrapValue')
             ->willReturnMap([
                 ['data', $processorConfiguration, '', 'files'],
-                ['as', $processorConfiguration, 'files', 'files']
+                ['as', $processorConfiguration, 'files', 'files'],
             ]);
 
         // Create a testable MediaDataService that can be instantiated without constructor arguments
@@ -333,7 +340,7 @@ final class MediaProcessorTest extends UnitTestCase
     {
         $file1 = $this->createMock(FileInterface::class);
         $file2 = $this->createMock(FileInterface::class);
-        
+
         $processorConfiguration = ['data' => 'files'];
         $processedData = ['files' => [$file1, $file2]];
 
@@ -341,7 +348,7 @@ final class MediaProcessorTest extends UnitTestCase
             ->method('stdWrapValue')
             ->willReturnMap([
                 ['data', $processorConfiguration, '', 'files'],
-                ['as', $processorConfiguration, 'files', 'files']
+                ['as', $processorConfiguration, 'files', 'files'],
             ]);
 
         // Create testable MediaDataService instances for each file (2 files = 2 instances needed)
@@ -383,13 +390,13 @@ final class MediaProcessorTest extends UnitTestCase
     public function mapMediaCallsMediaDataServiceCorrectly(): void
     {
         $mediaRendererConfig = [
-            'image' => ['cropVariants' => ['desktop' => ['maxWidth' => 1200]]]
+            'image' => ['cropVariants' => ['desktop' => ['maxWidth' => 1200]]],
         ];
 
         $expectedResult = [
             'type' => 'image',
             'url' => '/fileadmin/test.jpg',
-            'cropVariants' => ['desktop' => ['url' => '/processed.jpg']]
+            'cropVariants' => ['desktop' => ['url' => '/processed.jpg']],
         ];
 
         // Mock GeneralUtility::makeInstance for this test
@@ -443,9 +450,9 @@ final class MediaProcessorTest extends UnitTestCase
             'settings.' => [
                 'image.' => [
                     'maxWidth' => '800',
-                    'quality' => '85'
-                ]
-            ]
+                    'quality' => '85',
+                ],
+            ],
         ];
         $processedData = ['files' => [$this->fileInterface]];
 
@@ -453,14 +460,14 @@ final class MediaProcessorTest extends UnitTestCase
             ->method('stdWrapValue')
             ->willReturnMap([
                 ['data', $processorConfiguration, '', 'files'],
-                ['as', $processorConfiguration, 'files', 'files']
+                ['as', $processorConfiguration, 'files', 'files'],
             ]);
 
         $convertedSettings = [
             'image' => [
                 'maxWidth' => '800',
-                'quality' => '85'
-            ]
+                'quality' => '85',
+            ],
         ];
 
         // Create a testable MediaDataService that can be instantiated without constructor arguments
@@ -495,28 +502,6 @@ final class MediaProcessorTest extends UnitTestCase
         self::assertSame(['type' => 'image', 'processed' => true], $result['files'][0]);
     }
 
-    /**
-     * @return array<string, array<mixed>>
-     */
-    public static function processVariousConfigurationsDataProvider(): array
-    {
-        return [
-            'with minimal config' => [
-                'config' => [
-                    'data' => 'files'
-                ],
-                'expectedTargetName' => 'files'
-            ],
-            'with different data path' => [
-                'config' => [
-                    'data' => 'gallery',
-                    'as' => 'images'
-                ],
-                'expectedTargetName' => 'images'
-            ]
-        ];
-    }
-
     #[Test]
     #[DataProvider('processVariousConfigurationsDataProvider')]
     public function processWorksWithVariousConfigurations(array $config, string $expectedTargetName): void
@@ -528,7 +513,7 @@ final class MediaProcessorTest extends UnitTestCase
             ->method('stdWrapValue')
             ->willReturnMap([
                 ['data', $config, '', $dataPath],
-                ['as', $config, 'files', $expectedTargetName]
+                ['as', $config, 'files', $expectedTargetName],
             ]);
 
         // Create a testable MediaDataService that can be instantiated without constructor arguments
@@ -558,5 +543,27 @@ final class MediaProcessorTest extends UnitTestCase
 
         self::assertArrayHasKey($expectedTargetName, $result);
         self::assertSame([['processed' => true]], $result[$expectedTargetName]);
+    }
+
+    /**
+     * @return array<string, array<mixed>>
+     */
+    public static function processVariousConfigurationsDataProvider(): array
+    {
+        return [
+            'with minimal config' => [
+                'config' => [
+                    'data' => 'files',
+                ],
+                'expectedTargetName' => 'files',
+            ],
+            'with different data path' => [
+                'config' => [
+                    'data' => 'gallery',
+                    'as' => 'images',
+                ],
+                'expectedTargetName' => 'images',
+            ],
+        ];
     }
 }

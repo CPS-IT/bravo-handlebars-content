@@ -27,12 +27,10 @@ class ContentObjectDataProcessor implements DataProcessorInterface
      */
     public function process(
         ContentObjectRenderer $cObj,
-        array                 $contentObjectConfiguration,
-        array                 $processorConfiguration,
-        array                 $processedData
-    ): array
-    {
-
+        array $contentObjectConfiguration,
+        array $processorConfiguration,
+        array $processedData
+    ): array {
         if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
             return $processedData;
         }
@@ -53,7 +51,7 @@ class ContentObjectDataProcessor implements DataProcessorInterface
         } else {
             ArrayUtility::mergeRecursiveWithOverrule($processedData, $contentObjects);
         }
+
         return $processedData;
     }
-
 }

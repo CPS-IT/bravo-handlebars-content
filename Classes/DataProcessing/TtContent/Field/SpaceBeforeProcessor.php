@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -28,6 +30,7 @@ class SpaceBeforeProcessor implements FieldProcessorInterface
         }
 
         $variables[$fieldName] = $spaceBeforeClass;
+
         return $variables;
     }
 }

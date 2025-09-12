@@ -5,35 +5,38 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\Tests\Unit\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\CollectionDataProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\NullDataProcessor;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 use TYPO3\CMS\Frontend\ContentObject\TextContentObject;
 use TYPO3\CMS\Frontend\DataProcessing\DataProcessorRegistry;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use InvalidArgumentException;
 
 /**
  * Test case for CollectionDataProcessor
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\CollectionDataProcessor
+ *
+ * @internal
  */
 final class CollectionDataProcessorTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private CollectionDataProcessor $subject;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private ContainerInterface|MockObject $container;
+
     private DataProcessorRegistry|MockObject $dataProcessorRegistry;
+
     private DataProcessorInterface|MockObject $mockDataProcessor;
 
     protected function setUp(): void
@@ -67,8 +70,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
                 'title' => 'TEXT',
                 'title.' => ['value' => 'Test Title'],
                 'description' => 'TEXT',
-                'description.' => ['value' => 'Test Description']
-            ]
+                'description.' => ['value' => 'Test Description'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -111,8 +114,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'collection',
             'variables.' => [
                 'test' => 'TEXT',
-                'test.' => ['value' => 'Test']
-            ]
+                'test.' => ['value' => 'Test'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -145,8 +148,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'collection',
             'variables.' => [
                 'content' => 'TEXT',
-                'content.' => ['value' => 'Conditional Content']
-            ]
+                'content.' => ['value' => 'Conditional Content'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -186,8 +189,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'variables.' => [
                 'test' => 'TEXT',
-                'test.' => ['value' => 'Test']
-            ]
+                'test.' => ['value' => 'Test'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -215,8 +218,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'processed',
             'variables.' => [
                 'processedData' => 'SomeDataProcessor',
-                'processedData.' => ['as' => 'processedData', 'config' => 'value']
-            ]
+                'processedData.' => ['as' => 'processedData', 'config' => 'value'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -263,8 +266,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'containerProcessed',
             'variables.' => [
                 'containerData' => 'ContainerProcessor',
-                'containerData.' => ['as' => 'containerData']
-            ]
+                'containerData.' => ['as' => 'containerData'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -314,8 +317,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'nullProcessed',
             'variables.' => [
                 'nullData' => 'NonExistentProcessor',
-                'nullData.' => ['as' => 'nullData']
-            ]
+                'nullData.' => ['as' => 'nullData'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -341,7 +344,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
 
         // NonExistentProcessor is neither in registry, container, nor a valid class
         // so isDataProcessor() returns false and the processor is never called
-        
+
         $result = $this->subject->process(
             $this->contentObjectRenderer,
             [],
@@ -361,8 +364,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'reserved',
             'variables.' => [
                 'data' => 'TEXT',
-                'data.' => ['value' => 'Test']
-            ]
+                'data.' => ['value' => 'Test'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -370,7 +373,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
             ->method('stdWrapValue')
             ->willReturn('reserved');
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionCode(1713637292);
         $this->expectExceptionMessage('Invalid variable name data. This name is reserved');
 
@@ -392,8 +395,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
                 'validVar.' => ['value' => 'Valid'],
                 'arrayVar.' => ['nested' => 'array'], // Should be skipped
                 'anotherVar' => 'TEXT',
-                'anotherVar.' => ['value' => 'Another']
-            ]
+                'anotherVar.' => ['value' => 'Another'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -433,8 +436,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'customCollection',
             'variables.' => [
                 'item' => 'TEXT',
-                'item.' => ['value' => 'Item Value', 'as' => 'customName']
-            ]
+                'item.' => ['value' => 'Item Value', 'as' => 'customName'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -469,7 +472,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
     public function processHandlesEmptyVariablesConfiguration(): void
     {
         $processorConfiguration = [
-            'as' => 'empty'
+            'as' => 'empty',
         ];
         $processedData = ['existing' => 'data'];
 
@@ -489,23 +492,6 @@ final class CollectionDataProcessorTest extends UnitTestCase
         self::assertArrayHasKey('existing', $result);
     }
 
-    /**
-     * @return array<string, array<mixed>>
-     */
-    public static function processReservedVariableNamesDataProvider(): array
-    {
-        return [
-            'data variable' => [
-                'variableName' => 'data',
-                'expectedMessage' => 'Invalid variable name data. This name is reserved'
-            ],
-            'current variable' => [
-                'variableName' => 'current',
-                'expectedMessage' => 'Invalid variable name current. This name is reserved'
-            ]
-        ];
-    }
-
     #[Test]
     #[DataProvider('processReservedVariableNamesDataProvider')]
     public function processThrowsExceptionForAllReservedVariableNames(string $variableName, string $expectedMessage): void
@@ -514,8 +500,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
             'as' => 'reserved',
             'variables.' => [
                 $variableName => 'TEXT',
-                $variableName . '.' => ['value' => 'Test']
-            ]
+                $variableName . '.' => ['value' => 'Test'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -523,7 +509,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
             ->method('stdWrapValue')
             ->willReturn('reserved');
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionCode(1713637292);
         $this->expectExceptionMessage($expectedMessage);
 
@@ -535,6 +521,23 @@ final class CollectionDataProcessorTest extends UnitTestCase
         );
     }
 
+    /**
+     * @return array<string, array<mixed>>
+     */
+    public static function processReservedVariableNamesDataProvider(): array
+    {
+        return [
+            'data variable' => [
+                'variableName' => 'data',
+                'expectedMessage' => 'Invalid variable name data. This name is reserved',
+            ],
+            'current variable' => [
+                'variableName' => 'current',
+                'expectedMessage' => 'Invalid variable name current. This name is reserved',
+            ],
+        ];
+    }
+
     #[Test]
     public function processMixesContentObjectsAndDataProcessors(): void
     {
@@ -544,8 +547,8 @@ final class CollectionDataProcessorTest extends UnitTestCase
                 'textVar' => 'TEXT',
                 'textVar.' => ['value' => 'Text Content'],
                 'processedVar' => 'SomeProcessor',
-                'processedVar.' => ['as' => 'processedVar', 'config' => 'test']
-            ]
+                'processedVar.' => ['as' => 'processedVar', 'config' => 'test'],
+            ],
         ];
         $processedData = ['base' => 'data'];
 

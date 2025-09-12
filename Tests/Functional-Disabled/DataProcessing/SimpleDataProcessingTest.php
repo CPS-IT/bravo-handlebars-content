@@ -12,16 +12,18 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Simple functional test case for data processing
- * 
+ *
  * This test focuses on basic data processing functionality
  * without complex TYPO3 framework dependencies.
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor
+ *
+ * @internal
  */
 final class SimpleDataProcessingTest extends FunctionalTestCase
 {
     protected array $coreExtensionsToLoad = [];
-    
+
     private ContentObjectRenderer $contentObjectRenderer;
 
     protected function setUp(): void
@@ -38,7 +40,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         while (set_error_handler(null) !== null) {
             restore_error_handler();
         }
-        
+
         parent::tearDown();
     }
 
@@ -47,7 +49,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
     {
         // Test that we can instantiate the data processor
         $processor = GeneralUtility::makeInstance(TextDataProcessor::class);
-        
+
         self::assertInstanceOf(TextDataProcessor::class, $processor);
     }
 
@@ -58,7 +60,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
             'uid' => 1,
             'pid' => 1,
             'header' => 'Test Header',
-            'bodytext' => 'Test content'
+            'bodytext' => 'Test content',
         ];
 
         $this->contentObjectRenderer->start($testData, 'tt_content');
@@ -73,11 +75,11 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         $testData = [
             'uid' => 1,
             'header' => 'Test Header',
-            'bodytext' => 'Test content'
+            'bodytext' => 'Test content',
         ];
 
         $processorConfiguration = [
-            'as' => 'testData'
+            'as' => 'testData',
         ];
 
         $processedData = ['data' => $testData];
@@ -108,12 +110,12 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         $originalData = [
             'uid' => 42,
             'header' => 'Original Header',
-            'existing' => 'preserved'
+            'existing' => 'preserved',
         ];
 
         $processedData = [
             'data' => $originalData,
-            'existing' => 'preserved'
+            'existing' => 'preserved',
         ];
 
         // Test data preservation logic
@@ -130,16 +132,16 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         $initialHandlers = 0;
         while (set_error_handler(null) !== null) {
             restore_error_handler();
-            $initialHandlers++;
+            ++$initialHandlers;
         }
 
         // Set a test handler
-        set_error_handler(function() { return true; });
-        
+        set_error_handler(function () { return true; });
+
         // Verify it was set
         $handler = set_error_handler(null);
         restore_error_handler();
-        
+
         self::assertIsCallable($handler, 'Error handler should be callable');
     }
 
@@ -152,15 +154,16 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
             'pid' => '1',
             'header' => 'Test Header',
             'header_layout' => '1',
-            'bodytext' => '<p>Test content</p>'
+            'bodytext' => '<p>Test content</p>',
         ];
 
         // Simulate processing CSV fixture data
-        $processedData = array_map(function($value) {
+        $processedData = array_map(function ($value) {
             // Convert string numbers to integers for uid/pid
             if (in_array($value, ['1', '2', '3']) && is_string($value)) {
-                return (int) $value;
+                return (int)$value;
             }
+
             return $value;
         }, $csvData);
 
@@ -176,14 +179,14 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
 
         // Simulate data processing performance test
         $largeData = [];
-        for ($i = 0; $i < 100; $i++) {
-            $largeData["field_$i"] = "Data $i";
+        for ($i = 0; $i < 100; ++$i) {
+            $largeData["field_{$i}"] = "Data {$i}";
         }
 
         // Process the data (simulation)
         $processedData = array_merge($largeData, [
             'header' => 'Performance Test',
-            'processed' => true
+            'processed' => true,
         ]);
 
         $executionTime = microtime(true) - $startTime;

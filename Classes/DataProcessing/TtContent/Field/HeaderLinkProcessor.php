@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -17,12 +19,10 @@ use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 
 class HeaderLinkProcessor implements FieldProcessorInterface, ContentRendererAwareInterface
 {
-    use FieldProcessorConfigTrait, ContentRendererTrait;
+    use FieldProcessorConfigTrait;
+    use ContentRendererTrait;
 
-
-    public function __construct(protected LinkService $linkService)
-    {
-    }
+    public function __construct(protected LinkService $linkService) {}
 
     public function process(string $fieldName, array $data, array $variables): array
     {
@@ -31,6 +31,7 @@ class HeaderLinkProcessor implements FieldProcessorInterface, ContentRendererAwa
         $typoLink = $data['header_link'] ?? '';
         $link = $this->linkService->resolveTypoLink($typoLink);
         $variables[$fieldName] = $this->linkService->linkResultToArray($link);
+
         return $variables;
     }
 }

@@ -12,28 +12,35 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
-use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case for LocalizationDataProcessor
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\LocalizationDataProcessor
+ *
+ * @internal
  */
 final class LocalizationDataProcessorTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private LocalizationDataProcessor $subject;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private LanguageServiceFactory|MockObject $languageServiceFactory;
+
     private LanguageService|MockObject $languageService;
-    private ServerRequestInterface|MockObject $request;
-    private SiteLanguage|MockObject $siteLanguage;
-    private Site|MockObject $site;
+
+    private MockObject|ServerRequestInterface $request;
+
+    private MockObject|SiteLanguage $siteLanguage;
+
+    private MockObject|Site $site;
 
     protected function setUp(): void
     {
@@ -57,7 +64,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'as' => 'labels',
-            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf']
+            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -106,7 +113,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'if.' => ['value' => '0'],
             'as' => 'labels',
-            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf']
+            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -137,7 +144,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'if.' => ['value' => '1'],
             'as' => 'labels',
-            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf']
+            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -181,7 +188,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
     public function processThrowsExceptionWhenAsConfigurationMissing(): void
     {
         $processorConfiguration = [
-            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf']
+            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -206,7 +213,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
     public function processThrowsExceptionWhenSourcesConfigurationMissing(): void
     {
         $processorConfiguration = [
-            'as' => 'labels'
+            'as' => 'labels',
         ];
         $processedData = ['existing' => 'data'];
 
@@ -231,7 +238,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'as' => 'labels',
-            'sources' => 'invalid_string'
+            'sources' => 'invalid_string',
         ];
         $processedData = ['existing' => 'data'];
 
@@ -258,8 +265,8 @@ final class LocalizationDataProcessorTest extends UnitTestCase
             'as' => 'translations',
             'sources' => [
                 'EXT:site/Resources/Private/Language/locallang.xlf',
-                'EXT:site/Resources/Private/Language/custom.xlf'
-            ]
+                'EXT:site/Resources/Private/Language/custom.xlf',
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -307,7 +314,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'as' => 'filteredLabels',
             'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
-            'includePattern' => '/^nav\..*/'
+            'includePattern' => '/^nav\..*/',
         ];
         $processedData = ['existing' => 'data'];
 
@@ -333,7 +340,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
                 'nav.home' => 'Home',
                 'nav.about' => 'About',
                 'footer.copyright' => 'Copyright',
-                'nav.contact' => 'Contact'
+                'nav.contact' => 'Contact',
             ]);
 
         $result = $this->subject->process(
@@ -357,7 +364,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'as' => 'nestedLabels',
             'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
-            'splitChar' => '.'
+            'splitChar' => '.',
         ];
         $processedData = ['existing' => 'data'];
 
@@ -383,7 +390,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
                 'nav.home' => 'Home',
                 'nav.about' => 'About',
                 'form.submit' => 'Submit',
-                'form.cancel' => 'Cancel'
+                'form.cancel' => 'Cancel',
             ]);
 
         $result = $this->subject->process(
@@ -407,7 +414,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'as' => 'labels',
-            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf']
+            'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -421,14 +428,13 @@ final class LocalizationDataProcessorTest extends UnitTestCase
 
         $this->request->expects(self::exactly(2))
             ->method('getAttribute')
-            ->willReturnCallback(function($attribute) {
+            ->willReturnCallback(function ($attribute) {
                 if ($attribute === 'language') {
-                    return null;
+                    return;
                 }
                 if ($attribute === 'site') {
                     return $this->site;
                 }
-                return null;
             });
 
         $this->site->expects(self::once())
@@ -453,54 +459,6 @@ final class LocalizationDataProcessorTest extends UnitTestCase
 
         self::assertArrayHasKey('labels', $result);
         self::assertSame('Test', $result['labels']['test']);
-    }
-
-    /**
-     * @return array<string, array<mixed>>
-     */
-    public static function processWithComplexConfigurationsDataProvider(): array
-    {
-        return [
-            'with include pattern and split char' => [
-                'config' => [
-                    'as' => 'processedLabels',
-                    'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
-                    'includePattern' => '/^form\..*/',
-                    'splitChar' => '.'
-                ],
-                'sourceLabels' => [
-                    'form.fields.name' => 'Name',
-                    'form.fields.email' => 'Email',
-                    'form.validation.required' => 'Required',
-                    'nav.home' => 'Home'
-                ],
-                'expectedResult' => [
-                    'form' => [
-                        'fields' => ['name' => 'Name', 'email' => 'Email'],
-                        'validation' => ['required' => 'Required']
-                    ]
-                ]
-            ],
-            'multiple sources with pattern filter' => [
-                'config' => [
-                    'as' => 'filteredLabels',
-                    'sources' => [
-                        'EXT:site/Resources/Private/Language/locallang.xlf',
-                        'EXT:site/Resources/Private/Language/custom.xlf'
-                    ],
-                    'includePattern' => '/^btn\..*/'
-                ],
-                'sourceLabels' => [
-                    'btn.submit' => 'Submit',
-                    'btn.cancel' => 'Cancel',
-                    'nav.home' => 'Home'
-                ],
-                'expectedResult' => [
-                    'btn.submit' => 'Submit',
-                    'btn.cancel' => 'Cancel'
-                ]
-            ]
-        ];
     }
 
     #[Test]
@@ -539,5 +497,53 @@ final class LocalizationDataProcessorTest extends UnitTestCase
 
         self::assertArrayHasKey($config['as'], $result);
         self::assertEquals($expectedResult, $result[$config['as']]);
+    }
+
+    /**
+     * @return array<string, array<mixed>>
+     */
+    public static function processWithComplexConfigurationsDataProvider(): array
+    {
+        return [
+            'with include pattern and split char' => [
+                'config' => [
+                    'as' => 'processedLabels',
+                    'sources' => ['EXT:site/Resources/Private/Language/locallang.xlf'],
+                    'includePattern' => '/^form\..*/',
+                    'splitChar' => '.',
+                ],
+                'sourceLabels' => [
+                    'form.fields.name' => 'Name',
+                    'form.fields.email' => 'Email',
+                    'form.validation.required' => 'Required',
+                    'nav.home' => 'Home',
+                ],
+                'expectedResult' => [
+                    'form' => [
+                        'fields' => ['name' => 'Name', 'email' => 'Email'],
+                        'validation' => ['required' => 'Required'],
+                    ],
+                ],
+            ],
+            'multiple sources with pattern filter' => [
+                'config' => [
+                    'as' => 'filteredLabels',
+                    'sources' => [
+                        'EXT:site/Resources/Private/Language/locallang.xlf',
+                        'EXT:site/Resources/Private/Language/custom.xlf',
+                    ],
+                    'includePattern' => '/^btn\..*/',
+                ],
+                'sourceLabels' => [
+                    'btn.submit' => 'Submit',
+                    'btn.cancel' => 'Cancel',
+                    'nav.home' => 'Home',
+                ],
+                'expectedResult' => [
+                    'btn.submit' => 'Submit',
+                    'btn.cancel' => 'Cancel',
+                ],
+            ],
+        ];
     }
 }

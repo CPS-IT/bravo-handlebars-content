@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -10,12 +12,10 @@
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-use Cpsit\BravoHandlebarsContent\Service\FileLinkService;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
-
 
 /**
  * Process typo link parameter to link

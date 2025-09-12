@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -18,7 +20,8 @@ trait FieldProcessorConfigTrait
     // @todo: remove this trait from all consuming classes
     /**
      * @param array $config
-     * @return \Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface
+     *
+     * @return FieldProcessorInterface
      */
     public function withConfig(array $config): FieldProcessorInterface
     {
@@ -27,5 +30,4 @@ trait FieldProcessorConfigTrait
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this;
     }
-
 }

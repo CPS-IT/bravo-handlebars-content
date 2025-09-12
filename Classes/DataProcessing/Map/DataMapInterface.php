@@ -1,8 +1,8 @@
 <?php
 
-namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
+declare(strict_types=1);
 
-use SplObjectStorage;
+namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -13,6 +13,5 @@ use SplObjectStorage;
  */
 interface DataMapInterface
 {
-    public function getFieldMaps(): SplObjectStorage ;
-
+    public function getFieldMaps(): \SplObjectStorage;
 }

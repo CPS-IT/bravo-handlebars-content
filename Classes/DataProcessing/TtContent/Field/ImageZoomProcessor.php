@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 /*
@@ -12,7 +14,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class ImageZoomProcessor implements FieldProcessorInterface
 {
@@ -20,7 +21,7 @@ class ImageZoomProcessor implements FieldProcessorInterface
 
     public function process(string $fieldName, array $data, array $variables): array
     {
-        if(
+        if (
             empty($data[TtContentRecordInterface::FIELD_IMAGE_ZOOM])
             || !(bool)$data[TtContentRecordInterface::FIELD_IMAGE_ZOOM]
             || empty($variables[TtContentRecordInterface::FIELD_ASSETS]['image'])
@@ -30,14 +31,14 @@ class ImageZoomProcessor implements FieldProcessorInterface
         }
 
         foreach ($variables[TtContentRecordInterface::FIELD_ASSETS]['image'] as $key => $image) {
-            if(!empty($image['linkedImage']['url'])){
+            if (!empty($image['linkedImage']['url'])) {
                 continue;
             }
             $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['lightbox'] = 1;
-            $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['lightboxCopyright'] =
-                $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['copyright'];
-            $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['lightboxImg'] =
-                $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['original'];
+            $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['lightboxCopyright']
+                = $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['copyright'];
+            $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['lightboxImg']
+                = $variables[TtContentRecordInterface::FIELD_ASSETS]['image'][$key]['original'];
         }
 
         return $variables;

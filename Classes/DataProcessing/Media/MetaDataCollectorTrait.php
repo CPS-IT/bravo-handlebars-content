@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -18,11 +20,12 @@ trait MetaDataCollectorTrait
     protected function collectMetaDataFromFile(FileInterface $file): array
     {
         $metaData = [];
+
         try {
             foreach ($this::META_DATA_FIELDS as $property => $key) {
                 $metaData[$key] = $file->hasProperty($property) ? $file->getProperty($property) : '';
             }
-        }catch (\Exception) {
+        } catch (\Exception) {
             return [];
         }
 

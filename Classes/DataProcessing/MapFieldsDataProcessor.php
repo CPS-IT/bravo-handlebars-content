@@ -45,7 +45,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  *    categories => bar
  *   ]
  * ]
- *
  */
 class MapFieldsDataProcessor implements DataProcessorInterface
 {
@@ -73,6 +72,7 @@ class MapFieldsDataProcessor implements DataProcessorInterface
             if (!ArrayUtility::isValidPath($processedData, $source, $separator)) {
                 continue;
             }
+
             try {
                 $value = ArrayUtility::getValueByPath($processedData, $source, $separator);
                 if (!empty($processorConfiguration['skipEmptyValues']) && empty($value)) {
@@ -80,7 +80,6 @@ class MapFieldsDataProcessor implements DataProcessorInterface
                 }
                 $processedData = ArrayUtility::setValueByPath($processedData, $target, $value, $separator);
             } catch (MissingArrayPathException) {
-
             }
         }
 

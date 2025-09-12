@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\Frontend\ContentObject;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\ProcessorVariablesTrait;
@@ -27,16 +29,15 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         protected AssetCollector $assetCollector,
         protected ContentDataProcessor $contentDataProcessor,
         protected HandlebarsRenderer $renderer,
-    ) {
-    }
+    ) {}
 
     /**
+     * @param mixed $conf
+     *
      * @throws InvalidConfigurationException
      */
     public function render($conf = []): string
     {
-
-
         if (!is_array($conf)) {
             $conf = [];
         }
@@ -52,8 +53,10 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         );
 
         $defaultData = [];
-        $variableNames = empty($conf['defaultDataVariables']) ? [] : GeneralUtility::trimExplode(',',
-            $conf['defaultDataVariables']);
+        $variableNames = empty($conf['defaultDataVariables']) ? [] : GeneralUtility::trimExplode(
+            ',',
+            $conf['defaultDataVariables']
+        );
         foreach ($variableNames as $variableName) {
             if (empty($variables[$variableName])) {
                 continue;
@@ -72,6 +75,7 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
      * Resolve template name
      *
      * @param array $conf With possibly set file resource
+     *
      * @throws \InvalidArgumentException
      * @throws InvalidConfigurationException
      */
@@ -91,7 +95,6 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
         return $templateName;
     }
 
-
     protected function addPageAssets(array $conf): void
     {
         $assets = [];
@@ -107,7 +110,9 @@ class HandlebarsTemplateContentObject extends AbstractContentObject
                         'Missing key "source" in configuration assets.%s.%s for %s.',
                         $assetType,
                         $identifier,
-                        get_class($this));
+                        static::class
+                    );
+
                     throw new InvalidConfigurationException(
                         $message,
                         1709302386

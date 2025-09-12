@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
-use SplObjectStorage;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -21,5 +22,4 @@ class CeTextDataMap implements DataMapInterface
         TtContent::FIELD_SPACE_BEFORE => 'spaceBefore',
         TtContent::FIELD_UID => 'id',
     ];
-
 }

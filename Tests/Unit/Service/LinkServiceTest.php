@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cpsit\BravoHandlebarsContent\Tests\Unit\Service;
 
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
-use Cpsit\BravoHandlebarsContent\Utility\StringUtility;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,13 +17,17 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * Test case for LinkService
  *
  * @covers \Cpsit\BravoHandlebarsContent\Service\LinkService
+ *
+ * @internal
  */
 final class LinkServiceTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private LinkService $subject;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private LinkResultInterface|MockObject $linkResult;
 
     protected function setUp(): void
@@ -46,7 +49,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('typoLink')
             ->with('', [
                 'parameter' => $typoLink,
-                'returnLast' => 'result'
+                'returnLast' => 'result',
             ])
             ->willReturn($this->linkResult);
 
@@ -64,7 +67,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('typoLink')
             ->with('', [
                 'parameter' => $typoLink,
-                'returnLast' => 'result'
+                'returnLast' => 'result',
             ])
             ->willReturn('invalid-result'); // Not a LinkResultInterface
 
@@ -84,7 +87,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('typoLink')
             ->with('', [
                 'parameter' => $typoLink,
-                'returnLast' => 'result'
+                'returnLast' => 'result',
             ])
             ->willReturn($this->linkResult);
 
@@ -116,7 +119,7 @@ final class LinkServiceTest extends UnitTestCase
             'class' => 'link-class',
             'target' => '_blank',
             'data-test' => 'test-value',
-            'aria-label' => 'Accessible label'
+            'aria-label' => 'Accessible label',
         ];
 
         $this->linkResult->expects(self::once())
@@ -131,7 +134,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('getAttribute')
             ->willReturnMap([
                 ['title', 'Example Link'],
-                ['class', 'link-class']
+                ['class', 'link-class'],
             ]);
 
         $this->linkResult->expects(self::once())
@@ -157,8 +160,8 @@ final class LinkServiceTest extends UnitTestCase
             'type' => 'page',
             'additionalAttributes' => [
                 'dataTest' => 'test-value',
-                'ariaLabel' => 'Accessible label'
-            ]
+                'ariaLabel' => 'Accessible label',
+            ],
         ];
 
         self::assertSame($expectedResult, $result);
@@ -179,7 +182,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('getAttribute')
             ->willReturnMap([
                 ['title', ''],
-                ['class', '']
+                ['class', ''],
             ]);
 
         $this->linkResult->expects(self::once())
@@ -193,7 +196,7 @@ final class LinkServiceTest extends UnitTestCase
         $this->linkResult->expects(self::once())
             ->method('getAttributes')
             ->willReturn([
-                'href' => 'https://example.com'
+                'href' => 'https://example.com',
             ]);
 
         $result = $this->subject->linkResultToArray($this->linkResult);
@@ -205,7 +208,7 @@ final class LinkServiceTest extends UnitTestCase
             'class' => '',
             'target' => '',
             'type' => 'url',
-            'additionalAttributes' => []
+            'additionalAttributes' => [],
         ];
 
         self::assertSame($expectedResult, $result);
@@ -226,7 +229,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('getAttribute')
             ->willReturnMap([
                 ['title', null],
-                ['class', null]
+                ['class', null],
             ]);
 
         $this->linkResult->expects(self::once())
@@ -250,7 +253,7 @@ final class LinkServiceTest extends UnitTestCase
             'class' => '',
             'target' => '_self',
             'type' => 'page',
-            'additionalAttributes' => []
+            'additionalAttributes' => [],
         ];
 
         self::assertSame($expectedResult, $result);
@@ -268,8 +271,21 @@ final class LinkServiceTest extends UnitTestCase
             ->method('typoLink')
             ->with('', [
                 'parameter' => $typoLink,
-                'returnLast' => 'result'
+                'returnLast' => 'result',
             ])
+            ->willReturn($this->linkResult);
+
+        $result = $this->subject->resolveTypoLink($typoLink);
+
+        self::assertSame($this->linkResult, $result);
+    }
+
+    #[Test]
+    #[DataProvider('linkTypesDataProvider')]
+    public function resolveTypoLinkHandlesDifferentLinkTypes(string $typoLink, string $expectedType, string $expectedUrl): void
+    {
+        $this->contentObjectRenderer->expects(self::once())
+            ->method('typoLink')
             ->willReturn($this->linkResult);
 
         $result = $this->subject->resolveTypoLink($typoLink);
@@ -286,37 +302,24 @@ final class LinkServiceTest extends UnitTestCase
             'page link' => [
                 'typoLink' => 't3://page?uid=123',
                 'expectedType' => 'page',
-                'expectedUrl' => 'https://example.com/page'
+                'expectedUrl' => 'https://example.com/page',
             ],
             'external link' => [
                 'typoLink' => 'https://external.com',
                 'expectedType' => 'url',
-                'expectedUrl' => 'https://external.com'
+                'expectedUrl' => 'https://external.com',
             ],
             'email link' => [
                 'typoLink' => 'mailto:test@example.com',
                 'expectedType' => 'email',
-                'expectedUrl' => 'mailto:test@example.com'
+                'expectedUrl' => 'mailto:test@example.com',
             ],
             'file link' => [
                 'typoLink' => 't3://file?uid=456',
                 'expectedType' => 'file',
-                'expectedUrl' => 'https://example.com/fileadmin/test.pdf'
-            ]
+                'expectedUrl' => 'https://example.com/fileadmin/test.pdf',
+            ],
         ];
-    }
-
-    #[Test]
-    #[DataProvider('linkTypesDataProvider')]
-    public function resolveTypoLinkHandlesDifferentLinkTypes(string $typoLink, string $expectedType, string $expectedUrl): void
-    {
-        $this->contentObjectRenderer->expects(self::once())
-            ->method('typoLink')
-            ->willReturn($this->linkResult);
-
-        $result = $this->subject->resolveTypoLink($typoLink);
-
-        self::assertSame($this->linkResult, $result);
     }
 
     #[Test]
@@ -329,7 +332,7 @@ final class LinkServiceTest extends UnitTestCase
             'target' => '_blank', // Should be filtered out
             'data-test' => 'test-value', // Should be converted to dataTest
             'aria-label' => 'Accessible label', // Should be converted to ariaLabel
-            'custom-attribute' => 'custom-value' // Should be converted to customAttribute
+            'custom-attribute' => 'custom-value', // Should be converted to customAttribute
         ];
 
         $this->linkResult->expects(self::once())
@@ -344,7 +347,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('getAttribute')
             ->willReturnMap([
                 ['title', 'Example Title'],
-                ['class', 'example-class']
+                ['class', 'example-class'],
             ]);
 
         $this->linkResult->expects(self::once())
@@ -364,7 +367,7 @@ final class LinkServiceTest extends UnitTestCase
         $expectedAdditionalAttributes = [
             'dataTest' => 'test-value',
             'ariaLabel' => 'Accessible label',
-            'customAttribute' => 'custom-value'
+            'customAttribute' => 'custom-value',
         ];
 
         self::assertSame($expectedAdditionalAttributes, $result['additionalAttributes']);
@@ -381,7 +384,7 @@ final class LinkServiceTest extends UnitTestCase
             'data-toggle' => 'modal',
             'data-target' => '#exampleModal',
             'aria-describedby' => 'tooltip-123',
-            'role' => 'button'
+            'role' => 'button',
         ];
 
         $this->linkResult->expects(self::once())
@@ -396,7 +399,7 @@ final class LinkServiceTest extends UnitTestCase
             ->method('getAttribute')
             ->willReturnMap([
                 ['title', 'Complex Example Link'],
-                ['class', 'btn btn-primary']
+                ['class', 'btn btn-primary'],
             ]);
 
         $this->linkResult->expects(self::once())
@@ -424,8 +427,8 @@ final class LinkServiceTest extends UnitTestCase
                 'dataToggle' => 'modal',
                 'dataTarget' => '#exampleModal',
                 'ariaDescribedby' => 'tooltip-123',
-                'role' => 'button'
-            ]
+                'role' => 'button',
+            ],
         ];
 
         self::assertSame($expectedResult, $result);

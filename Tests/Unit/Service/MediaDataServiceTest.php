@@ -17,15 +17,21 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * Test case for MediaDataService
  *
  * @covers \Cpsit\BravoHandlebarsContent\Service\MediaDataService
+ *
+ * @internal
  */
 final class MediaDataServiceTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private MediaDataService $subject;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private MediaProcessorInterface|MockObject $mediaProcessor1;
+
     private MediaProcessorInterface|MockObject $mediaProcessor2;
+
     private FileInterface|MockObject $file;
 
     protected function setUp(): void
@@ -38,7 +44,7 @@ final class MediaDataServiceTest extends UnitTestCase
         $this->file = $this->createMock(FileInterface::class);
 
         $processors = [$this->mediaProcessor1, $this->mediaProcessor2];
-        
+
         $this->subject = new MediaDataService(
             new \ArrayIterator($processors),
             $this->contentObjectRenderer
@@ -51,7 +57,7 @@ final class MediaDataServiceTest extends UnitTestCase
         $config = [
             'width' => '800',
             'height' => '600',
-            'quality' => '85'
+            'quality' => '85',
         ];
 
         $expectedResult = [
@@ -60,7 +66,7 @@ final class MediaDataServiceTest extends UnitTestCase
             'width' => 800,
             'height' => 600,
             'alt' => 'Test Image',
-            'title' => 'Test Title'
+            'title' => 'Test Title',
         ];
 
         $this->mediaProcessor1->expects(self::once())
@@ -111,7 +117,7 @@ final class MediaDataServiceTest extends UnitTestCase
     {
         $expectedResult = [
             'type' => 'image',
-            'url' => '/fileadmin/test.jpg'
+            'url' => '/fileadmin/test.jpg',
         ];
 
         $this->mediaProcessor1->expects(self::once())
@@ -134,11 +140,11 @@ final class MediaDataServiceTest extends UnitTestCase
         // Create a processor that implements ContentRendererAwareInterface
         $contentRendererAwareProcessor = $this->createMockForIntersectionOfInterfaces([
             MediaProcessorInterface::class,
-            ContentRendererAwareInterface::class
+            ContentRendererAwareInterface::class,
         ]);
 
         $processors = [$contentRendererAwareProcessor];
-        
+
         $this->subject = new MediaDataService(
             new \ArrayIterator($processors),
             $this->contentObjectRenderer
@@ -189,11 +195,11 @@ final class MediaDataServiceTest extends UnitTestCase
         // Test that the new renderer is used when processing content-renderer-aware processors
         $contentRendererAwareProcessor = $this->createMockForIntersectionOfInterfaces([
             MediaProcessorInterface::class,
-            ContentRendererAwareInterface::class
+            ContentRendererAwareInterface::class,
         ]);
 
         $processors = [$contentRendererAwareProcessor];
-        
+
         $this->subject = new MediaDataService(
             new \ArrayIterator($processors),
             $this->contentObjectRenderer
@@ -223,9 +229,9 @@ final class MediaDataServiceTest extends UnitTestCase
     public function processHandlesMultipleProcessorsFallback(): void
     {
         $processor3 = $this->createMock(MediaProcessorInterface::class);
-        
+
         $processors = [$this->mediaProcessor1, $this->mediaProcessor2, $processor3];
-        
+
         $this->subject = new MediaDataService(
             new \ArrayIterator($processors),
             $this->contentObjectRenderer
@@ -260,13 +266,13 @@ final class MediaDataServiceTest extends UnitTestCase
                 'cropVariants' => [
                     'desktop' => ['maxWidth' => 1200, 'quality' => 85],
                     'tablet' => ['maxWidth' => 768, 'quality' => 80],
-                    'mobile' => ['maxWidth' => 320, 'quality' => 75]
-                ]
+                    'mobile' => ['maxWidth' => 320, 'quality' => 75],
+                ],
             ],
             'additionalAttributes' => [
                 'loading' => 'lazy',
-                'decoding' => 'async'
-            ]
+                'decoding' => 'async',
+            ],
         ];
 
         $expectedResult = [
@@ -275,12 +281,12 @@ final class MediaDataServiceTest extends UnitTestCase
             'cropVariants' => [
                 'desktop' => ['url' => '/processed_desktop.jpg', 'width' => 1200],
                 'tablet' => ['url' => '/processed_tablet.jpg', 'width' => 768],
-                'mobile' => ['url' => '/processed_mobile.jpg', 'width' => 320]
+                'mobile' => ['url' => '/processed_mobile.jpg', 'width' => 320],
             ],
             'additionalAttributes' => [
                 'loading' => 'lazy',
-                'decoding' => 'async'
-            ]
+                'decoding' => 'async',
+            ],
         ];
 
         $this->mediaProcessor1->expects(self::once())

@@ -17,15 +17,21 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * Test case for TextDataProcessor
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\TextDataProcessor
+ *
+ * @internal
  */
 final class TextDataProcessorTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
-    private TextDataProcessor|MockObject $subject;
+    private MockObject|TextDataProcessor $subject;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private CeTextDataMap|MockObject $dataMap;
+
     private FieldProcessorConfiguration|MockObject $fieldProcessorConfiguration;
+
     private LanguageServiceFactory|MockObject $languageServiceFactory;
 
     protected function setUp(): void
@@ -43,7 +49,7 @@ final class TextDataProcessorTest extends UnitTestCase
                 $this->fieldProcessorConfiguration,
                 $this->dataMap,
                 $this->contentObjectRenderer,
-                $this->languageServiceFactory
+                $this->languageServiceFactory,
             ])
             ->onlyMethods(['processFields'])
             ->getMock();
@@ -57,15 +63,15 @@ final class TextDataProcessorTest extends UnitTestCase
             'data' => [
                 'header' => 'Test Header',
                 'bodytext' => 'Test content',
-                'header_layout' => 1
-            ]
+                'header_layout' => 1,
+            ],
         ];
 
         // Mock processFields to return processed variables
         $this->subject->expects(self::once())
             ->method('processFields')
             ->willReturn([
-                'data' => $processedData['data']
+                'data' => $processedData['data'],
             ]);
 
         // Mock the dataMap getFieldMaps to return an empty storage for mapping
@@ -94,15 +100,15 @@ final class TextDataProcessorTest extends UnitTestCase
         $processedData = [
             'data' => [
                 'header' => 'Custom Header',
-                'bodytext' => 'Custom content'
-            ]
+                'bodytext' => 'Custom content',
+            ],
         ];
 
         // Mock processFields to return processed variables
         $this->subject->expects(self::once())
             ->method('processFields')
             ->willReturn([
-                'textData' => $processedData['data']
+                'textData' => $processedData['data'],
             ]);
 
         // Mock the dataMap getFieldMaps to return an empty storage for mapping
@@ -126,7 +132,7 @@ final class TextDataProcessorTest extends UnitTestCase
     public function processSkipsWhenIfConditionIsFalse(): void
     {
         $processorConfiguration = [
-            'if.' => ['value' => '0']
+            'if.' => ['value' => '0'],
         ];
         $processedData = ['data' => ['header' => 'Test']];
 
@@ -156,7 +162,7 @@ final class TextDataProcessorTest extends UnitTestCase
     {
         $processorConfiguration = [
             'if.' => ['value' => '1'],
-            'as' => 'textContent'
+            'as' => 'textContent',
         ];
         $processedData = ['data' => ['header' => 'Conditional Test']];
 
@@ -169,7 +175,7 @@ final class TextDataProcessorTest extends UnitTestCase
         $this->subject->expects(self::once())
             ->method('processFields')
             ->willReturn([
-                'textContent' => ['processed' => 'data']
+                'textContent' => ['processed' => 'data'],
             ]);
 
         $this->dataMap->expects(self::once())
@@ -197,7 +203,7 @@ final class TextDataProcessorTest extends UnitTestCase
         $this->subject->expects(self::once())
             ->method('processFields')
             ->willReturn([
-                'emptyData' => []
+                'emptyData' => [],
             ]);
 
         $this->dataMap->expects(self::once())
@@ -221,14 +227,14 @@ final class TextDataProcessorTest extends UnitTestCase
         $processorConfiguration = ['as' => 'newData'];
         $processedData = [
             'data' => ['header' => 'Test'],
-            'existingData' => ['preserve' => 'me']
+            'existingData' => ['preserve' => 'me'],
         ];
 
         // Mock processFields to return processed data
         $this->subject->expects(self::once())
             ->method('processFields')
             ->willReturn([
-                'newData' => ['preserved' => 'data']
+                'newData' => ['preserved' => 'data'],
             ]);
 
         $this->dataMap->expects(self::once())
@@ -255,15 +261,15 @@ final class TextDataProcessorTest extends UnitTestCase
         $processedData = [
             'data' => [
                 'header' => null,
-                'bodytext' => null
-            ]
+                'bodytext' => null,
+            ],
         ];
 
         // Mock processFields to return null data
         $this->subject->expects(self::once())
             ->method('processFields')
             ->willReturn([
-                'nullData' => ['null' => null]
+                'nullData' => ['null' => null],
             ]);
 
         $this->dataMap->expects(self::once())

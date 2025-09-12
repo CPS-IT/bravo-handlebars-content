@@ -9,26 +9,30 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\DataProcessing\DataProcessorRegistry;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use UnexpectedValueException;
 
 /**
  * Test case for SerialDataProcessor
  *
  * @covers \Cpsit\BravoHandlebarsContent\DataProcessing\SerialDataProcessor
+ *
+ * @internal
  */
 final class SerialDataProcessorTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
     private SerialDataProcessor $subject;
+
     private ContainerInterface|MockObject $container;
+
     private DataProcessorRegistry|MockObject $dataProcessorRegistry;
+
     private ContentObjectRenderer|MockObject $contentObjectRenderer;
+
     private DataProcessorInterface|MockObject $mockProcessor;
 
     protected function setUp(): void
@@ -66,7 +70,7 @@ final class SerialDataProcessorTest extends UnitTestCase
     public function processReturnsUnmodifiedDataWhenDataProcessingArrayEmpty(): void
     {
         $processorConfiguration = [
-            'dataProcessing.' => []
+            'dataProcessing.' => [],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -87,8 +91,8 @@ final class SerialDataProcessorTest extends UnitTestCase
             'if.' => ['value' => '0'],
             'dataProcessing.' => [
                 '10' => 'SomeProcessor',
-                '10.' => ['config' => 'value']
-            ]
+                '10.' => ['config' => 'value'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -117,8 +121,8 @@ final class SerialDataProcessorTest extends UnitTestCase
             'if.' => ['value' => '1'],
             'dataProcessing.' => [
                 '10' => 'SomeProcessor',
-                '10.' => ['config' => 'value']
-            ]
+                '10.' => ['config' => 'value'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -164,8 +168,8 @@ final class SerialDataProcessorTest extends UnitTestCase
                 '10' => 'FirstProcessor',
                 '10.' => ['first' => 'config'],
                 '20' => 'SecondProcessor',
-                '20.' => ['second' => 'config']
-            ]
+                '20.' => ['second' => 'config'],
+            ],
         ];
         $processedData = ['initial' => 'data'];
 
@@ -174,8 +178,8 @@ final class SerialDataProcessorTest extends UnitTestCase
 
         $this->dataProcessorRegistry->expects(self::exactly(2))
             ->method('getDataProcessor')
-            ->willReturnCallback(function($processorName) use ($firstProcessor, $secondProcessor) {
-                return match($processorName) {
+            ->willReturnCallback(function ($processorName) use ($firstProcessor, $secondProcessor) {
+                return match ($processorName) {
                     'FirstProcessor' => $firstProcessor,
                     'SecondProcessor' => $secondProcessor,
                     default => null
@@ -224,8 +228,8 @@ final class SerialDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'dataProcessing.' => [
                 '10' => 'ContainerProcessor',
-                '10.' => ['config' => 'value']
-            ]
+                '10.' => ['config' => 'value'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -264,8 +268,8 @@ final class SerialDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'dataProcessing.' => [
                 '10' => 'NonExistentClass',
-                '10.' => ['config' => 'value']
-            ]
+                '10.' => ['config' => 'value'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -277,7 +281,7 @@ final class SerialDataProcessorTest extends UnitTestCase
             ->method('has')
             ->willReturn(false);
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionCode(1427455378);
         $this->expectExceptionMessage('Processor class or service name "NonExistentClass" does not exist!');
 
@@ -297,8 +301,8 @@ final class SerialDataProcessorTest extends UnitTestCase
                 '10' => 'NonExistentProcessor',
                 '10.' => ['config' => 'value'],
                 '20' => 'ExistingProcessor',
-                '20.' => ['other' => 'config']
-            ]
+                '20.' => ['other' => 'config'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -312,7 +316,7 @@ final class SerialDataProcessorTest extends UnitTestCase
             ->with('NonExistentProcessor')
             ->willReturn(false);
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionCode(1427455378);
         $this->expectExceptionMessage('Processor class or service name "NonExistentProcessor" does not exist!');
 
@@ -330,8 +334,8 @@ final class SerialDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'dataProcessing.' => [
                 '10' => 'InvalidService',
-                '10.' => []
-            ]
+                '10.' => [],
+            ],
         ];
 
         $invalidService = new \stdClass();
@@ -348,7 +352,7 @@ final class SerialDataProcessorTest extends UnitTestCase
             ->method('get')
             ->willReturn($invalidService);
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionCode(1635927108);
         $this->expectExceptionMessage('Processor with service name "InvalidService" must implement interface "TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface"');
 
@@ -366,8 +370,8 @@ final class SerialDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'dataProcessing.' => [
                 '10' => 'NonExistentClass',
-                '10.' => []
-            ]
+                '10.' => [],
+            ],
         ];
 
         $this->dataProcessorRegistry->expects(self::once())
@@ -378,7 +382,7 @@ final class SerialDataProcessorTest extends UnitTestCase
             ->method('has')
             ->willReturn(false);
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionCode(1427455378);
         $this->expectExceptionMessage('Processor class or service name "NonExistentClass" does not exist!');
 
@@ -396,8 +400,8 @@ final class SerialDataProcessorTest extends UnitTestCase
         $processorConfiguration = [
             'dataProcessing.' => [
                 '10' => \stdClass::class,
-                '10.' => []
-            ]
+                '10.' => [],
+            ],
         ];
 
         $this->dataProcessorRegistry->expects(self::once())
@@ -408,7 +412,7 @@ final class SerialDataProcessorTest extends UnitTestCase
             ->method('has')
             ->willReturn(false);
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionCode(1427455377);
         $this->expectExceptionMessage('Processor with class name "stdClass" must implement interface "TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface"');
 
@@ -427,8 +431,8 @@ final class SerialDataProcessorTest extends UnitTestCase
             'as' => 'serialData',
             'dataProcessing.' => [
                 '10' => 'TestProcessor',
-                '10.' => ['config' => 'value']
-            ]
+                '10.' => ['config' => 'value'],
+            ],
         ];
         $processedData = ['existing' => 'data'];
 
@@ -457,48 +461,6 @@ final class SerialDataProcessorTest extends UnitTestCase
         self::assertArrayHasKey('existing', $result);
     }
 
-    /**
-     * @return array<string, array<mixed>>
-     */
-    public static function processComplexConfigurationsDataProvider(): array
-    {
-        return [
-            'single processor' => [
-                'config' => [
-                    'dataProcessing.' => [
-                        '10' => 'SingleProcessor',
-                        '10.' => ['single' => 'config']
-                    ]
-                ],
-                'expectedProcessorCalls' => 1
-            ],
-            'multiple processors' => [
-                'config' => [
-                    'dataProcessing.' => [
-                        '10' => 'FirstProcessor',
-                        '10.' => ['first' => 'config'],
-                        '20' => 'SecondProcessor',
-                        '20.' => ['second' => 'config'],
-                        '30' => 'ThirdProcessor',
-                        '30.' => ['third' => 'config']
-                    ]
-                ],
-                'expectedProcessorCalls' => 3
-            ],
-            'mixed keys' => [
-                'config' => [
-                    'dataProcessing.' => [
-                        'text' => 'TextProcessor',
-                        'text.' => ['text' => 'config'],
-                        'media' => 'MediaProcessor',
-                        'media.' => ['media' => 'config']
-                    ]
-                ],
-                'expectedProcessorCalls' => 2
-            ]
-        ];
-    }
-
     #[Test]
     #[DataProvider('processComplexConfigurationsDataProvider')]
     public function processHandlesComplexConfigurations(array $config, int $expectedProcessorCalls): void
@@ -525,5 +487,47 @@ final class SerialDataProcessorTest extends UnitTestCase
         self::assertArrayHasKey('initial', $result);
         self::assertArrayHasKey('processed', $result);
         self::assertTrue($result['processed']);
+    }
+
+    /**
+     * @return array<string, array<mixed>>
+     */
+    public static function processComplexConfigurationsDataProvider(): array
+    {
+        return [
+            'single processor' => [
+                'config' => [
+                    'dataProcessing.' => [
+                        '10' => 'SingleProcessor',
+                        '10.' => ['single' => 'config'],
+                    ],
+                ],
+                'expectedProcessorCalls' => 1,
+            ],
+            'multiple processors' => [
+                'config' => [
+                    'dataProcessing.' => [
+                        '10' => 'FirstProcessor',
+                        '10.' => ['first' => 'config'],
+                        '20' => 'SecondProcessor',
+                        '20.' => ['second' => 'config'],
+                        '30' => 'ThirdProcessor',
+                        '30.' => ['third' => 'config'],
+                    ],
+                ],
+                'expectedProcessorCalls' => 3,
+            ],
+            'mixed keys' => [
+                'config' => [
+                    'dataProcessing.' => [
+                        'text' => 'TextProcessor',
+                        'text.' => ['text' => 'config'],
+                        'media' => 'MediaProcessor',
+                        'media.' => ['media' => 'config'],
+                    ],
+                ],
+                'expectedProcessorCalls' => 2,
+            ],
+        ];
     }
 }

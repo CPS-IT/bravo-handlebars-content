@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use Cpsit\BravoHandlebarsContent\DataProcessing\Map\FieldMap;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -15,10 +16,11 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\Map\FieldMap;
  */
 trait FieldMappingTrait
 {
-    public function map(array $variables): array {
+    public function map(array $variables): array
+    {
         /** @var FieldMap $fieldMap */
         foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
-            if(ArrayUtility::isValidPath($variables, $fieldMap->sourcePath, $fieldMap->delimiter)) {
+            if (ArrayUtility::isValidPath($variables, $fieldMap->sourcePath, $fieldMap->delimiter)) {
                 $value = ArrayUtility::getValueByPath(
                     $variables,
                     $fieldMap->sourcePath,
@@ -35,5 +37,4 @@ trait FieldMappingTrait
 
         return $variables;
     }
-
 }
