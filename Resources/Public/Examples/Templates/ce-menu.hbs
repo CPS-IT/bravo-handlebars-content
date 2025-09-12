@@ -1,0 +1,40 @@
+{{!-- 
+  Menu Content Element Template
+  
+  This template renders a navigation menu.
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - menu: Array of menu items
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-menu{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-menu__header">{{headlines.header}}</{{headlines.layout}}>
+    {{/if}}
+    
+    {{#if menu}}
+        <ul class="ce-menu__list">
+            {{#each menu}}
+                <li class="ce-menu__item{{#if current}} ce-menu__item--current{{/if}}{{#if active}} ce-menu__item--active{{/if}}">
+                    <a href="{{url}}" class="ce-menu__link"{{#if target}} target="{{target}}"{{/if}}{{#if title}} title="{{title}}"{{/if}}>
+                        {{text}}
+                    </a>
+                    {{#if children}}
+                        <ul class="ce-menu__sublist">
+                            {{#each children}}
+                                <li class="ce-menu__subitem{{#if current}} ce-menu__subitem--current{{/if}}{{#if active}} ce-menu__subitem--active{{/if}}">
+                                    <a href="{{url}}" class="ce-menu__sublink"{{#if target}} target="{{target}}"{{/if}}{{#if title}} title="{{title}}"{{/if}}>
+                                        {{text}}
+                                    </a>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+</div>

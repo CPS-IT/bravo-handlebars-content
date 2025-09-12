@@ -1,0 +1,32 @@
+{{!-- 
+  Text Content Element Template
+  
+  This template renders a text content element with optional header.
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - headlines.link: Link data if header is linked
+  - bodytext: Processed RTE content
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-text{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-text__header">
+            {{#if headlines.link}}
+                <a href="{{headlines.link.url}}"{{#if headlines.link.target}} target="{{headlines.link.target}}"{{/if}}{{#if headlines.link.title}} title="{{headlines.link.title}}"{{/if}}>
+                    {{headlines.header}}
+                </a>
+            {{else}}
+                {{headlines.header}}
+            {{/if}}
+        </{{headlines.layout}}>
+    {{/if}}
+    
+    {{#if bodytext}}
+        <div class="ce-text__content">
+            {{{bodytext}}}
+        </div>
+    {{/if}}
+</div>

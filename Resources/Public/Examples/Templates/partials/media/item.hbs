@@ -1,0 +1,114 @@
+{{!-- 
+  Media Item Partial Template
+  
+  This partial renders different types of media items (image, video, audio).
+  Used by content elements that include media files.
+  
+  Available data depends on media type:
+  - type: Media type (image, youtube, vimeo, audio, etc.)
+  - url: Media file URL
+  - alt: Alternative text (for images)
+  - title: Media title/caption
+  - description: Media description
+  - srcset: Responsive image srcset
+  - sizes: Responsive image sizes attribute
+  - loading: Image loading attribute (lazy, eager)
+  - width/height: Media dimensions
+--}}
+{{#if (eq type 'image')}}
+    <figure class="media-item media-item--image">
+        <img src="{{url}}" alt="{{alt}}" 
+             {{#if srcset}}srcset="{{srcset}}"{{/if}}
+             {{#if sizes}}sizes="{{sizes}}"{{/if}}
+             {{#if width}}width="{{width}}"{{/if}}
+             {{#if height}}height="{{height}}"{{/if}}
+             {{#if loading}}loading="{{loading}}"{{else}}loading="lazy"{{/if}}>
+        {{#if (or title description)}}
+            <figcaption class="media-item__caption">
+                {{#if title}}<span class="media-item__title">{{title}}</span>{{/if}}
+                {{#if description}}<span class="media-item__description">{{description}}</span>{{/if}}
+            </figcaption>
+        {{/if}}
+    </figure>
+{{else if (eq type 'youtube')}}
+    <div class="media-item media-item--youtube" data-video-id="{{videoId}}">
+        {{#if previewImage}}
+            <img src="{{previewImage.url}}" 
+                 alt="{{#if title}}{{title}}{{else}}YouTube Video{{/if}}" 
+                 class="media-item__preview"
+                 {{#if previewImage.width}}width="{{previewImage.width}}"{{/if}}
+                 {{#if previewImage.height}}height="{{previewImage.height}}"{{/if}}
+                 loading="lazy">
+        {{/if}}
+        <button class="media-item__play-button" aria-label="Play YouTube video{{#if title}}: {{title}}{{/if}}">
+            <svg class="media-item__play-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
+        {{#if title}}
+            <div class="media-item__title">{{title}}</div>
+        {{/if}}
+        {{#if labels.privacy}}
+            <div class="media-item__privacy-notice">
+                {{{labels.privacy}}}
+            </div>
+        {{/if}}
+    </div>
+{{else if (eq type 'vimeo')}}
+    <div class="media-item media-item--vimeo" data-video-id="{{videoId}}">
+        {{#if previewImage}}
+            <img src="{{previewImage.url}}" 
+                 alt="{{#if title}}{{title}}{{else}}Vimeo Video{{/if}}" 
+                 class="media-item__preview"
+                 {{#if previewImage.width}}width="{{previewImage.width}}"{{/if}}
+                 {{#if previewImage.height}}height="{{previewImage.height}}"{{/if}}
+                 loading="lazy">
+        {{/if}}
+        <button class="media-item__play-button" aria-label="Play Vimeo video{{#if title}}: {{title}}{{/if}}">
+            <svg class="media-item__play-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
+        {{#if title}}
+            <div class="media-item__title">{{title}}</div>
+        {{/if}}
+    </div>
+{{else if (eq type 'audio')}}
+    <div class="media-item media-item--audio">
+        <audio {{#if controls}}controls{{else}}controls{{/if}} {{#if loop}}loop{{/if}}>
+            <source src="{{url}}" type="{{mimeType}}">
+            {{#if lang.audio_not_supported}}{{lang.audio_not_supported}}{{else}}Your browser does not support the audio element.{{/if}}
+        </audio>
+        {{#if title}}
+            <div class="media-item__title">{{title}}</div>
+        {{/if}}
+        {{#if description}}
+            <div class="media-item__description">{{description}}</div>
+        {{/if}}
+    </div>
+{{else if (eq type 'video')}}
+    <div class="media-item media-item--video">
+        <video {{#if controls}}controls{{else}}controls{{/if}} 
+               {{#if poster}}poster="{{poster}}"{{/if}}
+               {{#if width}}width="{{width}}"{{/if}}
+               {{#if height}}height="{{height}}"{{/if}}>
+            <source src="{{url}}" type="{{mimeType}}">
+            {{#if lang.video_not_supported}}{{lang.video_not_supported}}{{else}}Your browser does not support the video element.{{/if}}
+        </video>
+        {{#if title}}
+            <div class="media-item__title">{{title}}</div>
+        {{/if}}
+        {{#if description}}
+            <div class="media-item__description">{{description}}</div>
+        {{/if}}
+    </div>
+{{else}}
+    <div class="media-item media-item--file">
+        <a href="{{url}}" class="media-item__link" {{#if target}}target="{{target}}"{{/if}} download>
+            {{#if title}}{{title}}{{else}}{{filename}}{{/if}}
+        </a>
+        {{#if description}}
+            <div class="media-item__description">{{description}}</div>
+        {{/if}}
+    </div>
+{{/if}}

@@ -1,0 +1,17 @@
+{{!-- 
+  HTML Content Element Template
+  
+  This template renders raw HTML content.
+  
+  Available data:
+  - bodytext: Raw HTML content
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-html{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if bodytext}}
+        <div class="ce-html__content">
+            {{{bodytext}}}
+        </div>
+    {{/if}}
+</div>
