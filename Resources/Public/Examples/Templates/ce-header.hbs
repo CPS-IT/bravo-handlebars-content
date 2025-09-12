@@ -1,0 +1,25 @@
+{{!-- 
+  Header Content Element Template
+  
+  This template renders a standalone header element.
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - headlines.link: Link data if header is linked
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-header{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-header__title">
+            {{#if headlines.link}}
+                <a href="{{headlines.link.url}}"{{#if headlines.link.target}} target="{{headlines.link.target}}"{{/if}}{{#if headlines.link.title}} title="{{headlines.link.title}}"{{/if}}>
+                    {{headlines.header}}
+                </a>
+            {{else}}
+                {{headlines.header}}
+            {{/if}}
+        </{{headlines.layout}}>
+    {{/if}}
+</div>

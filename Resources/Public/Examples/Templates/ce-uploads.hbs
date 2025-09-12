@@ -1,0 +1,52 @@
+{{!-- 
+  Uploads/Downloads Content Element Template
+  
+  This template renders a list of downloadable files.
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - bodytext: Additional description text
+  - fileLinks: Array of processed file links
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-uploads{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-uploads__header">{{headlines.header}}</{{headlines.layout}}>
+    {{/if}}
+    
+    {{#if bodytext}}
+        <div class="ce-uploads__description">
+            {{{bodytext}}}
+        </div>
+    {{/if}}
+    
+    {{#if fileLinks}}
+        <div class="ce-uploads__list">
+            {{#each fileLinks}}
+                <div class="ce-uploads__item">
+                    <a href="{{url}}" class="ce-uploads__link" download{{#if target}} target="{{target}}"{{/if}}>
+                        <span class="ce-uploads__icon">
+                            {{#if icon}}
+                                <img src="{{icon}}" alt="{{extension}}" class="ce-uploads__file-icon">
+                            {{else}}
+                                <span class="ce-uploads__file-extension">{{extension}}</span>
+                            {{/if}}
+                        </span>
+                        <span class="ce-uploads__info">
+                            <span class="ce-uploads__title">{{title}}</span>
+                            {{#if description}}
+                                <span class="ce-uploads__description">{{description}}</span>
+                            {{/if}}
+                            <span class="ce-uploads__meta">
+                                {{#if size}}<span class="ce-uploads__size">{{size}}</span>{{/if}}
+                                {{#if extension}}<span class="ce-uploads__type">{{extension}}</span>{{/if}}
+                            </span>
+                        </span>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+</div>

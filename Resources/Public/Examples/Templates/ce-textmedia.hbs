@@ -1,0 +1,53 @@
+{{!-- 
+  Text & Media Content Element Template
+  
+  This template renders a text content element with media files (images, videos, audio).
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - headlines.link: Link data if header is linked
+  - bodytext: Processed RTE content
+  - assets: Array of processed media files
+  - gallery.position: Media position (above, below, left, right)
+  - gallery.columns: Number of columns for media display
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-textmedia{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-textmedia__header">
+            {{#if headlines.link}}
+                <a href="{{headlines.link.url}}"{{#if headlines.link.target}} target="{{headlines.link.target}}"{{/if}}{{#if headlines.link.title}} title="{{headlines.link.title}}"{{/if}}>
+                    {{headlines.header}}
+                </a>
+            {{else}}
+                {{headlines.header}}
+            {{/if}}
+        </{{headlines.layout}}>
+    {{/if}}
+    
+    <div class="ce-textmedia__inner{{#if gallery.position}} ce-textmedia--{{gallery.position}}{{/if}}">
+        {{#if (and assets (or (eq gallery.position "above") (eq gallery.position "intext")))}}
+            <div class="ce-textmedia__media{{#if gallery.columns}} ce-textmedia__media--columns-{{gallery.columns}}{{/if}}">
+                {{#each assets}}
+                    {{>media/item this}}
+                {{/each}}
+            </div>
+        {{/if}}
+        
+        {{#if bodytext}}
+            <div class="ce-textmedia__content">
+                {{{bodytext}}}
+            </div>
+        {{/if}}
+        
+        {{#if (and assets (eq gallery.position "below"))}}
+            <div class="ce-textmedia__media{{#if gallery.columns}} ce-textmedia__media--columns-{{gallery.columns}}{{/if}}">
+                {{#each assets}}
+                    {{>media/item this}}
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
+</div>

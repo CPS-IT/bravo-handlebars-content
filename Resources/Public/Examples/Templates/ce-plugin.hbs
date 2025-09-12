@@ -1,0 +1,23 @@
+{{!-- 
+  Plugin Content Element Template
+  
+  This template renders plugin/extension content.
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - pluginContent: Rendered plugin output
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-plugin{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-plugin__header">{{headlines.header}}</{{headlines.layout}}>
+    {{/if}}
+    
+    {{#if pluginContent}}
+        <div class="ce-plugin__content">
+            {{{pluginContent}}}
+        </div>
+    {{/if}}
+</div>

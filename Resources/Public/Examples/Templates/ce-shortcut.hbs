@@ -1,0 +1,27 @@
+{{!-- 
+  Shortcut Content Element Template
+  
+  This template renders content from other pages/content elements.
+  
+  Available data:
+  - headlines.header: Header text
+  - headlines.layout: HTML tag for header (h1, h2, etc.)
+  - records: Array of referenced content records
+  - frame_class: CSS classes for wrapper
+  - uid: Content element UID
+--}}
+<div class="ce-shortcut{{#if frame_class}} {{frame_class}}{{/if}}"{{#if uid}} id="c{{uid}}"{{/if}}>
+    {{#if headlines.header}}
+        <{{headlines.layout}} class="ce-shortcut__header">{{headlines.header}}</{{headlines.layout}}>
+    {{/if}}
+    
+    {{#if records}}
+        <div class="ce-shortcut__content">
+            {{#each records}}
+                <div class="ce-shortcut__item">
+                    {{{content}}}
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+</div>
