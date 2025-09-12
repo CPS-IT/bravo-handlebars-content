@@ -147,10 +147,10 @@ final class DataProcessingIntegrationTest extends TestCase
             'data' => $invalidData,
             'textData' => [
                 'headlines' => [
-                    'header' => $invalidData['header'] ?? '',
+                    'header' => '', // Always empty for null data
                     'layout' => 'h1',
                 ],
-                'bodytext' => $invalidData['bodytext'] ?? '',
+                'bodytext' => '', // Always empty for null data
             ],
         ];
 
@@ -180,8 +180,10 @@ final class DataProcessingIntegrationTest extends TestCase
         ];
 
         // Test hidden header logic
-        $isHiddenHeaderVisible = (int)$dataWithHiddenHeader['header_layout'] > 0;
-        $isVisibleHeaderVisible = (int)$dataWithVisibleHeader['header_layout'] > 0;
+        $hiddenHeaderLayout = (int)$dataWithHiddenHeader['header_layout'];
+        $visibleHeaderLayout = (int)$dataWithVisibleHeader['header_layout'];
+        $isHiddenHeaderVisible = $hiddenHeaderLayout > 0;
+        $isVisibleHeaderVisible = $visibleHeaderLayout > 0;
 
         self::assertFalse($isHiddenHeaderVisible, 'Hidden header should not be visible');
         self::assertTrue($isVisibleHeaderVisible, 'Visible header should be visible');
@@ -190,10 +192,7 @@ final class DataProcessingIntegrationTest extends TestCase
         $processedHidden = [
             'data' => $dataWithHiddenHeader,
             'textData' => [
-                'headlines' => $isHiddenHeaderVisible ? [
-                    'header' => $dataWithHiddenHeader['header'],
-                    'layout' => 'h1',
-                ] : null,
+                'headlines' => null, // Hidden header should not have headlines
                 'hasVisibleHeader' => $isHiddenHeaderVisible,
             ],
         ];

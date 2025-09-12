@@ -55,5 +55,7 @@ class MediaDataService implements ContentRendererAwareInterface
 
             return $processorInstance;
         }
+
+        throw new \RuntimeException('No suitable media processor found for file type', 1709328958);
     }
 }

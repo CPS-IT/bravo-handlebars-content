@@ -160,7 +160,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         // Simulate processing CSV fixture data
         $processedData = array_map(function ($value) {
             // Convert string numbers to integers for uid/pid
-            if (in_array($value, ['1', '2', '3']) && is_string($value)) {
+            if (in_array($value, ['1', '2', '3'], true)) {
                 return (int)$value;
             }
 
