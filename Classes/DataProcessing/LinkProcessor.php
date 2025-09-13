@@ -44,7 +44,7 @@ class LinkProcessor implements DataProcessorInterface
             return $processedData;
         }
 
-        $parameter = $cObj->stdWrapValue('parameter', $processorConfiguration, '');
+        $parameter = (string)$cObj->stdWrapValue('parameter', $processorConfiguration, '');
 
         if (empty($parameter)) {
             return $processedData;
