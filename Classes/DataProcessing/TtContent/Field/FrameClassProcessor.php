@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -17,12 +19,14 @@ class FrameClassProcessor implements FieldProcessorInterface, ContentRendererAwa
 {
     use FieldProcessorConfigTrait;
     use ContentRendererTrait;
+
     public const FIELD_NAME = 'frame_class';
 
     public function process(string $fieldName, array $data, array $variables): array
     {
         $value = $data[self::FIELD_NAME];
         $variables[$value] = true;
+
         return $variables;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\CpsUtility\Utility\TypoScriptUtility;
@@ -17,10 +19,10 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 trait ProcessorVariablesTrait
 {
-    protected array $settings = [];
-
     // keys for configuration
     public const KEY_FIELDS = 'fields';
+
+    protected array $settings = [];
 
     protected function getContentObjectVariables(array $conf): array
     {
@@ -34,8 +36,11 @@ trait ProcessorVariablesTrait
             }
             if (!in_array($variableName, $reservedVariables)) {
                 $cObjConf = $variablesToProcess[$variableName . '.'] ?? [];
-                $variables[$variableName] = $this->cObj->cObjGetSingle($cObjType, $cObjConf,
-                    'variables.' . $variableName);
+                $variables[$variableName] = $this->cObj->cObjGetSingle(
+                    $cObjType,
+                    $cObjConf,
+                    'variables.' . $variableName
+                );
             } else {
                 throw new \InvalidArgumentException(
                     'Cannot use reserved name "' . $variableName . '" as variable name.',
@@ -79,7 +84,7 @@ trait ProcessorVariablesTrait
     {
         /** @var TypoScriptUtility $typoScriptUtility */
         $typoScriptUtility = GeneralUtility::makeInstance(TypoScriptUtility::class);
+
         return $typoScriptUtility->stdWrapParser($settings, $cObj);
     }
-
 }

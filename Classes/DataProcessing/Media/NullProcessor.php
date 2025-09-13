@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 #[AsTaggedItem(priority: -99)]
 class NullProcessor implements MediaProcessorInterface
 {
-
     public function canProcess(FileInterface $file): bool
     {
         return true;

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
+
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -21,9 +23,11 @@ class ImageBelowTextProcessor implements FieldProcessorInterface
         // reference template
         $imageBelow = (
             isset($variables['modifier'])
-                 && $variables['modifier'] === 'below');
+                 && $variables['modifier'] === 'below'
+        );
 
         $variables[$fieldName] = $imageBelow;
+
         return $variables;
     }
 }

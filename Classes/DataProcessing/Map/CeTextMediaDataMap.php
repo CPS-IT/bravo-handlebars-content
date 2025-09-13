@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Map;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\TtContentRecordInterface as TtContent;
@@ -74,5 +76,4 @@ class CeTextMediaDataMap implements DataMapInterface
         TtContent::FIELD_ASSETS . '.audio.0.attributes' => 'audio.attributes',
         TtContent::FIELD_ASSETS . '.audio.0.mimeType' => 'audio.type',
     ];
-
 }

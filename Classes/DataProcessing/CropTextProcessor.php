@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * This file is part of the dena_sitepackage project.
  *
@@ -50,7 +52,10 @@ class CropTextProcessor implements DataProcessorInterface
         }
 
         $text = $processedData[$processorConfiguration['field']];
-        $cropNumber = $processorConfiguration['cropping.']['cropNumber'] ?? 500;
+        $cropNumber = 500;
+        if (!empty($processorConfiguration['cropping.']['cropNumber'])) {
+            $cropNumber = (int)$processorConfiguration['cropping.']['cropNumber'];
+        }
         $cropEllipsis = $processorConfiguration['cropping.']['cropEllipsis'] ?? '...';
         $htmlCropper = GeneralUtility::makeInstance(HtmlCropper::class);
         if (isset($processorConfiguration['cropping.']['stripHtml']) && $processorConfiguration['cropping.']['stripHtml'] === '1') {

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor;
-use Cpsit\BravoHandlebarsContent\Domain\Model\Dto\Link;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
 
 /*
@@ -25,13 +25,13 @@ class HeadlinesProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        #if (!$variables[TtContentDataProcessor::FIELD_HEADER_LINK] instanceof LinkResultInterface) {
+        # if (!$variables[TtContentDataProcessor::FIELD_HEADER_LINK] instanceof LinkResultInterface) {
         if (!is_array($variables[TtContentDataProcessor::FIELD_HEADER_LINK])) {
             return $variables;
         }
 
         $headLine = [
-            'headline' => $variables[TtContentDataProcessor::FIELD_HEADER]
+            'headline' => $variables[TtContentDataProcessor::FIELD_HEADER],
         ];
 
         ArrayUtility::mergeRecursiveWithOverrule(
@@ -42,7 +42,7 @@ class HeadlinesProcessor implements FieldProcessorInterface
         $link = $variables[TtContentDataProcessor::FIELD_HEADER_LINK];
 
         $variables[$fieldName] = [
-            $variables[TtContentDataProcessor::FIELD_HEADER_LAYOUT] => $headLine
+            $variables[TtContentDataProcessor::FIELD_HEADER_LAYOUT] => $headLine,
         ];
 
         return $variables;

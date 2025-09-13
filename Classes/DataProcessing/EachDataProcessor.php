@@ -45,12 +45,12 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 class EachDataProcessor implements DataProcessorInterface
 {
     public const SEPARATOR = ':';
+
     protected ?ContentObjectRenderer $contentObjectRenderer = null;
+
     protected array $processorConfiguration = [];
 
-    public function __construct(protected readonly ContentDataProcessor $contentDataProcessor)
-    {
-    }
+    public function __construct(protected readonly ContentDataProcessor $contentDataProcessor) {}
 
     public function process(
         ContentObjectRenderer $cObj,
@@ -71,6 +71,7 @@ class EachDataProcessor implements DataProcessorInterface
     {
         $separator = $this->processorConfiguration['separator'] ?? self::SEPARATOR;
         $targetPath = $this->processorConfiguration['sourcePath'] ?? [];
+
         return ArrayUtility::setValueByPath($processedData, $targetPath, $processedRecords, $separator);
     }
 
@@ -87,6 +88,7 @@ class EachDataProcessor implements DataProcessorInterface
         if (!is_iterable($records)) {
             $records = [];
         }
+
         return $records;
     }
 
@@ -104,6 +106,7 @@ class EachDataProcessor implements DataProcessorInterface
                 $processedRecordVariables[$key]
             );
         }
+
         return $processedRecordVariables;
     }
 }

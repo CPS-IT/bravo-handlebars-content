@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\Traits;
 
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -14,5 +16,4 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 interface ContentRendererAwareInterface
 {
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void;
-
 }

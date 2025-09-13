@@ -1,18 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
-use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
-use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 use TYPO3\CMS\Frontend\DataProcessing\DataProcessorRegistry;
 
 /*
@@ -64,7 +60,6 @@ class SerialDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-
         if (
             isset($processorConfiguration['if.'])
             && !$cObj->checkIf($processorConfiguration['if.'])) {
@@ -80,7 +75,7 @@ class SerialDataProcessor implements DataProcessorInterface
             $processors = $processorConfiguration['dataProcessing.'];
             $processorKeys = array_filter(
                 array_keys($processors),
-                fn($n) => !str_ends_with($n, '.')
+                fn ($n) => !str_ends_with((string)$n, '.')
             );
             foreach ($processorKeys as $key) {
                 $dataProcessor = $this->dataProcessorRegistry->getDataProcessor($processors[$key])
@@ -103,6 +98,7 @@ class SerialDataProcessor implements DataProcessorInterface
         } else {
             ArrayUtility::mergeRecursiveWithOverrule($processedData, $data);
         }
+
         return $processedData;
     }
 
@@ -116,11 +112,12 @@ class SerialDataProcessor implements DataProcessorInterface
         $dataProcessor = $this->container->get($serviceName);
         if (!$dataProcessor instanceof DataProcessorInterface) {
             throw new \UnexpectedValueException(
-                'Processor with service name "' . $serviceName . '" ' .
-                'must implement interface "' . DataProcessorInterface::class . '"',
+                'Processor with service name "' . $serviceName . '" '
+                . 'must implement interface "' . DataProcessorInterface::class . '"',
                 1635927108
             );
         }
+
         return $dataProcessor;
     }
 
@@ -132,13 +129,12 @@ class SerialDataProcessor implements DataProcessorInterface
 
         if (!in_array(DataProcessorInterface::class, class_implements($className) ?: [], true)) {
             throw new \UnexpectedValueException(
-                'Processor with class name "' . $className . '" ' .
-                'must implement interface "' . DataProcessorInterface::class . '"',
+                'Processor with class name "' . $className . '" '
+                . 'must implement interface "' . DataProcessorInterface::class . '"',
                 1427455377
             );
         }
+
         return GeneralUtility::makeInstance($className);
     }
-
-
 }

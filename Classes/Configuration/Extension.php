@@ -14,7 +14,6 @@ namespace Cpsit\BravoHandlebarsContent\Configuration;
 
 use Cpsit\BravoHandlebarsContent\Configuration\SettingsInterface as SI;
 
-
 /**
  * Extension
  *
@@ -23,6 +22,8 @@ use Cpsit\BravoHandlebarsContent\Configuration\SettingsInterface as SI;
 final class Extension
 {
     public const KEY = SI::KEY;
+
     public const NAME = SI::NAME;
+
     public const VENDOR = SI::VENDOR_NAME;
 }

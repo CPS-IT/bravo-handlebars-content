@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\Exception;
 
 /*
@@ -9,7 +11,4 @@ namespace Cpsit\BravoHandlebarsContent\Exception;
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  */
-class InvalidClassException extends \Exception
-{
-
-}
+class InvalidClassException extends \Exception {}

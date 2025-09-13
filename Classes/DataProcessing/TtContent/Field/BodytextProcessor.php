@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
-use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 
 /*
@@ -17,6 +19,7 @@ class BodytextProcessor implements FieldProcessorInterface, ContentRendererAware
 {
     use FieldProcessorConfigTrait;
     use ContentRendererTrait;
+
     public const FIELD_NAME = 'bodytext';
 
     public function process(string $fieldName, array $data, array $variables): array

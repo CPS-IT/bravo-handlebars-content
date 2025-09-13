@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 /*
@@ -21,9 +23,11 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 #[AsTaggedItem(priority: 2)]
 class VimeoProcessor implements MediaProcessorInterface
 {
-    use OnlineMediaProcessorTrait, MetaDataCollectorTrait;
+    use OnlineMediaProcessorTrait;
+    use MetaDataCollectorTrait;
 
     public const MEDIA_TYPE = 'vimeo';
+
     public const DEFAULT_CONFIG = [
         'width' => 0,
         'height' => 0,
@@ -38,17 +42,15 @@ class VimeoProcessor implements MediaProcessorInterface
                     'file' => [
                         'noScale' => 1,
                     ],
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ];
 
     public function __construct(
         protected ContentObjectRenderer $contentObjectRenderer,
         protected TypoScriptService $typoScriptService
-    ) {
-
-    }
+    ) {}
 
     public function canProcess(FileInterface $file): bool
     {
@@ -58,7 +60,7 @@ class VimeoProcessor implements MediaProcessorInterface
     public function process(FileInterface $file, array $config = []): array
     {
         $onlineMedia = [
-            'type' => self::MEDIA_TYPE
+            'type' => self::MEDIA_TYPE,
         ];
         $config = $this->getConfigOverrides($config);
         $config = $this->collectOptions($config, $file);
@@ -71,6 +73,7 @@ class VimeoProcessor implements MediaProcessorInterface
         ArrayUtility::mergeRecursiveWithOverrule($onlineMedia, $this->collectMetaDataFromFile($file));
         $config['labels'] = $this->collectLabels($config);
         $onlineMedia['options'] = $config;
+
         return $onlineMedia;
     }
 
@@ -116,6 +119,7 @@ class VimeoProcessor implements MediaProcessorInterface
             $fileConfig['file'] = $file;
             $files[$variant] = $this->contentObjectRenderer->cObjGetSingle('IMG_RESOURCE', $fileConfig);
         }
+
         return $files;
     }
 
@@ -125,6 +129,7 @@ class VimeoProcessor implements MediaProcessorInterface
         if (!empty($config[self::MEDIA_TYPE])) {
             ArrayUtility::mergeRecursiveWithOverrule($configOverrides, $config[self::MEDIA_TYPE]);
         }
+
         return $configOverrides;
     }
 
@@ -134,6 +139,7 @@ class VimeoProcessor implements MediaProcessorInterface
         foreach (self::META_DATA_FIELDS as $property => $key) {
             $metaData[$key] = $file->hasProperty($property) ? $file->getProperty($property) : '';
         }
+
         return $metaData;
     }
 
@@ -166,6 +172,7 @@ class VimeoProcessor implements MediaProcessorInterface
                 $options['allow'] = 'autoplay; fullscreen';
             }
         }
+
         return $options;
     }
 }

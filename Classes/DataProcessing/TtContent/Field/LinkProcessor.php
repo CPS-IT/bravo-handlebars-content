@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\Service\LinkService;
-use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
+use Cpsit\BravoHandlebarsContent\Traits\ContentRendererTrait;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -17,11 +19,10 @@ use Cpsit\BravoHandlebarsContent\Traits\ContentRendererAwareInterface;
 
 class LinkProcessor implements FieldProcessorInterface, ContentRendererAwareInterface
 {
-    use FieldProcessorConfigTrait, ContentRendererTrait;
+    use FieldProcessorConfigTrait;
+    use ContentRendererTrait;
 
-    public function __construct(protected LinkService $linkService)
-    {
-    }
+    public function __construct(protected LinkService $linkService) {}
 
     public function process(string $fieldName, array $data, array $variables): array
     {
@@ -31,6 +32,7 @@ class LinkProcessor implements FieldProcessorInterface, ContentRendererAwareInte
         $this->linkService->setContentObjectRenderer($this->contentObjectRenderer);
         $link = $this->linkService->resolveTypoLink($data[$fieldName]);
         $variables[$fieldName] = $this->linkService->linkResultToArray($link);
+
         return $variables;
     }
 }

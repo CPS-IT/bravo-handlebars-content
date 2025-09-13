@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -11,7 +14,7 @@ namespace Cpsit\BravoHandlebarsContent\Utility;
 
 class StringUtility
 {
-    public static function hyphenToLowerCamelCase($string)
+    public static function hyphenToLowerCamelCase(string $string): string
     {
         return lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', strtolower($string)))));
     }

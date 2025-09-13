@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\Traits;
 
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -15,7 +17,7 @@ trait ContentRendererTrait
 {
     protected ContentObjectRenderer $contentObjectRenderer;
 
-    public function setContentObjectRenderer(contentObjectRenderer $contentObjectRenderer): void
+    public function setContentObjectRenderer(ContentObjectRenderer $contentObjectRenderer): void
     {
         $this->contentObjectRenderer = $contentObjectRenderer;
     }

@@ -181,4 +181,3 @@ services:
     arguments:
       - !tagged_iterator { tag: Handlerbars.MediaProcessor }
       - '@TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
-

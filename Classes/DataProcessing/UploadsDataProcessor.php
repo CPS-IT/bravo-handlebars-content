@@ -35,5 +35,3 @@ class UploadsDataProcessor extends TtContentDataProcessor implements FieldMappin
         self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
     ];
 }
-
-

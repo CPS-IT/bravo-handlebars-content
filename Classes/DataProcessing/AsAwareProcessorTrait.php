@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
@@ -26,7 +28,7 @@ trait AsAwareProcessorTrait
     private readonly ContentObjectRenderer $contentObjectRenderer;
 
     /**
-     * @throws \Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException
+     * @throws InvalidConfigurationException
      */
     public function determineTargetVariableName(array $processorConfiguration): string
     {
@@ -36,7 +38,7 @@ trait AsAwareProcessorTrait
         );
         if (empty($variableName)) {
             throw new InvalidConfigurationException(
-                sprintf('Missing configuration "as" in %s', get_class($this)),
+                sprintf('Missing configuration "as" in %s', static::class),
                 1713766921
             );
         }

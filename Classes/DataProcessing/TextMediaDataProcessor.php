@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
-use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ContentMediaProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ContentTextProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
@@ -20,7 +19,6 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ModifierProcesso
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\UidProcessor;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -43,10 +41,10 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         self::FIELD_HEADLINES => HeadlinesProcessor::class,
         self::FIELD_HIDDEN => PassThrough::class,
         self::FIELD_IMAGE_BORDER => PassThrough::class,
-        self::FIELD_IMAGE_COLUMNS => PassThrough::class, //todo
-        self::FIELD_IMAGE_HEIGHT => PassThrough::class, //todo
+        self::FIELD_IMAGE_COLUMNS => PassThrough::class, // todo
+        self::FIELD_IMAGE_HEIGHT => PassThrough::class, // todo
         self::FIELD_IMAGE_ORIENT => ImageOrientProcessor::class,
-        self::FIELD_IMAGE_WIDTH => PassThrough::class, //todo
+        self::FIELD_IMAGE_WIDTH => PassThrough::class, // todo
         self::FIELD_IMAGE_ZOOM => ImageZoomProcessor::class,
         self::FIELD_SPACE_BEFORE => SpaceBeforeProcessor::class,
         self::FIELD_UID => UidProcessor::class,
@@ -56,8 +54,4 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
         'contentText' => ContentTextProcessor::class,
         'contentMedia' => ContentMediaProcessor::class,
     ];
-
-
 }
-
-

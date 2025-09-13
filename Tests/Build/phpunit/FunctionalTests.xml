@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../vendor/phpunit/phpunit/phpunit.xsd"
+    backupGlobals="true"
+    bootstrap="../../../vendor/autoload.php"
+    colors="true"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    beStrictAboutOutputDuringTests="true"
+    enforceTimeLimit="true"
+    defaultTimeLimit="30"
+    timeoutForSmallTests="10"
+    timeoutForMediumTests="60"
+    timeoutForLargeTests="120">
+
+    <testsuites>
+        <testsuite name="Functional">
+            <directory>../../Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">../../../Classes</directory>
+        </include>
+    </source>
+
+    <coverage includeUncoveredFiles="true" pathCoverage="false" ignoreDeprecatedCodeUnits="false" disableCodeCoverageIgnore="false">
+        <report>
+            <html outputDirectory="../../../var/coverage-functional/html" lowUpperBound="80" highLowerBound="95"/>
+            <clover outputFile="../../../var/coverage-functional/clover.xml"/>
+            <text outputFile="../../../var/coverage-functional/coverage.txt"/>
+            <xml outputDirectory="../../../var/coverage-functional/xml"/>
+        </report>
+    </coverage>
+
+    <logging>
+        <junit outputFile="../../../var/coverage-functional/junit.xml"/>
+    </logging>
+
+    <php>
+        <env name="TYPO3_CONTEXT" value="Testing"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="E_ALL"/>
+        <ini name="memory_limit" value="2048M"/>
+        <ini name="max_execution_time" value="300"/>
+    </php>
+</phpunit>

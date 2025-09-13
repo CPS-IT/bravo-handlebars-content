@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
@@ -34,8 +36,9 @@ class MediaDataProcessor implements FieldProcessorInterface
             'duration' => $media->getProperty('duration'),
             'publicUrl' => $media->getPublicUrl(),
             'onlineMediaId' => $media->getOnlineMediaId(),
-            'previewImage' => $media->getPreviewImage()
+            'previewImage' => $media->getPreviewImage(),
         ];
+
         return $variables;
     }
 }

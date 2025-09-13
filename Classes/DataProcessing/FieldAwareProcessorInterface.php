@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use Cpsit\BravoHandlebarsContent\Exception\InvalidClassException;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -18,12 +20,13 @@ interface FieldAwareProcessorInterface
      * @throws InvalidClassException
      */
     public function instantiateFieldProcessor(
-        string                $processorClass,
+        string $processorClass,
         ContentObjectRenderer $contentObjectRenderer,
     ): FieldProcessorInterface;
 
     /**
      * @param array<string> $requiredKeys An array of key required for processing
+     *
      * @throws InvalidClassException
      */
     public function processFields(ContentObjectRenderer $cObj, array $processProcessedData, array $config = []): array;

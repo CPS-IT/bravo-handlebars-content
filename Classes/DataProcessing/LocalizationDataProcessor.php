@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use Cpsit\BravoHandlebarsContent\Exception\InvalidConfigurationException;
@@ -26,18 +28,15 @@ use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
  ***************************************************************/
 class LocalizationDataProcessor implements DataProcessorInterface
 {
-    use IfAwareProcessorTrait,
-        AsAwareProcessorTrait,
-        LocalizationTrait,
-        ProcessorVariablesTrait;
+    use IfAwareProcessorTrait;
+    use AsAwareProcessorTrait;
+    use LocalizationTrait;
+    use ProcessorVariablesTrait;
 
     public function __construct(
-        private readonly ContentObjectRenderer  $contentObjectRenderer,
+        private readonly ContentObjectRenderer $contentObjectRenderer,
         private readonly LanguageServiceFactory $languageServiceFactory
-    )
-    {
-    }
-
+    ) {}
 
     /**
      * @throws InvalidConfigurationException
@@ -53,7 +52,7 @@ class LocalizationDataProcessor implements DataProcessorInterface
         $processedData[$targetVariableName] = $this->getLocalizedStrings(
             $this->getTypoScriptToPlainArray($processorConfiguration)
         );
+
         return $processedData;
     }
-
 }

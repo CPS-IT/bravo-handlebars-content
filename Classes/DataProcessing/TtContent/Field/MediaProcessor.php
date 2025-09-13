@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 
 use Cpsit\BravoHandlebarsContent\DataProcessing\Dto\FieldProcessorConfiguration;
@@ -20,15 +22,14 @@ use TYPO3\CMS\Frontend\DataProcessing\FilesProcessor;
 
 class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInterface
 {
-    use FieldProcessorConfigTrait, ContentRendererTrait;
+    use FieldProcessorConfigTrait;
+    use ContentRendererTrait;
 
     public function __construct(
-        protected MediaDataService            $mediaDataService,
-        protected FilesProcessor              $filesProcessor,
+        protected MediaDataService $mediaDataService,
+        protected FilesProcessor $filesProcessor,
         protected FieldProcessorConfiguration $fieldProcessorConfiguration
-    )
-    {
-    }
+    ) {}
 
     /**
      * @inheritDoc
@@ -40,7 +41,7 @@ class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInt
                 'fieldName' => $fieldName,
                 'table' => 'tt_content',
             ],
-            'as' => $fieldName
+            'as' => $fieldName,
         ];
         $variables = $this->filesProcessor->process(
             $this->contentObjectRenderer,
@@ -72,6 +73,7 @@ class MediaProcessor implements FieldProcessorInterface, ContentRendererAwareInt
             }
             $variables[$fieldName][$media['type']][] = $media;
         }
+
         return $variables;
     }
 }

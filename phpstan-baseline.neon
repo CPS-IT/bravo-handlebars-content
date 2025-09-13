@@ -1,0 +1,361 @@
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\ContentObjectDataProcessor\:\:\$requiredKeys\.$#'
+            identifier: property.notFound
+            count: 1
+            path: Classes/DataProcessing/ContentObjectDataProcessor.php
+
+        -
+            message: '#^Call to method stdWrapParser\(\) on an unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/ContentObjectDataProcessor.php
+
+        -
+            message: '#^Class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility not found\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/ContentObjectDataProcessor.php
+
+        -
+            message: '#^If condition is always true\.$#'
+            identifier: if.alwaysTrue
+            count: 1
+            path: Classes/DataProcessing/ContentObjectDataProcessor.php
+
+        -
+            message: '#^PHPDoc tag @var for variable \$typoScriptUtility contains unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/ContentObjectDataProcessor.php
+
+        -
+            message: '#^Property Cpsit\\BravoHandlebarsContent\\DataProcessing\\CropTextProcessor\:\:\$settings has no type specified\.$#'
+            identifier: missingType.property
+            count: 1
+            path: Classes/DataProcessing/CropTextProcessor.php
+
+        -
+            message: '#^PHPDoc tag @param references unknown parameter\: \$requiredKeys$#'
+            identifier: parameter.notFound
+            count: 1
+            path: Classes/DataProcessing/FieldAwareProcessorInterface.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\FileLinkProcessor\:\:\$cObj\.$#'
+            identifier: property.notFound
+            count: 3
+            path: Classes/DataProcessing/FileLinkProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\FileLinkProcessor\:\:\$requiredKeys\.$#'
+            identifier: property.notFound
+            count: 1
+            path: Classes/DataProcessing/FileLinkProcessor.php
+
+        -
+            message: '#^Call to method stdWrapParser\(\) on an unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/FileLinkProcessor.php
+
+        -
+            message: '#^Class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility not found\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/FileLinkProcessor.php
+
+        -
+            message: '#^If condition is always true\.$#'
+            identifier: if.alwaysTrue
+            count: 1
+            path: Classes/DataProcessing/FileLinkProcessor.php
+
+        -
+            message: '#^PHPDoc tag @var for variable \$typoScriptUtility contains unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/FileLinkProcessor.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\DataProcessing\\LanguageMenuProcessor\:\:countAvailableLanguages\(\) has no return type specified\.$#'
+            identifier: missingType.return
+            count: 1
+            path: Classes/DataProcessing/LanguageMenuProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\LocalizationDataProcessor\:\:\$cObj\.$#'
+            identifier: property.notFound
+            count: 3
+            path: Classes/DataProcessing/LocalizationDataProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\LocalizationDataProcessor\:\:\$requiredKeys\.$#'
+            identifier: property.notFound
+            count: 1
+            path: Classes/DataProcessing/LocalizationDataProcessor.php
+
+        -
+            message: '#^Call to method stdWrapParser\(\) on an unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/LocalizationDataProcessor.php
+
+        -
+            message: '#^Class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility not found\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/LocalizationDataProcessor.php
+
+        -
+            message: '#^If condition is always true\.$#'
+            identifier: if.alwaysTrue
+            count: 1
+            path: Classes/DataProcessing/LocalizationDataProcessor.php
+
+        -
+            message: '#^PHPDoc tag @var for variable \$typoScriptUtility contains unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/LocalizationDataProcessor.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\CeTextDataMap\:\:getFieldMaps\(\) return type with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/CeTextDataMap.php
+
+        -
+            message: '#^Property Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\CeTextDataMap\:\:\$fieldMaps with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/CeTextDataMap.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\CeTextMediaDataMap\:\:getFieldMaps\(\) return type with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/CeTextMediaDataMap.php
+
+        -
+            message: '#^Property Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\CeTextMediaDataMap\:\:\$fieldMaps with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/CeTextMediaDataMap.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\DataMapInterface\:\:getFieldMaps\(\) return type with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/DataMapInterface.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\DefaultDataMap\:\:getFieldMaps\(\) return type with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/DefaultDataMap.php
+
+        -
+            message: '#^Property Cpsit\\BravoHandlebarsContent\\DataProcessing\\Map\\DefaultDataMap\:\:\$fieldMaps with generic class SplObjectStorage does not specify its types\: TObject, TData$#'
+            identifier: missingType.generics
+            count: 1
+            path: Classes/DataProcessing/Map/DefaultDataMap.php
+
+        -
+            message: '#^Right side of \|\| is always true\.$#'
+            identifier: booleanOr.rightAlwaysTrue
+            count: 1
+            path: Classes/DataProcessing/Media/AudioProcessor.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\DataProcessing\\Media\\VimeoProcessor\:\:createVimeoUrl\(\) has no return type specified\.$#'
+            identifier: missingType.return
+            count: 1
+            path: Classes/DataProcessing/Media/VimeoProcessor.php
+
+        -
+            message: '#^Parameter \#1 \$file of method TYPO3\\CMS\\Core\\Resource\\OnlineMedia\\Helpers\\OnlineMediaHelperInterface\:\:getOnlineMediaId\(\) expects TYPO3\\CMS\\Core\\Resource\\File, TYPO3\\CMS\\Core\\Resource\\FileInterface given\.$#'
+            identifier: argument.type
+            count: 1
+            path: Classes/DataProcessing/Media/VimeoProcessor.php
+
+        -
+            message: '#^Parameter \#1 \$file of method TYPO3\\CMS\\Core\\Resource\\OnlineMedia\\Helpers\\OnlineMediaHelperInterface\:\:getPreviewImage\(\) expects TYPO3\\CMS\\Core\\Resource\\File, TYPO3\\CMS\\Core\\Resource\\FileInterface given\.$#'
+            identifier: argument.type
+            count: 1
+            path: Classes/DataProcessing/Media/VimeoProcessor.php
+
+        -
+            message: '#^Parameter \#1 \$file of method TYPO3\\CMS\\Core\\Resource\\OnlineMedia\\Helpers\\OnlineMediaHelperInterface\:\:getOnlineMediaId\(\) expects TYPO3\\CMS\\Core\\Resource\\File, TYPO3\\CMS\\Core\\Resource\\FileInterface given\.$#'
+            identifier: argument.type
+            count: 1
+            path: Classes/DataProcessing/Media/YouTubeProcessor.php
+
+        -
+            message: '#^Parameter \#1 \$file of method TYPO3\\CMS\\Core\\Resource\\OnlineMedia\\Helpers\\OnlineMediaHelperInterface\:\:getPreviewImage\(\) expects TYPO3\\CMS\\Core\\Resource\\File, TYPO3\\CMS\\Core\\Resource\\FileInterface given\.$#'
+            identifier: argument.type
+            count: 1
+            path: Classes/DataProcessing/Media/YouTubeProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\MediaProcessor\:\:\$cObj\.$#'
+            identifier: property.notFound
+            count: 3
+            path: Classes/DataProcessing/MediaProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\MediaProcessor\:\:\$requiredKeys\.$#'
+            identifier: property.notFound
+            count: 1
+            path: Classes/DataProcessing/MediaProcessor.php
+
+        -
+            message: '#^Call to method stdWrapParser\(\) on an unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/MediaProcessor.php
+
+        -
+            message: '#^Class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility not found\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/MediaProcessor.php
+
+        -
+            message: '#^If condition is always true\.$#'
+            identifier: if.alwaysTrue
+            count: 1
+            path: Classes/DataProcessing/MediaProcessor.php
+
+        -
+            message: '#^PHPDoc tag @var for variable \$typoScriptUtility contains unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/MediaProcessor.php
+
+        -
+            message: '#^Strict comparison using \=\=\= between TYPO3\\CMS\\Frontend\\ContentObject\\DataProcessorInterface and null will always evaluate to false\.$#'
+            identifier: identical.alwaysFalse
+            count: 1
+            path: Classes/DataProcessing/SerialDataProcessor.php
+
+        -
+            message: '#^Negated boolean expression is always false\.$#'
+            identifier: booleanNot.alwaysFalse
+            count: 1
+            path: Classes/DataProcessing/TtContent/Field/ImageZoomProcessor.php
+
+        -
+            message: '#^Instanceof between Cpsit\\BravoHandlebarsContent\\Service\\MediaDataService and Cpsit\\BravoHandlebarsContent\\Traits\\ContentRendererAwareInterface will always evaluate to true\.$#'
+            identifier: instanceof.alwaysTrue
+            count: 1
+            path: Classes/DataProcessing/TtContent/Field/MediaProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\DataProcessing\\TtContentDataProcessor\:\:\$cObj\.$#'
+            identifier: property.notFound
+            count: 3
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^Call to function property_exists\(\) with \$this\(Cpsit\\BravoHandlebarsContent\\DataProcessing\\TtContentDataProcessor\) and ''requiredKeys'' will always evaluate to true\.$#'
+            identifier: function.alreadyNarrowedType
+            count: 1
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^Call to method stdWrapParser\(\) on an unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^Class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility not found\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^If condition is always true\.$#'
+            identifier: if.alwaysTrue
+            count: 1
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^PHPDoc tag @var for variable \$typoScriptUtility contains unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^Unable to resolve the template type T in call to method static method TYPO3\\CMS\\Core\\Utility\\GeneralUtility\:\:makeInstance\(\)$#'
+            identifier: argument.templateType
+            count: 1
+            path: Classes/DataProcessing/TtContentDataProcessor.php
+
+        -
+            message: '#^Access to an undefined property Cpsit\\BravoHandlebarsContent\\Frontend\\ContentObject\\HandlebarsTemplateContentObject\:\:\$requiredKeys\.$#'
+            identifier: property.notFound
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^Call to method stdWrapParser\(\) on an unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^Class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility not found\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^If condition is always true\.$#'
+            identifier: if.alwaysTrue
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^PHPDoc tag @var for variable \$typoScriptUtility contains unknown class Cpsit\\CpsUtility\\Utility\\TypoScriptUtility\.$#'
+            identifier: class.notFound
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^Property TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer\:\:\$currentValKey \(string\) on left side of \?\? is not nullable\.$#'
+            identifier: nullCoalesce.property
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^Right side of && is always true\.$#'
+            identifier: booleanAnd.rightAlwaysTrue
+            count: 2
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^Variable \$conf on left side of \?\? always exists and is not nullable\.$#'
+            identifier: nullCoalesce.variable
+            count: 1
+            path: Classes/Frontend/ContentObject/HandlebarsTemplateContentObject.php
+
+        -
+            message: '#^Method Cpsit\\BravoHandlebarsContent\\Service\\MediaDataService\:\:__construct\(\) has parameter \$processorInstances with no value type specified in iterable type iterable\.$#'
+            identifier: missingType.iterableValue
+            count: 1
+            path: Classes/Service/MediaDataService.php
+
+        -
+            message: '#^Comparison operation "\>" between 0 and 0 is always false\.$#'
+            identifier: greater.alwaysFalse
+            count: 1
+            path: Tests/Integration/DataProcessing/DataProcessingIntegrationTest.php
+
+        -
+            message: '#^Comparison operation "\>" between 1 and 0 is always true\.$#'
+            identifier: greater.alwaysTrue
+            count: 1
+            path: Tests/Integration/DataProcessing/DataProcessingIntegrationTest.php

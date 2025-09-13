@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cpsit\BravoHandlebarsContent\DataProcessing\Media;
 
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
@@ -16,15 +18,16 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 class AudioProcessor implements MediaProcessorInterface
 {
     public const MEDIA_TYPE = 'audio';
+
     public const ALLOWED_MIME_TYPES = [
-        'audio/mpeg', 'audio/wav', 'audio/x-wav', 'audio/ogg'
+        'audio/mpeg', 'audio/wav', 'audio/x-wav', 'audio/ogg',
     ];
 
     public function canProcess(FileInterface $file): bool
     {
-        return (
+        return
             in_array($file->getMimeType(), self::ALLOWED_MIME_TYPES, true)
-        );
+        ;
     }
 
     public function process(FileInterface $file, array $config = []): array
@@ -33,13 +36,14 @@ class AudioProcessor implements MediaProcessorInterface
             self::KEY_TYPE => self::MEDIA_TYPE,
             self::KEY_ATTRIBUTES => $this->getAttributesValue($file, $config),
             self::KEY_SRC => $file->getPublicUrl(),
-            self::KEY_MIME_TYPE => $file->getMimeType()
+            self::KEY_MIME_TYPE => $file->getMimeType(),
         ];
     }
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\FileInterface $file
+     * @param FileInterface $file
      * @param array $config
+     *
      * @return string
      */
     protected function getAttributesValue(FileInterface $file, array $config): string
@@ -47,7 +51,7 @@ class AudioProcessor implements MediaProcessorInterface
         $attributes = [
             'autoplay' => $file->hasProperty('autoplay') ? (bool)$file->getProperty('autoplay') : false,
             'controls' => empty($config[self::MEDIA_TYPE]['controls']) || (bool)$config[self::MEDIA_TYPE]['controls'],
-            'loop' => !empty($config[self::MEDIA_TYPE]['loop']) && (bool)$config[self::MEDIA_TYPE]['bool']
+            'loop' => !empty($config[self::MEDIA_TYPE]['loop']) && (bool)$config[self::MEDIA_TYPE]['bool'],
         ];
 
         $keys = [];

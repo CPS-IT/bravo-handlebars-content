@@ -1,6 +1,7 @@
 # Example Templates
 
-This directory contains example Handlebars templates for the `bravo-handlebars-content` extension. These templates demonstrate how to create content element templates that work with the extension's data processors.
+This directory contains example Handlebars templates for the `bravo-handlebars-content` extension. These templates 
+demonstrate how to create content element templates that work with the extension's data processors.
 
 ## Available Templates
 
@@ -67,7 +68,8 @@ Templates expect data processed by the extension's data processors:
 - `uid` - Content element unique identifier
 
 ### Media Handling
-Media items are processed through the `handlebarsMedia` processor and rendered using the media/item partial. Supported media types:
+Media items are processed through the `handlebarsMedia` processor and rendered using the media/item partial. 
+Supported media types:
 - **Images** - With responsive srcset and lazy loading
 - **YouTube videos** - With privacy-friendly embedding
 - **Vimeo videos** - With preview images

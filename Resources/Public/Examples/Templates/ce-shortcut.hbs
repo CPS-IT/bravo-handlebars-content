@@ -1,8 +1,8 @@
-{{!-- 
+{{!--
   Shortcut Content Element Template
-  
+
   This template renders content from other pages/content elements.
-  
+
   Available data:
   - headlines.header: Header text
   - headlines.layout: HTML tag for header (h1, h2, etc.)
@@ -14,7 +14,7 @@
     {{#if headlines.header}}
         <{{headlines.layout}} class="ce-shortcut__header">{{headlines.header}}</{{headlines.layout}}>
     {{/if}}
-    
+
     {{#if records}}
         <div class="ce-shortcut__content">
             {{#each records}}

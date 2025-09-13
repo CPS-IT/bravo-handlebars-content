@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
-use Cpsit\BravoHandlebarsContent\DataProcessing\Map\DataMapInterface;
-use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\BodytextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
@@ -39,5 +37,3 @@ class HeaderDataProcessor extends TtContentDataProcessor implements FieldMapping
         self::FIELD_FRAME_CLASS => FrameClassProcessor::class,
     ];
 }
-
-

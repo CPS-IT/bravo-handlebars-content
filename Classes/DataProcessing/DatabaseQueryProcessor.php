@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * This file is part of the bravo handlebars content package.
  *
@@ -11,7 +13,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
 
 /**
  * Fetch records from the database, using the default .select syntax from TypoScript.
@@ -44,18 +45,17 @@ class DatabaseQueryProcessor extends \TYPO3\CMS\Frontend\DataProcessing\Database
         array $processorConfiguration,
         array $processedData
     ): array {
-
         // note: we work with a clone of $cObj here in order to prevent side effects of changing its data array
         $clone = clone $cObj;
-        if(!empty($processorConfiguration['removePrefixes']) && !empty ($processorConfiguration['prefixedFields'])) {
+        if (!empty($processorConfiguration['removePrefixes']) && !empty($processorConfiguration['prefixedFields'])) {
             // remove table prefixes from group fields
             $prefixes = GeneralUtility::trimExplode(',', $processorConfiguration['removePrefixes'], true);
             $prefixedFields = GeneralUtility::trimExplode(',', $processorConfiguration['prefixedFields'], true);
             foreach ($prefixes as $prefix) {
                 foreach ($prefixedFields as $prefixedField) {
-                    if(empty($processedData['data'][$prefixedField])) {
+                    if (empty($processedData['data'][$prefixedField])) {
                         continue;
-                    };
+                    }
                     $processedData['data'][$prefixedField] = str_replace($prefix, '', $processedData['data'][$prefixedField]);
                 }
             }
@@ -81,6 +81,7 @@ class DatabaseQueryProcessor extends \TYPO3\CMS\Frontend\DataProcessing\Database
             }
             $processedData[$targetVariableName] = $records;
         }
+
         return $processedData;
     }
 }
