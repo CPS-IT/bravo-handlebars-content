@@ -1,6 +1,17 @@
 2025-10-22         [RELEASE] Release of bravo-handlebars-content 1.5.1 (Vladimir Falcón Piva)
 2025-10-22 e178531 Add HeaderSoftHyphen processor to handle soft hyphens in headers (Vladimir Falcón Piva)
 
+2025-09-13         [RELEASE] Release of bravo-handlebars-content 1.5.0 (Dirk Wenzel)
+2025-09-13 6d4004d [BUGFIX] fixed issue caused by invalid types in LinkProcessor and CropTextProcessor (Dirk Wenzel)
+2025-09-12 3017df5 [TASK] Fix PHPStan violations and generate baseline (Dirk Wenzel)
+2025-09-12 1634066 [WIP] php code style configuration edited and fixes applied (Dirk Wenzel)
+2025-09-12 354ffb2 [WIP] Fix all failing unit tests - achieve 120 passing tests (Dirk Wenzel)
+2025-09-12 8e6d4e6 [WIP] minimal PHP-Version set to 8.2 (Dirk Wenzel)
+2025-09-12 c55b636 [WIP] Implement comprehensive test suite - achieve 70-85% coverage (Dirk Wenzel)
+2025-09-12 cccb8e4 [WIP] Add comprehensive testing infrastructure and quality tools (Dirk Wenzel)
+2025-09-12 46c261a [RELEASE] Release of bravo-handlebars-content 1.4.0 (Dirk Wenzel) (Dirk Wenzel)
+2025-09-12 725f430 [DOCUMENTATION] Complete documentation overhaul with structured guides and examples (Dirk Wenzel)
+
 2025-09-12         [RELEASE] Release of bravo-handlebars-content 1.4.0 (Dirk Wenzel)
 2025-09-12 725f430 [DOCUMENTATION] Complete documentation overhaul with structured guides and examples (Dirk Wenzel)
 2025-06-06 a09ce67 [RELEASE] Release of bravo-handlebars-content 1.3.1 (Vladimir Falcón Piva)
