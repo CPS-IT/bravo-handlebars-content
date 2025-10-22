@@ -10,6 +10,7 @@ use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ContentTextProce
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderSoftHyphen;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageBelowTextProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\ImageOrientProcessor;
@@ -35,7 +36,7 @@ class TextMediaDataProcessor extends TtContentDataProcessor implements FieldMapp
     public const DEFAULT_FIELDS = [
         self::FIELD_ASSETS => MediaProcessor::class,
         self::FIELD_BODYTEXT => BodytextProcessor::class,
-        self::FIELD_HEADER => PassThrough::class,
+        self::FIELD_HEADER => HeaderSoftHyphen::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
         self::FIELD_HEADER_LINK => HeaderLinkProcessor::class,
         self::FIELD_HEADLINES => HeadlinesProcessor::class,

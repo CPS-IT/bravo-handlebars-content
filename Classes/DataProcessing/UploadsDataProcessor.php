@@ -15,6 +15,7 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\FrameClassProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLayoutProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderLinkProcessor;
+use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeaderSoftHyphen;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\HeadlinesProcessor;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\PassThrough;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field\SpaceBeforeProcessor;
@@ -25,7 +26,7 @@ class UploadsDataProcessor extends TtContentDataProcessor implements FieldMappin
     use FieldMappingTrait;
 
     public const DEFAULT_FIELDS = [
-        self::FIELD_HEADER => PassThrough::class,
+        self::FIELD_HEADER => HeaderSoftHyphen::class,
         self::FIELD_HEADER_LAYOUT => HeaderLayoutProcessor::class,
         self::FIELD_HEADER_LINK => HeaderLinkProcessor::class,
         self::FIELD_HEADLINES => HeadlinesProcessor::class,
