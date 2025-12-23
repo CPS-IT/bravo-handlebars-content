@@ -15,16 +15,6 @@ services:
     Cpsit\BravoHandlebarsContent\DataProcessing\Media\MediaProcessorInterface:
       tags: [ 'Handlerbars.MediaProcessor' ]
 
-  ####
-  # handlebars template content objects
-  ####
-  Cpsit\BravoHandlebarsContent\Frontend\ContentObject\HandlebarsTemplateContentObject:
-    arguments:
-      $renderer: '@handlebars.renderer'
-      $assetCollector: '@TYPO3\CMS\Core\Page\AssetCollector'
-    tags:
-      - name: frontend.contentobject
-        identifier: 'HANDLEBARSTEMPLATE'
 
   ####
   # data processors
