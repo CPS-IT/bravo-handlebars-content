@@ -83,10 +83,6 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
             $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
         }
 
-        # if (!empty($config[self::MEDIA_TYPE][self::KEY_SRCSET])) {
-        #    $cropVariants = $config[self::MEDIA_TYPE][self::KEY_CROP_VARIANTS];
-        # }
-
         $labels = $this->collectLabels($config[self::MEDIA_TYPE] ??= []);
         $linkedImage = $this->collectFileReferenceLink($file, $labels);
 
@@ -157,13 +153,6 @@ class ImageProcessor implements MediaProcessorInterface, ContentRendererAwareInt
         return $labels;
     }
 
-    /**
-     * @param string $cropVariant
-     * @param array $config
-     * @param FileInterface $file
-     *
-     * @return array
-     */
     protected function processCropVariant(string $cropVariant, array $config, FileInterface $file): array
     {
         $cropString = $file instanceof FileReference ? $file->getProperty('crop') : '';

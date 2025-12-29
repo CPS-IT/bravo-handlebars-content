@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class FileLinkService
 {
-    public const FILE_PROPERTIES = [
+    public const array FILE_PROPERTIES = [
         'title',
         'name',
         'description',
@@ -29,15 +29,12 @@ final class FileLinkService
         'accessible',
     ];
 
-    public const FILE_SIZE_UNITS = [
+    public const array FILE_SIZE_UNITS = [
         'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB',
     ];
 
     /**
-     * @param mixed $fileReference
      * @param array $properties file properties to return
-     *
-     * @return array
      */
     public static function resolveFileLik(mixed $fileReference, array $properties = []): array
     {
@@ -72,8 +69,6 @@ final class FileLinkService
      * see https://www.php.net/manual/en/function.filesize.php (Note on Return Values).
      *
      * @param $size
-     *
-     * @return string
      */
     public static function formatFileSize(int $size): string
     {

@@ -26,6 +26,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
 
     private ContentObjectRenderer $contentObjectRenderer;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -34,6 +35,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         $this->contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         // Clean up error handlers
@@ -100,7 +102,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
             self::assertArrayHasKey('data', $result);
         } catch (\Throwable $e) {
             // If the processor fails due to dependencies, that's expected in this minimal test
-            self::assertStringContainsString('ArgumentCountError', get_class($e));
+            self::assertStringContainsString('ArgumentCountError', $e::class);
         }
     }
 
@@ -136,7 +138,7 @@ final class SimpleDataProcessingTest extends FunctionalTestCase
         }
 
         // Set a test handler
-        set_error_handler(function () { return true; });
+        set_error_handler(fn() => true);
 
         // Verify it was set
         $handler = set_error_handler(null);

@@ -42,6 +42,7 @@ final class LocalizationDataProcessorTest extends UnitTestCase
 
     private MockObject|Site $site;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

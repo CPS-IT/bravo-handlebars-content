@@ -35,6 +35,7 @@ final class SerialDataProcessorTest extends UnitTestCase
 
     private DataProcessorInterface|MockObject $mockProcessor;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -178,12 +179,10 @@ final class SerialDataProcessorTest extends UnitTestCase
 
         $this->dataProcessorRegistry->expects(self::exactly(2))
             ->method('getDataProcessor')
-            ->willReturnCallback(function ($processorName) use ($firstProcessor, $secondProcessor) {
-                return match ($processorName) {
-                    'FirstProcessor' => $firstProcessor,
-                    'SecondProcessor' => $secondProcessor,
-                    default => null
-                };
+            ->willReturnCallback(fn($processorName) => match ($processorName) {
+                'FirstProcessor' => $firstProcessor,
+                'SecondProcessor' => $secondProcessor,
+                default => null
             });
 
         $firstProcessor->expects(self::once())
@@ -473,9 +472,7 @@ final class SerialDataProcessorTest extends UnitTestCase
 
         $this->mockProcessor->expects(self::exactly($expectedProcessorCalls))
             ->method('process')
-            ->willReturnCallback(function ($cObj, $contentObjectConfig, $processorConfig, $data) {
-                return array_merge($data, ['processed' => true]);
-            });
+            ->willReturnCallback(fn($cObj, $contentObjectConfig, $processorConfig, $data) => array_merge($data, ['processed' => true]));
 
         $result = $this->subject->process(
             $this->contentObjectRenderer,

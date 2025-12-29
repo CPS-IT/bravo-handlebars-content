@@ -7,7 +7,6 @@ namespace Cpsit\BravoHandlebarsContent\DataProcessing\TtContent\Field;
 use Cpsit\BravoHandlebarsContent\DataProcessing\FieldProcessorInterface;
 use Cpsit\BravoHandlebarsContent\DataProcessing\TtContentDataProcessor;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
 
 /*
  * This file is part of the bravo handlebars content package.
@@ -25,7 +24,6 @@ class HeadlinesProcessor implements FieldProcessorInterface
      */
     public function process(string $fieldName, array $data, array $variables): array
     {
-        # if (!$variables[TtContentDataProcessor::FIELD_HEADER_LINK] instanceof LinkResultInterface) {
         if (!is_array($variables[TtContentDataProcessor::FIELD_HEADER_LINK])) {
             return $variables;
         }

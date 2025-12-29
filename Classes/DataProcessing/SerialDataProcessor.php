@@ -75,7 +75,7 @@ class SerialDataProcessor implements DataProcessorInterface
             $processors = $processorConfiguration['dataProcessing.'];
             $processorKeys = array_filter(
                 array_keys($processors),
-                fn ($n) => !str_ends_with((string)$n, '.')
+                fn($n) => !str_ends_with((string)$n, '.')
             );
             foreach ($processorKeys as $key) {
                 $dataProcessor = $this->dataProcessorRegistry->getDataProcessor($processors[$key])

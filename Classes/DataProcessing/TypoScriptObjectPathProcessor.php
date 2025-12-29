@@ -41,6 +41,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 class TypoScriptObjectPathProcessor implements DataProcessorInterface
 {
     protected ContentObjectRenderer $contentObjectRenderer;
+    public function __construct(private readonly TimeTracker $timeTracker) {}
 
     /**
      * @inheritDoc
@@ -84,7 +85,7 @@ class TypoScriptObjectPathProcessor implements DataProcessorInterface
      */
     protected function renderContentObject(array $setup, string $typoscriptObjectPath, string $lastSegment): string
     {
-        $timeTracker = GeneralUtility::makeInstance(TimeTracker::class);
+        $timeTracker = $this->timeTracker;
         if ($timeTracker->LR) {
             $timeTracker->push('/f:cObject/', '<' . $typoscriptObjectPath);
         }

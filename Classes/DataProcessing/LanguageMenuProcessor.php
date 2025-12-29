@@ -22,6 +22,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class LanguageMenuProcessor extends \TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor
 {
+    #[\Override]
     public function process(
         ContentObjectRenderer $cObj,
         array $contentObjectConfiguration,

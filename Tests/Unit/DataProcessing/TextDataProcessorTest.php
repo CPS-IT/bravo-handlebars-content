@@ -34,6 +34,7 @@ final class TextDataProcessorTest extends UnitTestCase
 
     private LanguageServiceFactory|MockObject $languageServiceFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

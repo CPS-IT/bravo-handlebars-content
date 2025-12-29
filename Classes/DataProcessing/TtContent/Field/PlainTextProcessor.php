@@ -24,7 +24,7 @@ class PlainTextProcessor implements FieldProcessorInterface
     {
         $value = $data[$fieldName];
         $variables[$fieldName] = $this->contentObjectRenderer->parseFunc(
-            trim($value),
+            trim((string)$value),
             null,
             '< lib.parseFunc'
         );

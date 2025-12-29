@@ -32,7 +32,7 @@ final class LinkService implements ContentRendererAwareInterface
         $linkResult = $this->parseTypoLink($typoLink);
 
         if (!$linkResult instanceof LinkResultInterface) {
-            $linkResult = (new LinkResult('', ''))->withLinkText('');
+            $linkResult = new LinkResult('', '')->withLinkText('');
         }
 
         return $linkResult;
@@ -70,7 +70,7 @@ final class LinkService implements ContentRendererAwareInterface
         $additionalAttributes = [];
         $filteredAttributes = array_filter(
             $attributes,
-            static fn (string $key) => !in_array($key, ['href', 'target', 'class', 'title'], true),
+            static fn(string $key) => !in_array($key, ['href', 'target', 'class', 'title'], true),
             ARRAY_FILTER_USE_KEY
         );
 

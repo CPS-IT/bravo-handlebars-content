@@ -21,9 +21,9 @@ use Cpsit\BravoHandlebarsContent\Configuration\SettingsInterface as SI;
  */
 final class Extension
 {
-    public const KEY = SI::KEY;
+    public const string KEY = SI::KEY;
 
-    public const NAME = SI::NAME;
+    public const string NAME = SI::NAME;
 
-    public const VENDOR = SI::VENDOR_NAME;
+    public const string VENDOR = SI::VENDOR_NAME;
 }
