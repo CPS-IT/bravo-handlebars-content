@@ -32,6 +32,10 @@ class LanguageMenuProcessor extends \TYPO3\CMS\Frontend\DataProcessing\LanguageM
         // Process menu
         $processedData = parent::process($cObj, $contentObjectConfiguration, $processorConfiguration, $processedData);
 
+        if (empty($processedData[$this->menuTargetVariableName])) {
+            return $processedData;
+        }
+
         $processedData[$this->menuTargetVariableName] = $this->addMenuLevels($processedData[$this->menuTargetVariableName]);
 
         $countAvailableLanguages = $this->countAvailableLanguages($processedData[$this->menuTargetVariableName]);
