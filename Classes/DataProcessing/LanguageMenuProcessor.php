@@ -31,14 +31,14 @@ class LanguageMenuProcessor extends \TYPO3\CMS\Frontend\DataProcessing\LanguageM
     ): array {
         // Process menu
         $processedData = parent::process($cObj, $contentObjectConfiguration, $processorConfiguration, $processedData);
-
-        if (empty($processedData[$this->menuTargetVariableName])) {
+        $menuTargetVariableName = $this->getConfigurationValue('as');
+        if (empty($processedData[$menuTargetVariableName])) {
             return $processedData;
         }
 
-        $processedData[$this->menuTargetVariableName] = $this->addMenuLevels($processedData[$this->menuTargetVariableName]);
+        $processedData[$menuTargetVariableName] = $this->addMenuLevels($processedData[$menuTargetVariableName]);
 
-        $countAvailableLanguages = $this->countAvailableLanguages($processedData[$this->menuTargetVariableName]);
+        $countAvailableLanguages = $this->countAvailableLanguages($processedData[$menuTargetVariableName]);
 
         $processedData['available'] = $countAvailableLanguages > 1;
         $processedData['availableLanguagesCount'] = $countAvailableLanguages;
