@@ -1,5 +1,4 @@
-handlebarsContent.default >
-handlebarsContent.default = HANDLEBARSTEMPLATE
+handlebarsContent.default < lib.contentElement
 handlebarsContent.default {
   # default variables for renderer - will be passed to any partial
   defaultDataVariables = lang
