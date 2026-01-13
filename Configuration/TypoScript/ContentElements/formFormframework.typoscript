@@ -3,8 +3,7 @@
 # uses ce-plugin template
 #
 # CType: form_formframework
-tt_content.form_formframework >
-tt_content.form_formframework =< handlebarsContent.default
+tt_content.form_formframework < handlebarsContent.default
 tt_content.form_formframework {
   templateName = @ce-plugin
   dataProcessing {

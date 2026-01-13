@@ -1,5 +1,4 @@
-tt_content.image >
-tt_content.image =< handlebarsContent.default
+tt_content.image < handlebarsContent.default
 tt_content.image {
   templateName = @ce-image-slider
 

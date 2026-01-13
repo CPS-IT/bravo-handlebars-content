@@ -2,8 +2,7 @@
 # ...
 #
 # CType: menu_pages
-tt_content.menu_pages >
-tt_content.menu_pages =< handlebarsContent.default
+tt_content.menu_pages < handlebarsContent.default
 tt_content.menu_pages {
   templateName = @ce-menu-pages
   dataProcessing {

@@ -2,8 +2,7 @@
 # Makes a list of files for download.
 #
 # CType: uploads
-tt_content.uploads >
-tt_content.uploads =< handlebarsContent.default
+tt_content.uploads < handlebarsContent.default
 tt_content.uploads {
   templateName = @ce-download-list
   dataProcessing {

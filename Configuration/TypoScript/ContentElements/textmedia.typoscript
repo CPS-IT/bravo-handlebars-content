@@ -1,5 +1,4 @@
-tt_content.textmedia >
-tt_content.textmedia =< handlebarsContent.default
+tt_content.textmedia < handlebarsContent.default
 tt_content.textmedia {
   templateName = @ce-text-media
 
