@@ -30,6 +30,7 @@ class TestableMediaDataService extends MediaDataService
         $this->mock = $mock;
     }
 
+    #[\Override]
     public function setContentObjectRenderer($cObj): void
     {
         if (isset($this->mock)) {
