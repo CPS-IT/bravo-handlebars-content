@@ -39,6 +39,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
 
     private DataProcessorInterface|MockObject $mockDataProcessor;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -55,6 +56,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
         );
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         GeneralUtility::purgeInstances();
@@ -562,7 +564,7 @@ final class CollectionDataProcessorTest extends UnitTestCase
             ->method('getContentObject')
             ->willReturnOnConsecutiveCalls(
                 $mockTextContentObject,
-                $this->throwException(new ContentRenderingException('Not a content object'))
+                self::throwException(new ContentRenderingException('Not a content object'))
             );
 
         $this->contentObjectRenderer->expects(self::once())

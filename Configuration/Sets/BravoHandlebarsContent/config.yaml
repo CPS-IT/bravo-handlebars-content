@@ -1,0 +1,4 @@
+name: cpsit/bravo-handlebars-content
+label: 'Bravo handlebars content'
+dependencies:
+  - cpsit/handlebars-content-element

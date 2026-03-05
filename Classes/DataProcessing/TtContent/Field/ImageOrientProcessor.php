@@ -73,7 +73,8 @@ class ImageOrientProcessor implements FieldProcessorInterface
                     self::ERROR_INVALID_VALUE_MESSAGE,
                     (string)$imageOrientation,
                     $fieldName
-                )
+                ),
+                7835298756
             );
         }
         $variables[$fieldName] = self::VALUE_MAP[$imageOrientation];

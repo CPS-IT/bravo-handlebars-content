@@ -38,7 +38,7 @@ class ContentObjectDataProcessor implements DataProcessorInterface
         $contentObjectsConf = $processorConfiguration['contentObjects.'] ?? [];
         $contentObjects = [];
         foreach ($contentObjectsConf as $theKey => $theValue) {
-            if (!str_contains($theKey, '.')) {
+            if (!str_contains((string)$theKey, '.')) {
                 $conf = $contentObjectsConf[$theKey . '.'] ?? [];
                 $contentObjects[$theKey] = $cObj->cObjGetSingle($theValue, $conf);
             }

@@ -1,7 +1,5 @@
 # copied from tt_content.textmedia
-
-tt_content.teaser-hero >
-tt_content.teaser-hero =< handlebarsContent.default
+tt_content.teaser-hero < handlebarsContent.default
 tt_content.teaser-hero {
   templateName = @ce-hero-teaser
   dataProcessing {

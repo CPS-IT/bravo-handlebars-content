@@ -30,6 +30,7 @@ class TestableMediaDataService extends MediaDataService
         $this->mock = $mock;
     }
 
+    #[\Override]
     public function setContentObjectRenderer($cObj): void
     {
         if (isset($this->mock)) {
@@ -37,6 +38,7 @@ class TestableMediaDataService extends MediaDataService
         }
     }
 
+    #[\Override]
     public function process($file, $config = []): array
     {
         if (isset($this->mock)) {
@@ -68,6 +70,7 @@ final class MediaProcessorTest extends UnitTestCase
 
     private MockObject|TypoScriptService $typoScriptService;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -80,6 +83,7 @@ final class MediaProcessorTest extends UnitTestCase
         $this->subject = new MediaProcessor();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         GeneralUtility::purgeInstances();

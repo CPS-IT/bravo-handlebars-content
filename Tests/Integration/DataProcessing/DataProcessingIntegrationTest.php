@@ -26,7 +26,7 @@ final class DataProcessingIntegrationTest extends TestCase
 
         self::assertFileExists($csvFile, 'CSV fixture file should exist');
 
-        $csvData = array_map('str_getcsv', file($csvFile));
+        $csvData = array_map(str_getcsv(...), file($csvFile));
         $headers = array_shift($csvData);
 
         self::assertNotEmpty($headers, 'CSV should have headers');

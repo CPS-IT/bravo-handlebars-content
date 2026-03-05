@@ -80,7 +80,7 @@ class FileCollectionsProcessor implements FieldProcessorInterface
                     continue;
                 }
                 $fileCollections[] = $collection;
-            } catch (ResourceDoesNotExistException $e) {
+            } catch (ResourceDoesNotExistException) {
                 continue;
             }
         }

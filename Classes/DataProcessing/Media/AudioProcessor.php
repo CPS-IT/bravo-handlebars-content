@@ -40,12 +40,6 @@ class AudioProcessor implements MediaProcessorInterface
         ];
     }
 
-    /**
-     * @param FileInterface $file
-     * @param array $config
-     *
-     * @return string
-     */
     protected function getAttributesValue(FileInterface $file, array $config): string
     {
         $attributes = [

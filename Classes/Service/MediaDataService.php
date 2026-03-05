@@ -33,9 +33,7 @@ class MediaDataService implements ContentRendererAwareInterface
     /**
      * Processes a file according to its type.
      *
-     * @param FileInterface $file
      * @param array $config Optional configuration like width, height or additional attributes
-     *
      * @return array Data for template
      */
     public function process(FileInterface $file, array $config = []): array

@@ -10,32 +10,24 @@
   ],
   "homepage": "https://www.cps-it.de/",
   "require": {
-    "php": "^8.2",
     "cpsit/typo3-handlebars": "*",
-    "cpsit/typo3-handlebars-components": "*",
-    "typo3/cms-core": "^12.4",
-    "typo3/cms-frontend": "^12.4"
+    "typo3/cms-core": "^13.4",
+    "typo3/cms-frontend": "^13.4"
   },
   "require-dev": {
-    "armin/editorconfig-cli": "^2.1",
-    "cpsit/typo3-handlebars": "dev-dena-v12 as 2.0.0",
-    "cpsit/typo3-handlebars-components": "dev-feature/mediaDataProvider",
-    "ergebnis/composer-normalize": "^2.47",
-    "friendsofphp/php-cs-fixer": "^3.45",
-    "infection/infection": "^0.27",
-    "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^10.5",
+    "armin/editorconfig-cli": "^2.2",
+    "cpsit/typo3-handlebars": "*",
+    "ergebnis/composer-normalize": "^2.48",
+    "friendsofphp/php-cs-fixer": "^3.92",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.5 || ^12.5.4",
     "roave/security-advisories": "dev-latest",
-    "typo3/testing-framework": "^8.0.9"
+    "typo3/testing-framework": "^8.2 || ^9.2 || ^10.2"
   },
   "repositories": {
     "handlebars": {
       "type": "vcs",
       "url": "https://github.com/CPS-IT/handlebars.git"
-    },
-    "handlebars-components": {
-      "type": "vcs",
-      "url": "https://github.com/CPS-IT/handlebars-components.git"
     }
   },
   "autoload": {
@@ -54,9 +46,6 @@
       "infection/extension-installer": true,
       "typo3/class-alias-loader": true,
       "typo3/cms-composer-installers": true
-    },
-    "platform": {
-      "php": "8.2"
     },
     "sort-packages": true
   },

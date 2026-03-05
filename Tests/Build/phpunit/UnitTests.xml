@@ -1,30 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../vendor/phpunit/phpunit/phpunit.xsd"
-    backupGlobals="true"
-    bootstrap="../../../vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
-    colors="true"
-    processIsolation="false"
-    stopOnError="false"
-    stopOnFailure="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
-    displayDetailsOnTestsThatTriggerWarnings="true"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    beStrictAboutOutputDuringTests="true"
-    enforceTimeLimit="true"
-    defaultTimeLimit="10"
-    timeoutForSmallTests="5"
-    timeoutForMediumTests="30"
-    timeoutForLargeTests="60">
-
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../vendor/phpunit/phpunit/phpunit.xsd" backupGlobals="true" bootstrap="../../../vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php" colors="true" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" displayDetailsOnTestsThatTriggerWarnings="true" beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true" enforceTimeLimit="true" defaultTimeLimit="10" timeoutForSmallTests="5" timeoutForMediumTests="30" timeoutForLargeTests="60">
     <testsuites>
         <testsuite name="Unit">
             <directory>../../Unit</directory>
         </testsuite>
     </testsuites>
-
     <source>
         <include>
             <directory suffix=".php">../../../Classes</directory>
@@ -34,7 +15,6 @@
             <file>../../../Classes/Domain/Model/Dto/Link.php</file>
         </exclude>
     </source>
-
     <coverage includeUncoveredFiles="true" pathCoverage="false" ignoreDeprecatedCodeUnits="false" disableCodeCoverageIgnore="false">
         <report>
             <html outputDirectory="../../../var/coverage/html" lowUpperBound="80" highLowerBound="95"/>
@@ -43,11 +23,9 @@
             <xml outputDirectory="../../../var/coverage/xml"/>
         </report>
     </coverage>
-
     <logging>
         <junit outputFile="../../../var/coverage/junit.xml"/>
     </logging>
-
     <php>
         <env name="TYPO3_PATH_WEB" value="../../../.Build/web"/>
         <env name="TYPO3_PATH_ROOT" value="../../../.Build/web"/>

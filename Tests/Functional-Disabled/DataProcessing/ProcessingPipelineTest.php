@@ -22,6 +22,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
 
     private ContentObjectRenderer $contentObjectRenderer;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,6 +30,7 @@ final class ProcessingPipelineTest extends FunctionalTestCase
         $this->contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         // Restore any dangling error handlers

@@ -56,9 +56,7 @@ trait LocalizationTrait
             $pattern = $config['includePattern'];
             $labels = array_filter(
                 $labels,
-                static function ($key) use ($pattern) {
-                    return preg_match($pattern, $key);
-                },
+                static fn($key) => preg_match($pattern, (string)$key),
                 ARRAY_FILTER_USE_KEY
             );
         }

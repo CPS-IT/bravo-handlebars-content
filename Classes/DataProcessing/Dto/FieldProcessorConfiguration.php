@@ -18,8 +18,6 @@ class FieldProcessorConfiguration
 
     /**
      * @param string $name field name
-     *
-     * @return array
      */
     public function get(string $name): array
     {

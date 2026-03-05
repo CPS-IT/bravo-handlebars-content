@@ -36,6 +36,7 @@ final class HandlebarsTemplateContentObjectTest extends UnitTestCase
 
     private ContentDataProcessor|MockObject $contentDataProcessor;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

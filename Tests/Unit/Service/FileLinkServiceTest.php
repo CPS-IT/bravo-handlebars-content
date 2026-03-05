@@ -23,6 +23,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
     private MockObject $fileReference;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -42,9 +43,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
             ->method('hasProperty')
-            ->willReturnCallback(function ($property) {
-                return in_array($property, ['title', 'name', 'size', 'extension']);
-            });
+            ->willReturnCallback(fn($property) => in_array($property, ['title', 'name', 'size', 'extension']));
 
         $this->fileReference->expects(self::exactly(4))
             ->method('getProperty')
@@ -77,19 +76,15 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
             ->method('hasProperty')
-            ->willReturnCallback(function ($property) {
-                return in_array($property, ['title', 'name', 'extension']);
-            });
+            ->willReturnCallback(fn($property) => in_array($property, ['title', 'name', 'extension']));
 
         $this->fileReference->expects(self::exactly(4))
             ->method('getProperty')
-            ->willReturnCallback(function ($property) {
-                return match ($property) {
-                    'title' => '', // Empty title
-                    'name' => 'document.docx',
-                    'extension' => 'docx',
-                    default => null
-                };
+            ->willReturnCallback(fn($property) => match ($property) {
+                'title' => '', // Empty title
+                'name' => 'document.docx',
+                'extension' => 'docx',
+                default => null
             });
 
         $result = FileLinkService::resolveFileLik($this->fileReference);
@@ -110,9 +105,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count($customProperties)))
             ->method('hasProperty')
-            ->willReturnCallback(function ($property) use ($customProperties) {
-                return in_array($property, $customProperties);
-            });
+            ->willReturnCallback(fn($property) => in_array($property, $customProperties));
 
         $this->fileReference->expects(self::exactly(3))
             ->method('getProperty')
@@ -188,9 +181,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
             ->method('getProperty')
-            ->willReturnCallback(function ($property) use ($propertyValues) {
-                return $propertyValues[$property] ?? null;
-            });
+            ->willReturnCallback(fn($property) => $propertyValues[$property] ?? null);
 
         $result = FileLinkService::resolveFileLik($this->fileReference);
 
@@ -273,9 +264,7 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
             ->method('hasProperty')
-            ->willReturnCallback(function ($property) {
-                return in_array($property, ['download_name', 'name']);
-            });
+            ->willReturnCallback(fn($property) => in_array($property, ['download_name', 'name']));
 
         $this->fileReference->expects(self::exactly(2))
             ->method('getProperty')
@@ -304,22 +293,18 @@ final class FileLinkServiceTest extends UnitTestCase
 
         $this->fileReference->expects(self::exactly(count(FileLinkService::FILE_PROPERTIES)))
             ->method('hasProperty')
-            ->willReturnCallback(function ($property) use ($availableProperties) {
-                return in_array($property, $availableProperties);
-            });
+            ->willReturnCallback(fn($property) => in_array($property, $availableProperties));
 
         $this->fileReference->expects(self::exactly(count($availableProperties) + 1)) // +1 for extra 'name' call when title is empty
             ->method('getProperty')
-            ->willReturnCallback(function ($property) {
-                return match ($property) {
-                    'title' => '', // Empty title - should use name
-                    'name' => 'annual-report-2024.pdf',
-                    'description' => 'Annual financial report for 2024',
-                    'size' => 15728640, // 15MB
-                    'extension' => 'pdf',
-                    'download_name' => 'Annual_Report_2024_Final.pdf',
-                    default => null
-                };
+            ->willReturnCallback(fn($property) => match ($property) {
+                'title' => '', // Empty title - should use name
+                'name' => 'annual-report-2024.pdf',
+                'description' => 'Annual financial report for 2024',
+                'size' => 15728640, // 15MB
+                'extension' => 'pdf',
+                'download_name' => 'Annual_Report_2024_Final.pdf',
+                default => null
             });
 
         $result = FileLinkService::resolveFileLik($this->fileReference);

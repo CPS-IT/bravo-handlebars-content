@@ -15,10 +15,6 @@ interface FieldMappingInterface
 {
     /**
      * Map given variables and returns resulting array
-     *
-     * @param array $variables
-     *
-     * @return array
      */
     public function map(array $variables): array;
 }

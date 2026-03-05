@@ -34,6 +34,7 @@ final class MediaDataServiceTest extends UnitTestCase
 
     private FileInterface|MockObject $file;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

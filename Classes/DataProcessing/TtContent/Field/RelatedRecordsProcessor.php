@@ -79,9 +79,7 @@ class RelatedRecordsProcessor implements FieldProcessorInterface
                     $queryBuilder->expr()->in('uid', $uids)
                 )->executeQuery()
                 ->fetchAllAssociative();
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-        } catch (\Doctrine\DBAL\Exception $e) {
+        } catch (Exception|\Doctrine\DBAL\Exception $e) {
             $message = $e->getMessage();
         }
 

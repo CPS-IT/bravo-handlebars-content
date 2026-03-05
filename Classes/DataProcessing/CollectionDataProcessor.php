@@ -104,9 +104,6 @@ class CollectionDataProcessor implements DataProcessorInterface
         return $processedData;
     }
 
-    /**
-     * @param mixed $variableName
-     */
     protected function assertValidVariableName(mixed $variableName): void
     {
         if (in_array($variableName, self::RESERVED_VARIABLE_NAMES, true)) {
@@ -124,7 +121,7 @@ class CollectionDataProcessor implements DataProcessorInterface
     {
         try {
             $contentObject = $this->contentObjectRenderer->getContentObject($objectType);
-        } catch (ContentRenderingException $e) {
+        } catch (ContentRenderingException) {
             return false;
         }
 
@@ -155,8 +152,7 @@ class CollectionDataProcessor implements DataProcessorInterface
             && $this->container->has($objectType)) {
             try {
                 $processor = $this->container->get($objectType);
-            } catch (NotFoundExceptionInterface $e) {
-            } catch (ContainerExceptionInterface $e) {
+            } catch (NotFoundExceptionInterface|ContainerExceptionInterface) {
             }
         }
 

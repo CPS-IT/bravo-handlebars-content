@@ -39,6 +39,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class DatabaseQueryProcessor extends \TYPO3\CMS\Frontend\DataProcessing\DatabaseQueryProcessor
 {
+    #[\Override]
     public function process(
         ContentObjectRenderer $cObj,
         array $contentObjectConfiguration,

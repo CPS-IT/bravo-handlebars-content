@@ -30,6 +30,7 @@ final class LinkServiceTest extends UnitTestCase
 
     private LinkResultInterface|MockObject $linkResult;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

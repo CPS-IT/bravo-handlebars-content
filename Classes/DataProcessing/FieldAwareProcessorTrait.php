@@ -70,8 +70,6 @@ trait FieldAwareProcessorTrait
     }
 
     /**
-     * @param ContentObjectRenderer $cObj
-     * @param array $processedData
      * @param mixed $data
      *
      * @throws InvalidClassException
