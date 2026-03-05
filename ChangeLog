@@ -1,3 +1,13 @@
+2026-03-05         [RELEASE] Release of bravo-handlebars-content 2.0.0 (Vladimir Falcón Piva)
+2026-02-11 2ef646f [TASK] Add #[Override] attribute to overridden  methods (Vladimir Falcón Piva)
+2026-01-13 3cf1bc2 [FIX] Labels localization for handlebar templates. (Vladimir Falcón Piva)
+2026-01-12 3f42ee9 [FEATURE] Add configuration set for Bravo handlebars content (Vladimir Falcón Piva)
+2026-01-07 08e9fb0 [FIX] Fixed menuTargetVariableName in LanguageMenuProcessor (Vladimir Falcón Piva)
+2025-12-29 0385100 [FIX] Handle empty processed data in LanguageMenuProcessor (Vladimir Falcón Piva)
+2025-12-29 193fffe [TASK] Refactor sources to reach compatibility with TYPO3 v13 (Vladimir Falcón Piva)
+2025-12-23 a75803a [FIX] Remove custom Handlebars template content object (Vladimir Falcón Piva)
+2025-12-22 ff41135 Prepare packages for TYPO3 upgrade. (Vladimir Falcón Piva)
+
 2025-10-22         [RELEASE] Release of bravo-handlebars-content 1.5.1 (Vladimir Falcón Piva)
 2025-10-22 e178531 Add HeaderSoftHyphen processor to handle soft hyphens in headers (Vladimir Falcón Piva)
 
