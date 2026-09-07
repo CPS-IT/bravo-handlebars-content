@@ -27,6 +27,8 @@ final class FileLinkService
         'copyright',
         'url',
         'accessible',
+        'content_creation_date',
+        'content_modification_date'
     ];
 
     public const array FILE_SIZE_UNITS = [

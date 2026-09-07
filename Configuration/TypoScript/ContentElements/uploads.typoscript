@@ -4,22 +4,56 @@
 # CType: uploads
 tt_content.uploads < handlebarsContent.default
 tt_content.uploads {
-  templateName = @ce-download-list
-  dataProcessing {
-    10 = files
-    10 {
-      as = files
-      references.fieldName = media
-      collections.field = file_collections
-      sorting.field = filelink_sorting
-      sorting.direction.field = filelink_sorting_direction
-    }
-    11 = handlebarsFileLink
-    11 {
-      as = files
-      data = files
-    }
+    templateName = @ce-download-list
+    dataProcessing {
+        10 = files
+        10 {
+            as = files
+            references.fieldName = media
+            collections.field = file_collections
+            sorting.field = filelink_sorting
+            sorting.direction.field = filelink_sorting_direction
+        }
 
-    20 = ceUploads
-  }
+        11 = handlebarsFileLink
+        11 {
+            as = files
+            data = files
+        }
+
+        20 = ceUploads
+
+        ###############################################
+        # Iterate over each file
+        # allow you to process each field individually, e.g. format the date
+        30 = handlebarsEach
+        30 {
+            sourcePath = files
+            dataProcessing {
+                10 = handlebarsContentObjects
+                10 {
+                    contentObjects {
+                        date = TEXT
+                        date {
+                            field = contentCreationDate
+                            formattedDate = SHORTDATE
+                            if.isTrue.field = contentCreationDate
+                        }
+
+                        contentModificationDate = TEXT
+                        contentModificationDate {
+                            field = contentModificationDate
+                            formattedDate = SHORTDATE
+                            if.isTrue.field = contentModificationDate
+                        }
+                    }
+                }
+
+                110 = handlebarsUnset
+                110 {
+                    fields = contentCreationDate
+                }
+            }
+        }
+    }
 }
